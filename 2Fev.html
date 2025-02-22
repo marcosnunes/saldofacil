@@ -732,9 +732,9 @@
       let currentTransaction = {};
       let isInsideTransaction = false;
       let currentFITID = null;
-      let ofxType = null; // Determina o tipo de OFX (para diferenciar a forma de parsing)
+      let ofxType = null;
 
-      // Determinar o tipo de OFX (simples ou complexo)
+      // Determinar o tipo de OFX
       if (ofxData.includes('<OFXHEADER>')) {
         ofxType = 'complex';
       } else {
@@ -746,7 +746,6 @@
 
         if (ofxType === 'simple') {
           // Lógica para o formato OFX simples (original)
-
           if (line.startsWith('<STMTTRN')) {
             isInsideTransaction = true;
             currentTransaction = {};
@@ -798,10 +797,16 @@
             } else if (line.startsWith('<DTPOSTED>')) {
               // Extrair apenas a data (YYYYMMDD) da string DTPOSTED
               const match = line.match(/<DTPOSTED>(\d{8})\d{6}\[-?\d+:.*\]<\/DTPOSTED>/);
-              if (match) {
-                currentTransaction.date = match[1].substring(6, 8); // Apenas o dia
+
+              if (!match) { // Tentativa de extrair data sem o timezone
+                const matchSimple = line.match(/<DTPOSTED>(\d{8})\d{6}<\/DTPOSTED>/);
+                if (matchSimple) {
+                  currentTransaction.date = matchSimple[1].substring(6, 8);
+                } else {
+                  console.warn("Linha DTPOSTED ausente ou com formato inválido.");
+                }
               } else {
-                console.warn("Linha DTPOSTED ausente ou com formato inválido.");
+                currentTransaction.date = match[1].substring(6, 8); // Apenas o dia
               }
             } else if (line.startsWith('<TRNAMT>')) {
               currentTransaction.amount = parseFloat(line.replace(/<TRNAMT>/g, '').replace(/<\/TRNAMT>/g, '').trim());
