@@ -1,10 +1,10 @@
-# autossuficiencia
+# meusaldo
 
 Disponível na Playstore
 https://play.google.com/store/apps/details?id=com.autossuficiencia
 
 Para computador e iPhone acesse pelo link:
-https://marcosnunes.github.io/autossuficiencia-web
+https://marcosnunes.github.io/meusaldo
 
 <b>O que é o app Autossuficiência?</b>
 Todos precisamos ter nossa vida financeira organizada.
@@ -65,6 +65,6 @@ Sim. Porém em dispositivos smartphones e pelo aplicativo Android isso não é p
 <b>Qual é o endereço do site do App?</b>
 O Autossuficiência é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
   diretamente no navegador em qualquer outro dispositivo através do endereço
-  https://marcosnunes.github.io/autossuficiencia-web
+  https://marcosnunes.github.io/meusaldo
 
 
