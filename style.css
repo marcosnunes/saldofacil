@@ -4,7 +4,7 @@
 }
 
 /* Oculta o botão PDF em telas menores */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1080px) {
   #pdfButton,
   #backButton,
   #nextButton,
