@@ -15,6 +15,11 @@ body {
   z-index: 1000;
 }
 
+.nav-wrapper .brand-logo {
+  font-size: 16px !important;
+  padding: 0;
+}
+
 .nav-wrapper {
   background-color: #007bff;/* Cor de fundo azul */
   padding: 10px;
