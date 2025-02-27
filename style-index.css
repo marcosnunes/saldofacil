@@ -17,8 +17,8 @@ body {
 
 .nav-wrapper {
   background-color: #007bff; /* Cor de fundo azul */
-  padding: 10px;
-  max-width: 16px;
+  padding: 0px;
+  font-size: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);/* Sombra sutil */
   display: flex;
   align-items: center;
