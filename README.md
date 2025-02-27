@@ -6,7 +6,7 @@ https://play.google.com/store/apps/details?id=com.autossuficiencia
 Para computador e iPhone acesse pelo link:
 https://marcosnunes.github.io/meusaldo
 
-<b>O que é o app Autossuficiência?</b>
+<b>O que é o app Meu Saldo?</b>
 Todos precisamos ter nossa vida financeira organizada.
 Este app é uma ferramenta que auxilia no controle financeiro anual de qualquer pessoa.
   Ele possui as telas de cada mês onde podemos fazer os lançamentos diários,
@@ -63,7 +63,7 @@ Sim. Porém em dispositivos smartphones e pelo aplicativo Android isso não é p
   tablet.</br>
 
 <b>Qual é o endereço do site do App?</b>
-O Autossuficiência é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
+O Meu Saldo é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
   diretamente no navegador em qualquer outro dispositivo através do endereço
   https://marcosnunes.github.io/meusaldo
 
