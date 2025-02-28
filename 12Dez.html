@@ -628,11 +628,6 @@
       window.location.href = `11Nov.html?year=${currentYear}`;
     }
 
-    // Função para redirecionar para a página de Gráficos
-    function redirectToChart() {
-      window.location.href = "chart.html"; // Redireciona para a página de Gráficos
-    }
-
     function uuidv4() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
         var r = Math.random() * 16 | 0,
@@ -643,7 +638,6 @@
 
     document.getElementById("backButton").onclick = redirectToNov;
     document.getElementById("nextButton").onclick = redirectToIndex;
-    document.getElementById("chartButton").onclick = redirectToChart;
     document.getElementById("homeButton").onclick = redirectToIndex;
 
     document.getElementById("addButton").onclick = function () {
