@@ -852,6 +852,8 @@
     // Função para limpar os dados do mês
     function clearMonthData() {
   if (user) {
+    // Adiciona a mensagem de confirmação
+    if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
     let currentYear = new URLSearchParams(window.location.search).get('year');
     const outubroData = {
       initialBalance: "0.00",
@@ -881,6 +883,7 @@
       .catch((error) => {
         console.error("Erro ao limpar dados do mês:", error);
       });
+    }
   } else {
     alert("Você precisa estar logado para limpar os dados do mês.");
   }
