@@ -147,7 +147,6 @@
   /* Centraliza o texto horizontalmente */
 }
 
-
 #pdfButton,
 #addButton,
 #backButton,
@@ -193,7 +192,6 @@
 #importButton:hover,
 #bot-button:hover {
   background-color: #0056b3;
-  /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
 #homeButton,
@@ -239,73 +237,46 @@
 
 .btn-edit:hover {
   background-color: #0056b3;
-  /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
 .btn-delete {
   background-color: #ff1b1b;
-  /* Cor de fundo vermelha */
   color: white;
-  /* Cor do texto branca */
   border-radius: 5px;
-  /* Bordas arredondadas */
   padding: 5px 10px;
-  /* Espaçamento interno */
   font-size: 16px;
-  /* Tamanho da fonte */
   cursor: pointer;
-  /* Cursor em forma de mão */
   text-align: center;
-  /* Centraliza o texto horizontalmente */
   line-height: 1.5;
-  /* Alinha verticalmente o texto */
   display: inline-flex;
-  /* Faz com que o botão seja tratado como um contêiner flexível */
   align-items: center;
-  /* Alinha o texto verticalmente no centro */
   justify-content: center;
-  /* Alinha o texto horizontalmente no centro */
   border: none;
-  /* Remove a borda padrão */
   transition: background-color 0.3s;
-  /* Transição suave para a cor de fundo */
   margin: 5px;
 }
 
 #clearMonthButton {
   background-color: #e040409d;
-  /* Cor de fundo do card de recomeçar */
   color: white;
-  /* Cor do texto branca */
   border-radius: 5px;
-  /* Bordas arredondadas */
   padding: 5px 10px;
-  /* Espaçamento interno */
   font-size: 14px;
-  /* Tamanho da fonte */
   cursor: pointer;
-  /* Cursor em forma de mão */
   text-align: center;
-  /* Centraliza o texto horizontalmente */
   line-height: 1.5;
-  /* Alinha verticalmente o texto */
   display: inline-flex;
-  /* Faz com que o botão seja tratado como um contêiner flexível */
   align-items: center;
-  /* Alinha o texto verticalmente no centro */
-  justify-content: center;
-  /* Alinha o texto horizontalmente no centro */
+  justify-content: center; 
   border: none;
-  /* Remove a borda padrão */
   transition: background-color 0.3s;
-  /* Transição suave para a cor de fundo */
   margin: 5px;
 }
 
 #clearMonthButton:hover {
-  background-color: #e04040f3;/* Vermelho mais escuro no hover */
+  background-color: #e04040f3;
   color: white;
-  transition: background-color 0.3s;/* Transição suave na mudança de cor */
+  transition: background-color 0.3s;
   border-radius: 15px;
 }
 
