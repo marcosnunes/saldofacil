@@ -851,36 +851,41 @@
 
     // Função para limpar os dados do mês
     function clearMonthData() {
-      if (user) { // Verifica se o usuário está logado
-        let currentYear = new URLSearchParams(window.location.search).get('year');
-        // Limpa os dados do banco de dados
-        const outubroData = {
-          initialBalance: document.getElementById("OctInitialBalance").innerText,
-        };
-        set(ref(database, 'users/' + user.uid + '/oct' + '-' + currentYear), outubroData)
-          .then(() => {
-            console.log("Dados do mês de outubro limpos com sucesso!");
-            // Limpa os dados no array inputData
-            inputData = [];
-            // Limpa os campos da tela
-            document.getElementById("octTithe").textContent = "0.00";
-            document.getElementById("octCreditCardBalance").textContent = "0.00";
-            document.getElementById("totalCredit").textContent = "0.00";
-            document.getElementById("totalDebit").textContent = "0.00";
-            document.getElementById("totalOct").textContent = "0.00";
-            document.getElementById("balance").textContent = "0.00";
-            document.getElementById("totalPorcentagem").textContent = "0.00%";
-            // Atualiza os cards de dados
-            updateDataCards();
-          })
-          .catch((error) => {
-            console.error("Erro ao limpar dados do mês:", error);
-          });
-      } else {
-        // Se o usuário não estiver logado, mostra um alerta
-        alert("Você precisa estar logado para limpar os dados do mês.");
-      }
-    }
+  if (user) {
+    let currentYear = new URLSearchParams(window.location.search).get('year');
+    const outubroData = {
+      initialBalance: "0.00",
+      transactions: [],
+      tithe: "0.00",
+      creditCardBalance: "0.00",
+      totalCredit: "0.00",
+      totalDebit: "0.00",
+      finalBalance: "0.00",
+      balance: "0.00",
+      percentage: "0.00%"
+    };
+    set(ref(database, 'users/' + user.uid + '/october' + '-' + currentYear), outubroData)
+      .then(() => {
+        console.log("Dados do mês de outubro limpos com sucesso!");
+        inputData = [];
+        document.getElementById("octTithe").textContent = "0.00";
+        document.getElementById("octCreditCardBalance").textContent = "0.00";
+        document.getElementById("totalCredit").textContent = "0.00";
+        document.getElementById("totalDebit").textContent = "0.00";
+        document.getElementById("totalOct").textContent = "0.00";
+        document.getElementById("balance").textContent = "0.00";
+        document.getElementById("totalPorcentagem").textContent = "0.00%";
+        updateDataCards();
+        calculateTotal();
+      })
+      .catch((error) => {
+        console.error("Erro ao limpar dados do mês:", error);
+      });
+  } else {
+    alert("Você precisa estar logado para limpar os dados do mês.");
+  }
+}
+
 
     // Adicione um evento de clique ao botão "Limpar Mês"
     document.getElementById("clearMonthButton").onclick = clearMonthData;
