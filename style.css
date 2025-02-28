@@ -152,7 +152,6 @@
 #backButton,
 #nextButton,
 #homeButton,
-#chartButton,
 #importButton,
 #bot-button {
   background-color: #258fff;
@@ -188,14 +187,12 @@
 #backButton:hover,
 #nextButton:hover,
 #homeButton:hover,
-#chartButton:hover,
 #importButton:hover,
 #bot-button:hover {
   background-color: #0056b3;
 }
 
 #homeButton,
-#chartButton,
 #clearMonthButton {
   border-radius: 15px;
   width: 80px;
@@ -275,9 +272,6 @@
 
 #clearMonthButton:hover {
   background-color: #e04040f3;
-  color: white;
-  transition: background-color 0.3s;
-  border-radius: 15px;
 }
 
 .btn-delete:hover {
