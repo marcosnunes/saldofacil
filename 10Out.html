@@ -857,7 +857,7 @@
         const outubroData = {
           initialBalance: document.getElementById("OctInitialBalance").innerText,
         };
-        set(ref(database, 'users/' + user.uid + '/october' + '-' + currentYear), outubroData)
+        set(ref(database, 'users/' + user.uid + '/oct' + '-' + currentYear), outubroData)
           .then(() => {
             console.log("Dados do mês de outubro limpos com sucesso!");
             // Limpa os dados no array inputData
