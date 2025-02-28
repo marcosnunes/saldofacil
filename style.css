@@ -155,7 +155,6 @@
 #homeButton,
 #chartButton,
 #importButton,
-#clearMonthButton,
 #bot-button {
   background-color: #258fff;
   /* Cor de fundo azul */
@@ -192,7 +191,6 @@
 #homeButton:hover,
 #chartButton:hover,
 #importButton:hover,
-#clearMonthButton:hover,
 #bot-button:hover {
   background-color: #0056b3;
   /* Cor de fundo azul mais escuro ao passar o mouse */
@@ -244,7 +242,8 @@
   /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
-.btn-delete {
+.btn-delete,
+#clearMonthButton {
   background-color: #ff1b1b;
   /* Cor de fundo vermelha */
   color: white;
@@ -272,6 +271,11 @@
   transition: background-color 0.3s;
   /* Transição suave para a cor de fundo */
   margin: 5px;
+}
+
+#clearMonthButton:hover {
+  background-color: #9e1010;
+  /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
 .btn-delete:hover {
