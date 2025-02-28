@@ -255,25 +255,38 @@
 
 #clearMonthButton {
   background-color: #e040409d;
+  /* Cor de fundo azul */
   color: white;
+  /* Cor do texto branca */
   border-radius: 5px;
+  /* Bordas arredondadas */
   padding: 5px 10px;
+  /* Espaçamento interno */
   font-size: 14px;
+  /* Tamanho da fonte */
   cursor: pointer;
+  /* Cursor em forma de mão */
   text-align: center;
+  /* Centraliza o texto horizontalmente */
   line-height: 1.5;
+  /* Alinha verticalmente o texto */
   display: inline-flex;
+  /* Faz com que o botão seja tratado como um contêiner flexível */
   align-items: center;
-  justify-content: center; 
+  /* Alinha o texto verticalmente no centro */
+  justify-content: center;
+  /* Alinha o texto horizontalmente no centro */
   border: none;
+  /* Remove a borda padrão */
   transition: background-color 0.3s;
+  /* Transição suave para a cor de fundo */
   margin: 5px;
 }
 
 #clearMonthButton:hover {
   background-color: #e04040f3;
 }
-
+  
 .btn-delete:hover {
   background-color: #9e1010;
   /* Cor de fundo azul mais escuro ao passar o mouse */
