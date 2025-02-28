@@ -273,7 +273,8 @@
 }
 
 #clearMonthButton {
-  background-color: #e040409d;/* Cor de fundo do card de recomeçar */
+  background-color: #e040409d;
+  /* Cor de fundo do card de recomeçar */
   color: white;
   /* Cor do texto branca */
   border-radius: 5px;
