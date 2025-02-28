@@ -242,8 +242,7 @@
   /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
-.btn-delete,
-#clearMonthButton {
+.btn-delete {
   background-color: #ff1b1b;
   /* Cor de fundo vermelha */
   color: white;
@@ -273,9 +272,18 @@
   margin: 5px;
 }
 
+#clearMonthButton {
+  background-color: #e040409d;/* Cor de fundo do card de recomeçar */
+  color: white;
+  transition: background-color 0.3s;/* Transição suave na mudança de cor */
+  border-radius: 15px;
+}
+
 #clearMonthButton:hover {
-  background-color: #9e1010;
-  /* Cor de fundo azul mais escuro ao passar o mouse */
+  background-color: #e04040f3;/* Vermelho mais escuro no hover */
+  color: white;
+  transition: background-color 0.3s;/* Transição suave na mudança de cor */
+  border-radius: 15px;
 }
 
 .btn-delete:hover {
