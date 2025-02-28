@@ -583,11 +583,6 @@
       window.location.href = `2Fev.html?year=${currentYear}`; // Redireciona para a página de Fevereiro
     }
 
-    // Função para redirecionar para a página de Gráficos
-    function redirectToChart() {
-      window.location.href = "chart.html"; // Redireciona para a página de Gráficos
-    }
-
     // Função para gerar um ID único
     function uuidv4() {
       return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -600,7 +595,6 @@
     // Adicionar eventos aos botões de navegação
     document.getElementById("backButton").onclick = redirectToDec;
     document.getElementById("nextButton").onclick = redirectToFeb;
-    document.getElementById("chartButton").onclick = redirectToChart;
     document.getElementById("homeButton").onclick = redirectToIndex;
 
     // Adicionar evento ao botão de adicionar
