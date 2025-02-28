@@ -227,7 +227,7 @@
 }
 
 .btn-delete {
-  background-color: #ff1b1b;
+  background-color: #e040409d;
   color: white;
   border-radius: 5px;
   padding: 5px 10px;
@@ -241,6 +241,11 @@
   border: none;
   transition: background-color 0.3s;
   margin: 5px;
+}
+
+.btn-delete:hover {
+  background-color: #e04040f3;
+  /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
 #clearMonthButton {
@@ -275,11 +280,6 @@
 
 #clearMonthButton:hover {
   background-color: #e04040f3;
-}
-  
-.btn-delete:hover {
-  background-color: #9e1010;
-  /* Cor de fundo azul mais escuro ao passar o mouse */
 }
 
 .card-display {
