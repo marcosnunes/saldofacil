@@ -848,6 +848,8 @@
     // Função para limpar os dados do mês
     function clearMonthData() {
       if (user) { // Verifica se o usuário está logado
+        // Adiciona a mensagem de confirmação
+    if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
         let currentYear = new URLSearchParams(window.location.search).get('year');
         // Limpa os dados do banco de dados
         const dezembroData = {
@@ -872,6 +874,7 @@
           .catch((error) => {
             console.error("Erro ao limpar dados do mês:", error);
           });
+    } 
       } else {
         // Se o usuário não estiver logado, mostra um alerta
         alert("Você precisa estar logado para limpar os dados do mês.");
