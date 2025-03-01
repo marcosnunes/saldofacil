@@ -23,12 +23,14 @@
         <input type="password" id="password" placeholder=" " required>
         <label for="password">Senha</label>
       </div>
-      <button onclick="login()" class="btn">Login</button>
+      <div class="loginButtons">
+        <button onclick="login()" class="btn">Login</button>
+        <button id="loginNoAuth" class="btn">Entrar sem login</button>
+      </div>
       <p class="center">
         <br>
         <a href="signup.html">Cadastrar-se</a> |
-        <a href="#" onclick="forgotPassword()">Esqueci minha senha</a> |
-        <a href="noauth\index.html">Continuar sem login</a>
+        <a href="#" onclick="forgotPassword()">Esqueci minha senha</a>
       <p id="error-message" class="red-text center"></p>
     </div>
   </div>
@@ -79,6 +81,13 @@
           document.getElementById('error-message').textContent = errorMessage;
         });
     };
+
+    document.getElementById("loginNoAuth").onclick = redirectToLoginNoAuth;
+
+    // Função para redirecionar para a página de Fevereiro
+    function redirectToLoginNoAuth() {
+      window.location.href = "noauth/index.html"; // Redireciona para a página sem autenticação
+    }
 
   </script>
 </body>
