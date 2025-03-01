@@ -333,6 +333,10 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);
   }
+
+  .container #aviso-tela {
+    display: none !important;
+  }
 }
 
 .card-balance-content .card-content {
@@ -480,4 +484,25 @@
   padding: 10px;
   margin-bottom: 5px;
   border-radius: 5px;
+}
+
+#chat-container {
+  width: 500px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+#messages {
+  height: 300px;
+  overflow-y: scroll;
+  padding: 5px;
+  border: 1px solid #eee;
+}
+.message {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-bottom: 1px solid #f0f0f0;
+}
+#input-container {
+  margin-top: 10px;
 }
