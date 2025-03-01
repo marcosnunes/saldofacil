@@ -7,8 +7,7 @@
 @media screen and (max-width: 1080px) {
   #pdfButton,
   #backButton,
-  #nextButton,
-  #aviso-saldo-inicial-telaGrande {
+  #nextButton {
     display: none !important;
   }
 
@@ -34,7 +33,6 @@
   #backButton,
   .btn-edit,
   .btn-delete,
-  #aviso-saldo-inicial,
   #card-lancamento,
   #chart,
   #tutorial,
@@ -334,14 +332,6 @@
   .card-balance-content {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);
-  }
-
-  #aviso-saldo-inicial-telaPequena {
-    display: none !important;
-  }
-
-  .container #aviso-tela {
-    display: none !important;
   }
 }
 
