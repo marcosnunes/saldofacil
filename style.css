@@ -15,6 +15,10 @@
     font-size: 16px !important;
     padding: 0;
   }
+
+  .card {
+    padding: 5px;
+  }
 }
 
 /* Redefine as margens e outros estilos para a impressão */
@@ -47,7 +51,7 @@
   /* Ajusta a estilização dos cards para impressão */
   .card {
     width: 100%;
-    padding: 20px;
+    padding: 5px;
     border: 1px solid #ccc;
     margin-bottom: 10px;
   }
@@ -376,7 +380,7 @@
   /* Borda leve para separar os itens */
   border-radius: 5px;
   /* Cantos arredondados */
-  padding: 15px;
+  padding: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   /* Sombra sutil */
   text-align: center;
