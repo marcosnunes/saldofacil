@@ -843,6 +843,19 @@
     // Adicione um evento de clique ao botão "Limpar Mês"
     document.getElementById("clearMonthButton").onclick = clearMonthData;
 
+    function enableImportButton() {
+      const importButton = document.getElementById("importButton");
+      if (importButton) {
+        importButton.disabled = false; // Enable the button
+        importButton.onclick = function () {
+          document.getElementById("ofxFile").click(); // Trigger file selection
+        };
+        console.log("Import button enabled by Android app.");
+      } else {
+        console.error("Import button not found in HTML.");
+      }
+    }
+
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
