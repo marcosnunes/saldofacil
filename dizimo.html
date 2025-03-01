@@ -143,7 +143,7 @@
           document.getElementById("octoberTithe").textContent = (userData['october-' + currentYear] && userData['october-' + currentYear].tithe) ? userData['october-' + currentYear].tithe : "0.00";
           document.getElementById("novemberTithe").textContent = (userData['november-' + currentYear] && userData['november-' + currentYear].tithe) ? userData['november-' + currentYear].tithe : "0.00";
           document.getElementById("decemberTithe").textContent = (userData['december-' + currentYear] && userData['december-' + currentYear].tithe) ? userData['december-' + currentYear].tithe : "0.00";
-          
+
           // Calcula a soma dos dízimos do ano
           const yearTithe = parseFloat(document.getElementById("januaryTithe").textContent) +
             parseFloat(document.getElementById("februaryTithe").textContent) +

@@ -134,10 +134,10 @@
                 window.location.href = "login.html";
             }
         });
-         var instances;
+        var instances;
         document.addEventListener("DOMContentLoaded", function () {
             var elems = document.querySelectorAll("select");
-             instances = M.FormSelect.init(elems);
+            instances = M.FormSelect.init(elems);
 
 
             document
@@ -151,8 +151,8 @@
             document.getElementById('nextButton').addEventListener('click', function () {
                 window.history.back();
             });
-              //  Chamando a função convertCurrency após a inicialização do materialize
-             convertCurrency();
+            //  Chamando a função convertCurrency após a inicialização do materialize
+            convertCurrency();
         });
 
         function formatCurrency(amount, currency) {
@@ -203,7 +203,7 @@
                         console.log("Dados do ano:", yearData);
                         calculateAnnualTotals(yearData);
                         displayAnnualLaunches(yearData);
-                         resolve(yearData)
+                        resolve(yearData)
                     })
                     .catch((error) => {
                         console.error("Erro ao carregar dados do Firebase:", error);
@@ -244,8 +244,8 @@
                     }
                 }
             }
-             balance = creditTotal - debitTotal;
-             percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
+            balance = creditTotal - debitTotal;
+            percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
         }
 
         function displayAnnualLaunches(yearData) {
@@ -300,7 +300,7 @@
                 .then(data => {
                     const exchangeRate = data.rates[selectedCurrency];
 
-                     calculateAnnualTotals(launchData);
+                    calculateAnnualTotals(launchData);
 
                     // Atualizar os valores com a nova moeda
                     updateBalanceValues(

@@ -5,7 +5,7 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #f8f9fa;/* Cor de fundo do body */
+  background-color: #f8f9fa; /* Cor de fundo do body */
 }
 
 .navigation {
@@ -21,27 +21,27 @@ body {
 }
 
 .nav-wrapper {
-  background-color: #007bff;/* Cor de fundo azul */
+  background-color: #007bff; /* Cor de fundo azul */
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);/* Sombra sutil */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
   display: flex;
-  justify-content: space-between;/* Espaça os elementos igualmente */
-  align-items: center;/* Alinha verticalmente os itens no centro */
+  justify-content: space-between; /* Espaça os elementos igualmente */
+  align-items: center; /* Alinha verticalmente os itens no centro */
 }
 
 .brand-logo {
-  color: #ffffff;/* Cor do texto da marca branca */
-  font-size: 1.5em;/* Tamanho da fonte da marca */
+  color: #ffffff; /* Cor do texto da marca branca */
+  font-size: 1.5em; /* Tamanho da fonte da marca */
   font-weight: bold; /* Texto em negrito */
   text-align: center; /* Centraliza o texto horizontalmente */
 }
 
 #user-name {
-  color: #3b3d64;/* Cor do texto do nome do usuário */
-  font-size: 1.2em;/* Tamanho da fonte do nome do usuário */
-  font-weight: bold;/* Texto em negrito */
-  margin: 10px;/* Margem à esquerda do nome do usuário */
-  padding: 5px;/* Espaçamento interno do nome do usuário */
+  color: #3b3d64; /* Cor do texto do nome do usuário */
+  font-size: 1.2em; /* Tamanho da fonte do nome do usuário */
+  font-weight: bold; /* Texto em negrito */
+  margin: 10px; /* Margem à esquerda do nome do usuário */
+  padding: 5px; /* Espaçamento interno do nome do usuário */
 }
 .main-content {
   padding: 20px;
@@ -52,97 +52,96 @@ body {
 .card-columns {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;/* Espaça os cards uniformemente */
+  justify-content: space-evenly; /* Espaça os cards uniformemente */
 }
 
 .card {
-  background-color: #5765ca;/* Cor de fundo dos cards */
+  background-color: #5765ca; /* Cor de fundo dos cards */
   width: calc(25% - 20px);
   margin-bottom: 20px;
-  cursor: pointer;/* Indica que o card é clicável */
-  border-radius: 20px;/* Bordas arredondadas dos cards */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);/* Sombra sutil */
+  cursor: pointer; /* Indica que o card é clicável */
+  border-radius: 20px; /* Bordas arredondadas dos cards */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
 
 .card-content {
-  color: #ffffff;/* Cor do texto */
+  color: #ffffff; /* Cor do texto */
   display: flex;
   flex-direction: row;
-  justify-content: center;/* Centraliza o conteúdo dentro do card */
-  align-items: center;/* Alinha verticalmente o conteúdo */
-  padding: 20px;/* Espaçamento interno do card */
+  justify-content: center; /* Centraliza o conteúdo dentro do card */
+  align-items: center; /* Alinha verticalmente o conteúdo */
+  padding: 20px; /* Espaçamento interno do card */
 }
 
 .card-content img {
   max-width: 24px;
   max-height: 24px;
-  margin-right: 10px;/* Margem à direita da imagem */
+  margin-right: 10px; /* Margem à direita da imagem */
 }
 
 .card-title {
-  color: #ffffff;/* Cor do texto do título */
-  font-weight: bold;/* Texto em negrito */
+  color: #ffffff; /* Cor do texto do título */
+  font-weight: bold; /* Texto em negrito */
 }
 
 #limparDadosCard {
-  background-color: #e040409d;/* Cor de fundo do card de recomeçar */
+  background-color: #e040409d; /* Cor de fundo do card de recomeçar */
   color: white;
-  transition: background-color 0.3s;/* Transição suave na mudança de cor */
+  transition: background-color 0.3s; /* Transição suave na mudança de cor */
   border-radius: 15px;
 }
 
 #limparDadosCard:hover {
-  background-color: #e04040f3;/* Vermelho mais escuro no hover */
+  background-color: #e04040f3; /* Vermelho mais escuro no hover */
   color: white;
-  transition: background-color 0.3s;/* Transição suave na mudança de cor */
+  transition: background-color 0.3s; /* Transição suave na mudança de cor */
   border-radius: 15px;
 }
 
 .page-footer {
-  background-color: #333;/* Cor de fundo mais escura para melhor contraste */
-  padding: 20px 0;/* Espaçamento interno do rodapé */
+  background-color: #333; /* Cor de fundo mais escura para melhor contraste */
+  padding: 20px 0; /* Espaçamento interno do rodapé */
   width: 100%;
-  color: #f8f9fa;/* Cor do texto em branco para contraste */
+  color: #f8f9fa; /* Cor do texto em branco para contraste */
 }
 
 .custom-flow-text {
   font-size: 1.2em;
-  text-align: center;/* Centraliza o texto no rodapé */
+  text-align: center; /* Centraliza o texto no rodapé */
   margin-bottom: 20px;
 }
 
 .grey-text.text-lighten-4 {
-  color: #f8f9fa;/* Cor do texto do rodapé em branco */
-  text-align: center;/* Centraliza o texto no rodapé */
+  color: #f8f9fa; /* Cor do texto do rodapé em branco */
+  text-align: center; /* Centraliza o texto no rodapé */
 }
 
 .divider {
   height: 1px;
-  background-color: #444;/* Cor da linha divisória para melhor visibilidade */
+  background-color: #444; /* Cor da linha divisória para melhor visibilidade */
 }
-
 
 @media (max-width: 1024px) {
   .card {
-    width: calc(50% - 20px);/* Ajusta a largura dos cards para telas menores */
+    width: calc(50% - 20px); /* Ajusta a largura dos cards para telas menores */
   }
 }
 
 @media (max-width: 600px) {
   .card {
-    width: 100%;/* Ajusta a largura dos cards para telas pequenas */
+    width: 100%; /* Ajusta a largura dos cards para telas pequenas */
   }
 }
 
 @media (max-width: 768px) {
   #whatsapp-tela-grande {
-    display: none;/* Esconde o elemento em telas menores */
+    display: none; /* Esconde o elemento em telas menores */
   }
 }
 
 @media (min-width: 1024px) {
   #whatsapp {
-    display: none;/* Esconde o elemento em telas maiores */
+    display: none; /* Esconde o elemento em telas maiores */
   }
 }
 

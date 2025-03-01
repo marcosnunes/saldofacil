@@ -88,7 +88,7 @@
   </div>
   <!-- Importar Firebase -->
   <script type="module">
-    
+
     import { displayYearInTitle } from './utils.js';
     displayYearInTitle();
 
@@ -163,7 +163,7 @@
 
     // Função para carregar o saldo do cartão de crédito do Firebase
     function loadCreditCardBalance(userId) {
-    let currentYear = new URLSearchParams(window.location.search).get('year');
+      let currentYear = new URLSearchParams(window.location.search).get('year');
       const balanceRef = ref(database, `creditCardBalances/${userId}/${currentYear}/octoberCreditCardBalance`);
       onValue(balanceRef, (snapshot) => {
         const balance = snapshot.val() || '0.00';
@@ -824,17 +824,17 @@
 
       return transactions;
     }
-    
+
     // Funções para deslizamento de tela touch:
     var touchstartX = 0;
     var touchendX = 0;
     var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
 
-    document.addEventListener('touchstart', function(event) {
+    document.addEventListener('touchstart', function (event) {
       touchstartX = event.changedTouches[0].screenX;
     });
 
-    document.addEventListener('touchend', function(event) {
+    document.addEventListener('touchend', function (event) {
       touchendX = event.changedTouches[0].screenX;
       handleGesture();
     });
@@ -851,48 +851,48 @@
 
     // Função para limpar os dados do mês
     function clearMonthData() {
-  if (user) {
-    // Adiciona a mensagem de confirmação
-    if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
-    let currentYear = new URLSearchParams(window.location.search).get('year');
-    const outubroData = {
-      initialBalance: "0.00",
-      transactions: [],
-      tithe: "0.00",
-      creditCardBalance: "0.00",
-      totalCredit: "0.00",
-      totalDebit: "0.00",
-      finalBalance: "0.00",
-      balance: "0.00",
-      percentage: "0.00%"
-    };
-    set(ref(database, 'users/' + user.uid + '/october' + '-' + currentYear), outubroData)
-      .then(() => {
-        console.log("Dados do mês de outubro limpos com sucesso!");
-        inputData = [];
-        document.getElementById("octTithe").textContent = "0.00";
-        document.getElementById("octCreditCardBalance").textContent = "0.00";
-        document.getElementById("totalCredit").textContent = "0.00";
-        document.getElementById("totalDebit").textContent = "0.00";
-        document.getElementById("totalOct").textContent = "0.00";
-        document.getElementById("balance").textContent = "0.00";
-        document.getElementById("totalPorcentagem").textContent = "0.00%";
-        updateDataCards();
-        calculateTotal();
-      })
-      .catch((error) => {
-        console.error("Erro ao limpar dados do mês:", error);
-      });
+      if (user) {
+        // Adiciona a mensagem de confirmação
+        if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
+          let currentYear = new URLSearchParams(window.location.search).get('year');
+          const outubroData = {
+            initialBalance: "0.00",
+            transactions: [],
+            tithe: "0.00",
+            creditCardBalance: "0.00",
+            totalCredit: "0.00",
+            totalDebit: "0.00",
+            finalBalance: "0.00",
+            balance: "0.00",
+            percentage: "0.00%"
+          };
+          set(ref(database, 'users/' + user.uid + '/october' + '-' + currentYear), outubroData)
+            .then(() => {
+              console.log("Dados do mês de outubro limpos com sucesso!");
+              inputData = [];
+              document.getElementById("octTithe").textContent = "0.00";
+              document.getElementById("octCreditCardBalance").textContent = "0.00";
+              document.getElementById("totalCredit").textContent = "0.00";
+              document.getElementById("totalDebit").textContent = "0.00";
+              document.getElementById("totalOct").textContent = "0.00";
+              document.getElementById("balance").textContent = "0.00";
+              document.getElementById("totalPorcentagem").textContent = "0.00%";
+              updateDataCards();
+              calculateTotal();
+            })
+            .catch((error) => {
+              console.error("Erro ao limpar dados do mês:", error);
+            });
+        }
+      } else {
+        alert("Você precisa estar logado para limpar os dados do mês.");
+      }
     }
-  } else {
-    alert("Você precisa estar logado para limpar os dados do mês.");
-  }
-}
 
 
     // Adicione um evento de clique ao botão "Limpar Mês"
     document.getElementById("clearMonthButton").onclick = clearMonthData;
-    
+
 
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

@@ -119,7 +119,7 @@
       <div id="groupedCardContainer"></div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
+
     <script type="module">
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -165,11 +165,11 @@
             // Assumindo que fetchedData é um objeto com IDs como chaves
             data = Object.keys(fetchedData).map(key => ({ ...fetchedData[key], id: key }));
             console.log("Dados carregados:", data); // Depuração
-           // Atualizar as visualizações aqui
+            // Atualizar as visualizações aqui
             updateGroupedCardContainer();
             updateCardBalances();
           }
-         else {
+          else {
             // Se não houver dados, ainda precisamos atualizar as views para limpar valores existentes
             data = [];
             updateGroupedCardContainer();
@@ -379,12 +379,12 @@
 
         // 1. Remover os itens do array 'data' localmente
         data = data.filter(item => !(item.description === description && parseInt(item.month.split(" ")[1]) === currentYear));
-        
+
         // 2. Atualiza os cartões de dados e calcula os totais após a exclusão
         updateGroupedCardContainer();
         updateCardBalances();
-        
-         // 3. Excluir os itens do Firebase
+
+        // 3. Excluir os itens do Firebase
         const itemsToDelete = data.filter(item => item.description === description && parseInt(item.month.split(" ")[1]) === currentYear); // Pega os IDs novamente para garantir que tenha apenas os itens relacionados ao card
 
         // Remover todos os itens associados a essa descrição
@@ -406,12 +406,12 @@
             console.log("Todos os itens do card foram excluídos do Firebase");
 
             // 4. Atualiza o Firebase com a nova lista `data`
-             const userId = auth.currentUser.uid;
+            const userId = auth.currentUser.uid;
             const dataRef = ref(database, `creditCardData/${userId}/${currentYear}`);
             set(dataRef, data)
               .then(() => {
-                 console.log("Dados atualizados no Firebase");
-               })
+                console.log("Dados atualizados no Firebase");
+              })
               .catch(error => {
                 console.error("Erro ao atualizar dados no Firebase:", error);
               });
@@ -421,24 +421,24 @@
           });
       }
 
-      document.addEventListener('DOMContentLoaded', function() {
-          var elems = document.querySelectorAll('select');
-          M.FormSelect.init(elems, {});
-          document.getElementById('addButton').addEventListener('click', function() {
-            addItem();
-            updateGroupedCardContainer();
-            updateCardBalances();
-          });
-          document.getElementById('backButton').addEventListener('click', function() {
-            window.history.back();
-          });
-          document.getElementById('nextButton').addEventListener('click', function() {
-            window.history.back();
-          });
-        
+      document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('select');
+        M.FormSelect.init(elems, {});
+        document.getElementById('addButton').addEventListener('click', function () {
+          addItem();
+          updateGroupedCardContainer();
+          updateCardBalances();
+        });
+        document.getElementById('backButton').addEventListener('click', function () {
+          window.history.back();
+        });
+        document.getElementById('nextButton').addEventListener('click', function () {
+          window.history.back();
+        });
+
         // Verificar se o usuário está autenticado e carregar os dados inicialmente
         if (auth.currentUser) {
-            loadDataFromDatabase(auth.currentUser.uid);
+          loadDataFromDatabase(auth.currentUser.uid);
         }
 
       });

@@ -808,31 +808,31 @@
     function clearMonthData() {
       if (user) { // Verifica se o usuário está logado
         // Adiciona a mensagem de confirmação
-    if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
-        let currentYear = new URLSearchParams(window.location.search).get('year');
-        // Limpa os dados do banco de dados
-        const januaryData = {
-          initialBalance: document.getElementById("JanInitialBalance").value,
-        };
-        set(ref(database, 'users/' + user.uid + '/january' + '-' + currentYear), januaryData)
-          .then(() => {
-            console.log("Dados do mês de janeiro limpos com sucesso!");
-            // Limpa os dados no array inputData
-            inputData = [];
-            // Limpa os campos da tela
-            document.getElementById("januaryTithe").textContent = "0.00";
-            document.getElementById("januaryCreditCardBalance").textContent = "0.00";
-            document.getElementById("totalCredit").textContent = "0.00";
-            document.getElementById("totalDebit").textContent = "0.00";
-            document.getElementById("totalJaneiro").textContent = "0.00";
-            document.getElementById("balance").textContent = "0.00";
-            document.getElementById("totalPorcentagem").textContent = "0.00%";
-            // Atualiza os cards de dados
-            updateDataCards();
-          })
-          .catch((error) => {
-            console.error("Erro ao limpar dados do mês:", error);
-          });
+        if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
+          let currentYear = new URLSearchParams(window.location.search).get('year');
+          // Limpa os dados do banco de dados
+          const januaryData = {
+            initialBalance: document.getElementById("JanInitialBalance").value,
+          };
+          set(ref(database, 'users/' + user.uid + '/january' + '-' + currentYear), januaryData)
+            .then(() => {
+              console.log("Dados do mês de janeiro limpos com sucesso!");
+              // Limpa os dados no array inputData
+              inputData = [];
+              // Limpa os campos da tela
+              document.getElementById("januaryTithe").textContent = "0.00";
+              document.getElementById("januaryCreditCardBalance").textContent = "0.00";
+              document.getElementById("totalCredit").textContent = "0.00";
+              document.getElementById("totalDebit").textContent = "0.00";
+              document.getElementById("totalJaneiro").textContent = "0.00";
+              document.getElementById("balance").textContent = "0.00";
+              document.getElementById("totalPorcentagem").textContent = "0.00%";
+              // Atualiza os cards de dados
+              updateDataCards();
+            })
+            .catch((error) => {
+              console.error("Erro ao limpar dados do mês:", error);
+            });
         }
       } else {
         // Se o usuário não estiver logado, mostra um alerta

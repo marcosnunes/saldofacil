@@ -853,32 +853,32 @@
     function clearMonthData() {
       if (user) { // Verifica se o usuário está logado
         // Adiciona a mensagem de confirmação
-    if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
-        let currentYear = new URLSearchParams(window.location.search).get('year');
-        // Limpa os dados do banco de dados
-        const maioData = {
-          initialBalance: document.getElementById("MayInitialBalance").innerText,
-        };
-        set(ref(database, 'users/' + user.uid + '/may' + '-' + currentYear), maioData)
-          .then(() => {
-            console.log("Dados do mês de maio limpos com sucesso!");
-            // Limpa os dados no array inputData
-            inputData = [];
-            // Limpa os campos da tela
-            document.getElementById("mayTithe").textContent = "0.00";
-            document.getElementById("mayCreditCardBalance").textContent = "0.00";
-            document.getElementById("totalCredit").textContent = "0.00";
-            document.getElementById("totalDebit").textContent = "0.00";
-            document.getElementById("totalMay").textContent = "0.00";
-            document.getElementById("balance").textContent = "0.00";
-            document.getElementById("totalPorcentagem").textContent = "0.00%";
-            // Atualiza os cards de dados
-            updateDataCards();
-          })
-          .catch((error) => {
-            console.error("Erro ao limpar dados do mês:", error);
-          });
-      } 
+        if (confirm("Tem certeza que deseja limpar os dados deste mês?")) {
+          let currentYear = new URLSearchParams(window.location.search).get('year');
+          // Limpa os dados do banco de dados
+          const maioData = {
+            initialBalance: document.getElementById("MayInitialBalance").innerText,
+          };
+          set(ref(database, 'users/' + user.uid + '/may' + '-' + currentYear), maioData)
+            .then(() => {
+              console.log("Dados do mês de maio limpos com sucesso!");
+              // Limpa os dados no array inputData
+              inputData = [];
+              // Limpa os campos da tela
+              document.getElementById("mayTithe").textContent = "0.00";
+              document.getElementById("mayCreditCardBalance").textContent = "0.00";
+              document.getElementById("totalCredit").textContent = "0.00";
+              document.getElementById("totalDebit").textContent = "0.00";
+              document.getElementById("totalMay").textContent = "0.00";
+              document.getElementById("balance").textContent = "0.00";
+              document.getElementById("totalPorcentagem").textContent = "0.00%";
+              // Atualiza os cards de dados
+              updateDataCards();
+            })
+            .catch((error) => {
+              console.error("Erro ao limpar dados do mês:", error);
+            });
+        }
       } else {
         // Se o usuário não estiver logado, mostra um alerta
         alert("Você precisa estar logado para limpar os dados do mês.");
