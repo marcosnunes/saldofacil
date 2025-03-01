@@ -3,12 +3,11 @@
   padding: 0;
 }
 
-/* Oculta o botão PDF em telas menores */
+/* Oculta o botões em telas menores */
 @media screen and (max-width: 1080px) {
   #pdfButton,
   #backButton,
   #nextButton,
-  #importButton,
   #aviso-saldo-inicial-telaGrande {
     display: none !important;
   }
@@ -28,17 +27,13 @@
     background: transparent;
   }
 
-  /* Oculta todos os botões na impressão */
+  /* Oculta outros elementos desnecessários na impressão */
   .btn,
   #pdfButton,
   #addButton,
   #backButton,
   .btn-edit,
-  .btn-delete {
-    display: none !important;
-  }
-
-  /* Oculta outros elementos desnecessários na impressão */
+  .btn-delete,
   #aviso-saldo-inicial,
   #card-lancamento,
   #chart,
