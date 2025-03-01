@@ -5,6 +5,7 @@
 
 /* Oculta o botões em telas menores */
 @media screen and (max-width: 1080px) {
+  #pdfButton,
   #backButton,
   #nextButton {
     display: none !important;
@@ -138,11 +139,9 @@
 }
 
 #pdfButton,
-#addButton,
 #backButton,
 #nextButton,
 #homeButton,
-#importButton,
 #bot-button {
   background-color: #258fff;
   /* Cor de fundo azul */
@@ -172,6 +171,38 @@
   /* Transição suave para a cor de fundo */
   margin: 5px;
 }
+
+#addButton,
+#importButton {
+  background-color: #258fff;
+  /* Cor de fundo azul */
+  color: white;
+  /* Cor do texto branca */
+  border-radius: 15px;
+  /* Bordas arredondadas */
+  padding: 15px 5px;
+  /* Espaçamento interno */
+  font-size: 12px;
+  /* Tamanho da fonte */
+  cursor: pointer;
+  /* Cursor em forma de mão */
+  text-align: center;
+  /* Centraliza o texto horizontalmente */
+  line-height: 1.5;
+  /* Alinha verticalmente o texto */
+  display: inline-flex;
+  /* Faz com que o botão seja tratado como um contêiner flexível */
+  align-items: center;
+  /* Alinha o texto verticalmente no centro */
+  justify-content: center;
+  /* Alinha o texto horizontalmente no centro */
+  border: none;
+  /* Remove a borda padrão */
+  transition: background-color 0.3s;
+  /* Transição suave para a cor de fundo */
+}
+
+
 
 #pdfButton:hover,
 #backButton:hover,
@@ -486,6 +517,12 @@
 }
 
 .loginButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;  
+}
+
+.add-container {
   display: flex;
   justify-content: space-between;
   align-items: center;  
