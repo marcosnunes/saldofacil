@@ -88,6 +88,22 @@
         </div>
       </div>
     </div>
+     <div class="card">
+      <div class="card-content">
+        <h3 class="card-title">Calculadora de IRRF, Férias e 13º</h3>
+
+  <label for="salarioBruto">Salário Bruto:</label>
+  <input type="number" id="salarioBruto"><br><br>
+
+  <label for="dataAdmissao">Data de Admissão:</label>
+  <input type="date" id="dataAdmissao"><br><br>
+
+  <button class="btn-edit" onclick="calcular()">Calcular</button><br><br>
+
+  <div id="resultados"></div>
+        
+      </div>
+  </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
@@ -197,6 +213,101 @@
           alert("Erro ao converter moeda. Por favor, tente novamente mais tarde.");
         });
     }
+ 
+
+function calcular() {
+  const salarioBruto = parseFloat(document.getElementById('salarioBruto').value);
+  const dataAdmissao = new Date(document.getElementById('dataAdmissao').value);
+  const dataReferencia = new Date(new Date().getFullYear(), 11, 31);
+
+  if (isNaN(salarioBruto) || isNaN(dataAdmissao.getTime())) {
+    alert('Por favor, preencha todos os campos.');
+    return;
+  }
+
+  const mesesTrabalhados = calcularMesesTrabalhados(dataAdmissao, dataReferencia);
+  const deducoesTotais = 564.80; // Valor total das deduções
+  const irrfMensal = calcularIRRF(salarioBruto, deducoesTotais);
+  const feriasBruto = calcularFerias(salarioBruto); // Sempre 12 meses
+  const decimoTerceiroBruto = calcularDecimoTerceiro(salarioBruto, mesesTrabalhados);
+  const inssFerias = calcularINSS(feriasBruto);
+  const inssDecimoTerceiro = calcularINSS(decimoTerceiroBruto);
+  const irrfFerias = calcularIRRF(feriasBruto, inssFerias);
+  const irrfDecimoTerceiro = calcularIRRF(decimoTerceiroBruto, inssDecimoTerceiro);
+  const feriasLiquido = feriasBruto - inssFerias - irrfFerias;
+  const decimoTerceiroLiquido = decimoTerceiroBruto - inssDecimoTerceiro - irrfDecimoTerceiro;
+
+  const dataFerias = new Date(dataAdmissao.getFullYear(), dataAdmissao.getMonth() + 12, dataAdmissao.getDate());
+  const mesFerias = dataFerias.toLocaleString('default', { month: 'long' });
+
+  const resultadosDiv = document.getElementById('resultados');
+  resultadosDiv.innerHTML = `
+    <h2>Resultados</h2>
+    <p><strong>IRRF Mensal:</strong> R$ ${irrfMensal.toFixed(2)}</p>
+    <p><strong>Férias a Receber em ${mesFerias}:</strong> R$ ${feriasLiquido.toFixed(2)}</p>
+    <p><strong>IRRF sobre Férias:</strong> R$ ${irrfFerias.toFixed(2)}</p>
+    <p><strong>13º Salário a Receber:</strong> R$ ${decimoTerceiroLiquido.toFixed(2)}</p>
+    <p><strong>IRRF sobre 13º Salário:</strong> R$ ${irrfDecimoTerceiro.toFixed(2)}</p>
+  `;
+}
+
+function calcularMesesTrabalhados(dataAdmissao, dataReferencia) {
+  let meses = (dataReferencia.getFullYear() - dataAdmissao.getFullYear()) * 12;
+  meses -= dataAdmissao.getMonth();
+  meses += dataReferencia.getMonth() + 1;
+  return meses <= 0 ? 0 : meses;
+}
+
+function calcularIRRF(salario, deducoes) {
+  let baseDeCalculo = salario - deducoes;
+  let aliquota, deducaoIRRF;
+
+  // Tabela IRRF 2025 (Oficial)
+  if (baseDeCalculo <= 2259.20) {
+    return 0; // Isento
+  } else if (baseDeCalculo <= 2826.65) {
+    aliquota = 0.075;
+    deducaoIRRF = 169.44;
+  } else if (baseDeCalculo <= 3751.05) {
+    aliquota = 0.15;
+    deducaoIRRF = 381.44;
+  } else if (baseDeCalculo <= 4664.68) {
+    aliquota = 0.225;
+    deducaoIRRF = 662.77;
+  } else {
+    aliquota = 0.275;
+    deducaoIRRF = 896.00;
+  }
+
+  let imposto = (baseDeCalculo * aliquota) - deducaoIRRF;
+  return imposto;
+}
+
+function calcularFerias(salarioBruto) {
+  return salarioBruto + (salarioBruto / 3); // Sempre 12 meses
+}
+
+function calcularDecimoTerceiro(salarioBruto, mesesTrabalhados) {
+  return (salarioBruto / 12) * mesesTrabalhados;
+}
+
+function calcularINSS(salarioBruto) {
+  // Cálculo do INSS (exemplo simplificado)
+  if (salarioBruto <= 1320.00) {
+    return salarioBruto * 0.075;
+  } else if (salarioBruto <= 2571.29) {
+    return salarioBruto * 0.09;
+  } else if (salarioBruto <= 3856.94) {
+    return salarioBruto * 0.12;
+  } else if (salarioBruto <= 7507.49) {
+    return salarioBruto * 0.14;
+  } else {
+    return 7507.49 * 0.14; // Teto do INSS
+  }
+}
+
+
+
 
     // Funções para deslizamento de tela touch:
     var touchstartX = 0;
@@ -211,7 +322,7 @@
       touchendX = event.changedTouches[0].screenX;
       handleGesture();
     });
-
+  
     function handleGesture() {
       if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
         // Deslizamento para a esquerda
