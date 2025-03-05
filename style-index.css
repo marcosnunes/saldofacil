@@ -140,8 +140,9 @@ body {
 }
 
 @media (min-width: 1024px) {
-  #whatsapp {
-    display: none; /* Esconde o elemento em telas maiores */
+  .nav-wrapper .brand-logo {
+    font-size: 32px !important;
+    padding: 0;
   }
 }
 

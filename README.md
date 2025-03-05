@@ -1,12 +1,12 @@
-# meusaldo
+# saldofacil
 
 Disponível na Playstore
 https://play.google.com/store/apps/details?id=com.autossuficiencia
 
 Para computador e iPhone acesse pelo link:
-https://marcosnunes.github.io/meusaldo
+https://marcosnunes.github.io/saldofacil
 
-<b>O que é o app Meu Saldo?</b>
+<b>O que é o app Saldo Fácil?</b>
 Todos precisamos ter nossa vida financeira organizada.
 Este app é uma ferramenta que auxilia no controle financeiro anual de qualquer pessoa.
 Ele possui as telas de cada mês onde podemos fazer os lançamentos diários,
@@ -61,6 +61,6 @@ salvamento no localstorage. Dessa forma se você quiser imprimir em PDF deve sem
 tablet.</br>
 
 <b>Qual é o endereço do site do App?</b>
-O Meu Saldo é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
+O Saldo Fácil é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
 diretamente no navegador em qualquer outro dispositivo através do endereço
-https://marcosnunes.github.io/meusaldo
+https://marcosnunes.github.io/saldofacil
