@@ -115,6 +115,34 @@
   justify-content: center; /* Alinha o texto horizontalmente no centro */
 }
 
+.card-action {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.btn {
+  background-color: #ffffff; /* Cor de fundo branca */
+  color: #007bff; /* Cor do texto azul */
+  border: 2px solid #007bff; /* Borda azul */
+  border-radius: 15px; /* Bordas arredondadas */
+  padding: 5px 10px; /* Espaçamento interno */
+  font-size: 14px; /* Tamanho da fonte */
+  cursor: pointer; /* Cursor em forma de mão */
+  text-align: center; /* Centraliza o texto horizontalmente */
+  line-height: 1.5; /* Alinha verticalmente o texto */
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transições suaves */
+}
+
+.btn:hover {
+  background-color: #007bff;
+  /* Cor de fundo azul ao passar o mouse */
+  color: #ffffff;
+  /* Cor do texto branca ao passar o mouse */
+  border-color: #007bff;
+  /* Borda azul ao passar o mouse */
+}
+
 .nav-wrapper .btn:hover {
   background-color: #007bff;
   /* Cor de fundo azul ao passar o mouse */

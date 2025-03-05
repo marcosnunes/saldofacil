@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="google" content="translate" />
+    <meta name="description" content="Calculadora de Investimentos" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Relatórios IA</title>
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <div class="nav-wrapper">
+                <button id="backButton" class="btn btn-default">Voltar</button>
+                <span class="brand-logo center">Assistente</span>
+                <button id="nextButton" class="btn btn-default">Próximo</button>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="card">
+            <div class="card-content">
+                <div id="reportArea"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-content">
+                <h5>Pergunte à IA sobre seus Gastos</h5>
+                <input type="text" id="userQuestion" placeholder="Faça sua pergunta...">
+                <button id="askButton" class="btn btn-default">Perguntar</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+
+        import {
+            GoogleGenerativeAI
+        } from 'https://esm.run/@google/generative-ai';
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentYear = urlParams.get('year');
+
+        console.log("iareports.html - Valor de currentYear:", currentYear);
+
+        if (!currentYear) {
+            console.warn("iareports.html - Parâmetro 'year' não encontrado na URL!");
+        }
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; // Chave para armazenar no localStorage
+
+        // Função para carregar os dados do Local Storage
+        function loadDataFromLocalStorage() {
+            try {
+                const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (jsonData) {
+                    const data = JSON.parse(jsonData);
+                    console.log("Dados carregados do localStorage:", data);
+                    return data;
+                } else {
+                    console.log("Nenhum dado encontrado no localStorage.");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Erro ao carregar do localStorage:", error);
+                return null;
+            }
+        }
+         async function askAI(question, data) {
+                const apiKey = 'AIzaSyDioXHfm347qde4THFrybu6X8yxk3Y3nII';
+                const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+                const askButton = document.getElementById("askButton");
+                // Formate os dados e a pergunta em um prompt
+                const prompt = `Você é um assistente financeiro chamado Gemini. Com base nos seguintes dados de gastos:\n${JSON.stringify(data)}\nResponda à seguinte pergunta: ${question}`;
+                try {
+                    askButton.disabled = true;
+                    askButton.textContent = "Carregando...";
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [{
+                                    text: prompt
+                                }]
+                            }]
+                        })
+                    });
+                    if (!response.ok) {
+                        throw new Error(`Erro na requisição: ${response.status}`);
+                    }
+                    const result = await response.json();
+                    const aiResponse = result.candidates[0].content.parts[0].text;
+                    document.getElementById('reportArea').textContent = aiResponse;
+                } catch (error) {
+                    console.error("Erro ao comunicar com a IA:", error);
+                    document.getElementById('reportArea').textContent = "Erro ao obter resposta da IA.";
+                } finally {
+                    askButton.disabled = false;
+                    askButton.textContent = "Perguntar";
+                    document.getElementById("userQuestion").value = "";
+                }
+            }
+
+        document.getElementById("askButton").addEventListener("click", () => {
+            const userQuestion = document.getElementById("userQuestion").value;
+            const data = loadDataFromLocalStorage(); // Carregue os dados do localStorage
+
+            if (!data) {
+                document.getElementById("reportArea").textContent = "Nenhum dado encontrado.";
+                return;
+            }
+
+            askAI(userQuestion, data); // Envie a pergunta e os dados para a IA
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mensagem de saudação inicial
+            document.getElementById("reportArea").textContent = "Olá! Eu sou o Gemini, seu assistente financeiro. Como posso ajudar você hoje?";
+        });
+
+        document.getElementById('backButton').addEventListener('click', function () {
+            window.history.back();
+        });
+        document.getElementById('nextButton').addEventListener('click', function () {
+            window.history.back();
+        });
+
+        // Funções para deslizamento de tela touch:
+        var touchstartX = 0;
+        var touchendX = 0;
+        var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+
+        document.addEventListener('touchstart', function (event) {
+            touchstartX = event.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function (event) {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+                // Deslizamento para a esquerda
+                window.history.back(); // Redireciona para a página anterior
+            } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+                // Deslizamento para a direita
+                window.history.back(); // Redireciona para a página anterior
+            }
+        }
+    </script>
+</body>
+
+</html>

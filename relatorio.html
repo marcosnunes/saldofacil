@@ -2,11 +2,11 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="google" content="translate">
-    <meta name="description" content="Calculadora de Investimentos">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="favicon.ico">
+    <meta charset="UTF-8" />
+    <meta name="google" content="translate" />
+    <meta name="description" content="Calculadora de Investimentos" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
     <link rel="stylesheet" href="style.css" />
@@ -28,10 +28,10 @@
             <div class="card-content">
                 <p>
                     Selecione a moeda desejada para aplicar o câmbio e visualizar o seu
-                    relatório anual em Euros, Dólares ou Libras Esterlinas. Para que o saldo
-                    do cartão de crédito seja exibido corretamente, é importante percorrer todos
-                    os meses do ano para atualização dos saldos finais devido à dependencia destes
-                    valores entre si.
+                    relatório anual em Euros, Dólares ou Libras Esterlinas. Para que o
+                    saldo do cartão de crédito seja exibido corretamente, é importante
+                    percorrer todos os meses do ano para atualização dos saldos finais
+                    devido à dependencia destes valores entre si.
                 </p>
             </div>
         </div>
@@ -72,9 +72,12 @@
                         </div>
                     </div>
                 </div>
-                <button id="pdfButton" onclick="window.print()" class="btn btn-default">
-                    Exportar para PDF
-                </button>
+                <div class="card-action">
+                    <button id="pdfButton" onclick="window.print()" class="btn btn-default">
+                        Exportar para PDF
+                    </button>
+                    <a id="askAiButton" class="btn btn-default">Perguntar à IA</a>
+                </div>
             </div>
             <div class="card">
                 <div id="report" class="card-content">
@@ -87,17 +90,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script type="module">
-
         const urlParams = new URLSearchParams(window.location.search);
-        const currentYear = urlParams.get('year');
+        let currentYear = urlParams.get("year");
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; // Chave para armazenar no localStorage
 
-        import { displayYearInTitle } from './utils.js';
+        import { displayYearInTitle } from "./utils.js";
         displayYearInTitle();
 
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-        import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
-        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-        import firebaseConfig from './config.js';
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import {
+            getDatabase,
+            ref,
+            onValue,
+        } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+        } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+        import firebaseConfig from "./config.js";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
@@ -124,6 +134,35 @@
         let balance = 0;
         let percentage = 0;
 
+        // Função para salvar os dados no localStorage
+        function saveDataToLocalStorage(data) {
+            try {
+                const jsonData = JSON.stringify(data);
+                localStorage.setItem(LOCAL_STORAGE_KEY, jsonData);
+                console.log("Dados salvos no localStorage.");
+            } catch (error) {
+                console.error("Erro ao salvar no localStorage:", error);
+            }
+        }
+
+        // Função para carregar os dados do localStorage
+        function loadDataFromLocalStorage() {
+            try {
+                const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (jsonData) {
+                    const data = JSON.parse(jsonData);
+                    console.log("Dados carregados do localStorage:", data);
+                    return data;
+                } else {
+                    console.log("Nenhum dado encontrado no localStorage.");
+                    return null;
+                }
+            } catch (error) {
+                console.error("Erro ao carregar do localStorage:", error);
+                return null;
+            }
+        }
+
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 console.log("Usuário autenticado:", user.uid);
@@ -139,18 +178,21 @@
             var elems = document.querySelectorAll("select");
             instances = M.FormSelect.init(elems);
 
-
             document
                 .getElementById("currencySelect")
                 .addEventListener("change", convertCurrency);
 
+            document
+                .getElementById("backButton")
+                .addEventListener("click", function () {
+                    window.history.back();
+                });
+            document
+                .getElementById("nextButton")
+                .addEventListener("click", function () {
+                    window.history.back();
+                });
 
-            document.getElementById('backButton').addEventListener('click', function () {
-                window.history.back();
-            });
-            document.getElementById('nextButton').addEventListener('click', function () {
-                window.history.back();
-            });
             //  Chamando a função convertCurrency após a inicialização do materialize
             convertCurrency();
         });
@@ -168,42 +210,119 @@
             }
         }
 
+        // Modifique a função displayAnnualLaunches para usar os dados do localStorage, se existirem
+        function displayAnnualLaunches(yearData) {
+            let launchDataContainer = document.getElementById(
+                "launchDataContainer"
+            );
+            launchDataContainer.innerHTML = "";
+
+            // Carrega os dados do localStorage
+            let annualLaunches = loadDataFromLocalStorage();
+
+            // Se não houver dados no localStorage, calcula a partir de yearData
+            if (!annualLaunches) {
+                annualLaunches = {};
+                for (const month in yearData) {
+                    const monthData = yearData[month];
+                    if (monthData && monthData.transactions) {
+                        monthData.transactions.forEach((transaction) => {
+                            const description = transaction.description;
+                            const credit = parseFloat(transaction.credit) || 0;
+                            const debit = parseFloat(transaction.debit) || 0;
+
+                            if (annualLaunches.hasOwnProperty(description)) {
+                                annualLaunches[description] += credit - debit;
+                            } else {
+                                annualLaunches[description] = credit - debit;
+                            }
+                        });
+                    }
+                }
+
+                // Salva os dados no localStorage
+                saveDataToLocalStorage(annualLaunches);
+            }
+
+            // Exibe os dados na página
+            for (const description in annualLaunches) {
+                const total = annualLaunches[description];
+                const launchGroupDiv = document.createElement("div");
+                launchGroupDiv.classList.add("launch-group");
+
+                const descriptionSpan = document.createElement("span");
+                descriptionSpan.classList.add("description");
+                descriptionSpan.textContent = "Descrição: " + description;
+                launchGroupDiv.appendChild(descriptionSpan);
+
+                const totalSpan = document.createElement("span");
+                totalSpan.classList.add("total");
+                totalSpan.textContent = "Total: R$" + total.toFixed(2);
+                launchGroupDiv.appendChild(totalSpan);
+
+                launchDataContainer.appendChild(launchGroupDiv);
+            }
+        }
         function loadDataFromFirebase(userId) {
-            let currentYear = new URLSearchParams(window.location.search).get('year');
+            let currentYear = new URLSearchParams(window.location.search).get(
+                "year"
+            );
             const yearData = {};
 
             return new Promise((resolve, reject) => {
-                Promise.all(months.map(month => {
-                    return new Promise((resolve, reject) => {
-                        const monthRef = ref(database, `users/${userId}/${month}-${currentYear}`);
-                        onValue(monthRef, (snapshot) => {
-                            const monthData = snapshot.val();
-                            yearData[month] = monthData;
-                            resolve();
-                        }, (error) => {
-                            console.error(`Erro ao obter dados de ${month}-${currentYear}:`, error);
-                            reject(error);
-                        });
-                    });
-                }))
-                    .then(() => {
-                        const creditCardRef = ref(database, `creditCardBalances/${userId}/${currentYear}`);
+                Promise.all(
+                    months.map((month) => {
                         return new Promise((resolve, reject) => {
-                            onValue(creditCardRef, (snapshot) => {
-                                const creditCardData = snapshot.val();
-                                yearData['creditCard'] = creditCardData;
-                                resolve();
-                            }, (error) => {
-                                console.error(`Erro ao obter dados do cartão de crédito:`, error);
-                                reject(error);
-                            });
+                            const monthRef = ref(
+                                database,
+                                `users/${userId}/${month}-${currentYear}`
+                            );
+                            onValue(
+                                monthRef,
+                                (snapshot) => {
+                                    const monthData = snapshot.val();
+                                    yearData[month] = monthData;
+                                    resolve();
+                                },
+                                (error) => {
+                                    console.error(
+                                        `Erro ao obter dados de ${month}-${currentYear}:`,
+                                        error
+                                    );
+                                    reject(error);
+                                }
+                            );
+                        });
+                    })
+                )
+                    .then(() => {
+                        const creditCardRef = ref(
+                            database,
+                            `creditCardBalances/${userId}/${currentYear}`
+                        );
+                        return new Promise((resolve, reject) => {
+                            onValue(
+                                creditCardRef,
+                                (snapshot) => {
+                                    const creditCardData = snapshot.val();
+                                    yearData["creditCard"] = creditCardData;
+                                    resolve();
+                                },
+                                (error) => {
+                                    console.error(
+                                        `Erro ao obter dados do cartão de crédito:`,
+                                        error
+                                    );
+                                    reject(error);
+                                }
+                            );
                         });
                     })
                     .then(() => {
                         console.log("Dados do ano:", yearData);
                         calculateAnnualTotals(yearData);
-                        displayAnnualLaunches(yearData);
-                        resolve(yearData)
+                        displayAnnualLaunches(yearData); // Chama displayAnnualLaunches aqui
+                        resolve(yearData);
                     })
                     .catch((error) => {
                         console.error("Erro ao carregar dados do Firebase:", error);
@@ -218,7 +337,9 @@
             debitTotal = 0;
             creditTotal = 0;
             let titheTotal = 0;
-            let currentYear = new URLSearchParams(window.location.search).get('year');
+            let currentYear = new URLSearchParams(window.location.search).get(
+                "year"
+            );
             currentYear = parseInt(currentYear) || new Date().getFullYear();
             launchData = yearData;
             for (const month in yearData) {
@@ -234,7 +355,7 @@
                 }
             }
 
-            const creditCardData = yearData['creditCard'];
+            const creditCardData = yearData["creditCard"];
 
             if (creditCardData) {
                 for (const month of months) {
@@ -248,56 +369,13 @@
             percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
         }
 
-        function displayAnnualLaunches(yearData) {
-            const launchDataContainer = document.getElementById("launchDataContainer");
-            launchDataContainer.innerHTML = ""; // Limpar o container antes de adicionar novos elementos
-
-            const annualLaunches = {};
-
-            for (const month in yearData) {
-                const monthData = yearData[month];
-                if (monthData && monthData.transactions) {
-                    monthData.transactions.forEach(transaction => {
-                        const description = transaction.description;
-                        const credit = parseFloat(transaction.credit) || 0;
-                        const debit = parseFloat(transaction.debit) || 0;
-
-                        if (annualLaunches.hasOwnProperty(description)) {
-                            annualLaunches[description] += credit - debit;
-                        } else {
-                            annualLaunches[description] = credit - debit;
-                        }
-                    });
-                }
-            }
-
-            for (const description in annualLaunches) {
-                const total = annualLaunches[description];
-                const launchGroupDiv = document.createElement("div");
-                launchGroupDiv.classList.add("launch-group");
-
-                const descriptionSpan = document.createElement("span");
-                descriptionSpan.classList.add("description");
-                descriptionSpan.textContent = "Descrição: " + description;
-                launchGroupDiv.appendChild(descriptionSpan);
-
-                const totalSpan = document.createElement("span");
-                totalSpan.classList.add("total");
-                totalSpan.textContent = "Total: R$" + total.toFixed(2); // Você pode formatar a moeda como desejar
-                launchGroupDiv.appendChild(totalSpan);
-
-                launchDataContainer.appendChild(launchGroupDiv);
-            }
-        }
-
-
         function convertCurrency() {
-            const selectedCurrency = instances[0].el.value
+            const selectedCurrency = instances[0].el.value;
             console.log("Moeda selecionada:", selectedCurrency); // Adicionado o console.log
             // Obter taxas de câmbio
             fetch(`https://open.er-api.com/v6/latest/BRL`)
-                .then(response => response.json())
-                .then(data => {
+                .then((response) => response.json())
+                .then((data) => {
                     const exchangeRate = data.rates[selectedCurrency];
 
                     calculateAnnualTotals(launchData);
@@ -313,38 +391,93 @@
                         percentage
                     );
                 })
-                .catch(error => console.error("Erro ao obter taxas de câmbio:", error));
+                .catch((error) =>
+                    console.error("Erro ao obter taxas de câmbio:", error)
+                );
         }
-        function updateBalanceValues(currency, exchangeRate, debitTotal, creditTotal, creditCardBalanceTotal, balance, percentage) {
-            document.getElementById("debitTotal").textContent = formatCurrency(debitTotal * exchangeRate, currency);
-            document.getElementById("creditTotal").textContent = formatCurrency(creditTotal * exchangeRate, currency);
-            document.getElementById("creditCardBalance").textContent = formatCurrency(creditCardBalanceTotal * exchangeRate, currency);
-            document.getElementById("balance").textContent = formatCurrency(balance * exchangeRate, currency);
-            document.getElementById("balancePercentage").textContent = percentage.toFixed(2) + "%";
+        function updateBalanceValues(
+            currency,
+            exchangeRate,
+            debitTotal,
+            creditTotal,
+            creditCardBalanceTotal,
+            balance,
+            percentage
+        ) {
+            document.getElementById("debitTotal").textContent = formatCurrency(
+                debitTotal * exchangeRate,
+                currency
+            );
+            document.getElementById("creditTotal").textContent = formatCurrency(
+                creditTotal * exchangeRate,
+                currency
+            );
+            document.getElementById("creditCardBalance").textContent =
+                formatCurrency(creditCardBalanceTotal * exchangeRate, currency);
+            document.getElementById("balance").textContent = formatCurrency(
+                balance * exchangeRate,
+                currency
+            );
+            document.getElementById("balancePercentage").textContent =
+                percentage.toFixed(2) + "%";
         }
         // Funções para deslizamento de tela touch:
         var touchstartX = 0;
         var touchendX = 0;
         var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
 
-        document.addEventListener('touchstart', function (event) {
+        document.addEventListener("touchstart", function (event) {
             touchstartX = event.changedTouches[0].screenX;
         });
 
-        document.addEventListener('touchend', function (event) {
+        document.addEventListener("touchend", function (event) {
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         });
 
         function handleGesture() {
-            if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+            if (
+                touchendX < touchstartX &&
+                Math.abs(touchendX - touchstartX) > gestureZone
+            ) {
                 // Deslizamento para a esquerda
                 window.history.back(); // Redireciona para a página anterior
-            } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+            } else if (
+                touchendX > touchstartX &&
+                Math.abs(touchendX - touchstartX) > gestureZone
+            ) {
                 // Deslizamento para a direita
                 window.history.back(); // Redireciona para a página anterior
             }
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var elems = document.querySelectorAll("select");
+            instances = M.FormSelect.init(elems);
+
+            document
+                .getElementById("currencySelect")
+                .addEventListener("change", convertCurrency);
+
+            document
+                .getElementById("backButton")
+                .addEventListener("click", function () {
+                    window.history.back();
+                });
+            document
+                .getElementById("nextButton")
+                .addEventListener("click", function () {
+                    window.history.back();
+                });
+
+            // Crie o link aqui, após currentYear ser definido
+            const askAiButton = document.getElementById('askAiButton');
+            console.log("relatorio.html - Valor de currentYear antes do link:", currentYear);
+            askAiButton.href = `iareports.html?year=${currentYear}`;
+
+            // Chame a função convertCurrency após a inicialização do materialize
+            convertCurrency();
+        });
     </script>
 </body>
 

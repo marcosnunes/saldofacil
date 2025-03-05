@@ -100,7 +100,7 @@
               <div class="card-content"><span class="card-title">Gráficos</span></div>
             </div>
             <div class="card" id="card20">
-              <div class="card-content"><span class="card-title">Assistente</span></div>
+              <div class="card-content"><a id="askAiButton" class="card-title">Assistente</a></div>
             </div>
             <div class="card" id="limparDadosCard">
               <div class="card-content"><span class="card-title">Recomeçar</span></div>
@@ -177,6 +177,12 @@
       // Seleciona o ano salvo no localStorage, se existir, senão pega o ano atual
       currentYear = savedYear ? parseInt(savedYear) : new Date().getFullYear();
       yearSelector.value = currentYear;
+
+      console.log("setupYearSelector - Valor de currentYear:", currentYear); // Adicione este console.log
+
+      // Define os eventos de clique
+      document.getElementById("card20").addEventListener("click", () => window.location.href = `iareports.html?year=${currentYear}`);
+
 
       // Salva o ano selecionado no localStorage quando ele for alterado pelo usuário
       yearSelector.addEventListener('change', function () {
