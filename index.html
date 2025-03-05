@@ -181,7 +181,7 @@
       console.log("setupYearSelector - Valor de currentYear:", currentYear); // Adicione este console.log
 
       // Define os eventos de clique
-      document.getElementById("card20").addEventListener("click", () => window.location.href = `iareports.html?year=${currentYear}`);
+      document.getElementById("card20").addEventListener("click", () => window.location.href = `aichat.html?year=${currentYear}`);
 
 
       // Salva o ano selecionado no localStorage quando ele for alterado pelo usuário
@@ -297,7 +297,6 @@
       document.getElementById("card17").addEventListener("click", () => window.location.href = `dizimo.html?year=${currentYear}`);
       document.getElementById("card18").addEventListener("click", () => window.location.href = `relatorio.html?year=${currentYear}`);
       document.getElementById("card19").addEventListener("click", () => window.location.href = `chart.html?year=${currentYear}`);
-      document.getElementById("card20").addEventListener("click", () => window.location.href = `aichat.html?year=${currentYear}`);
     });
 
     yearSelector.addEventListener('change', function () {
