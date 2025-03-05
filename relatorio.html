@@ -90,10 +90,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script type="module">
-        const urlParams = new URLSearchParams(window.location.search);
-        let currentYear = urlParams.get("year");
-        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; // Chave para armazenar no localStorage
-
         import { displayYearInTitle } from "./utils.js";
         displayYearInTitle();
 
@@ -127,6 +123,10 @@
             "december",
         ];
 
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentYear = urlParams.get("year");
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
+
         let launchData = {};
         let debitTotal = 0;
         let creditTotal = 0;
@@ -134,7 +134,7 @@
         let balance = 0;
         let percentage = 0;
 
-        // Função para salvar os dados no localStorage
+        // --- Funções de localStorage ---
         function saveDataToLocalStorage(data) {
             try {
                 const jsonData = JSON.stringify(data);
@@ -145,7 +145,6 @@
             }
         }
 
-        // Função para carregar os dados do localStorage
         function loadDataFromLocalStorage() {
             try {
                 const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -163,58 +162,85 @@
             }
         }
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log("Usuário autenticado:", user.uid);
-                loadDataFromFirebase(user.uid).then(() => {
-                    convertCurrency();
+        // --- Funções Firebase ---
+        function loadMonthData(userId, month, year) {
+            return new Promise((resolve, reject) => {
+                const monthRef = ref(database, `users/${userId}/${month}-${year}`);
+                onValue(monthRef, (snapshot) => {
+                    const monthData = snapshot.val();
+                    if (monthData) {
+                        console.log(`Dados carregados do Firebase para ${month}:`, monthData);
+                        resolve(monthData);
+                    } else {
+                        console.log(`Nenhum dado encontrado para ${month} no Firebase.`);
+                        resolve({}); // Resolve com um objeto vazio para indicar que não há dados
+                    }
+                }, (error) => {
+                    console.error(`Erro ao obter dados de ${month}-${year}:`, error);
+                    reject(error);
                 });
-            } else {
-                window.location.href = "login.html";
-            }
-        });
-        var instances;
-        document.addEventListener("DOMContentLoaded", function () {
-            var elems = document.querySelectorAll("select");
-            instances = M.FormSelect.init(elems);
-
-            document
-                .getElementById("currencySelect")
-                .addEventListener("change", convertCurrency);
-
-            document
-                .getElementById("backButton")
-                .addEventListener("click", function () {
-                    window.history.back();
-                });
-            document
-                .getElementById("nextButton")
-                .addEventListener("click", function () {
-                    window.history.back();
-                });
-
-            //  Chamando a função convertCurrency após a inicialização do materialize
-            convertCurrency();
-        });
-
-        function formatCurrency(amount, currency) {
-            switch (currency) {
-                case "EUR":
-                    return "€" + amount.toFixed(2);
-                case "USD":
-                    return "$" + amount.toFixed(2);
-                case "GBP":
-                    return "£" + amount.toFixed(2);
-                default:
-                    return "R$" + amount.toFixed(2);
-            }
+            });
         }
 
-        // Modifique a função displayAnnualLaunches para usar os dados do localStorage, se existirem
+        function loadCreditCardData(userId, year) {
+            return new Promise((resolve, reject) => {
+                const creditCardRef = ref(database, `creditCardBalances/${userId}/${year}`);
+                onValue(creditCardRef, (snapshot) => {
+                    const creditCardData = snapshot.val();
+                    if (creditCardData) {
+                        console.log("Dados do cartão de crédito carregados do Firebase:", creditCardData);
+                        resolve(creditCardData);
+                    } else {
+                        console.log("Nenhum dado de cartão de crédito encontrado no Firebase.");
+                        resolve({}); // Resolve com um objeto vazio
+                    }
+                }, (error) => {
+                    console.error("Erro ao obter dados do cartão de crédito:", error);
+                    reject(error);
+                });
+            });
+        }
+
+        // --- Funções de Cálculo e Exibição ---
+        function calculateAnnualTotals(yearData) {
+            debitTotal = 0;
+            creditTotal = 0;
+            creditCardBalanceTotal = 0;
+            let initialBalance = 0;
+            balance = 0;
+            percentage = 0;
+
+            for (const month in yearData) {
+                if (yearData.hasOwnProperty(month)) {
+                    const monthData = yearData[month];
+                    if (monthData) {
+                        creditTotal += Number(monthData.totalCredit || 0);
+                        debitTotal += Number(monthData.totalDebit || 0);
+                    }
+                }
+            }
+            if (yearData.creditCard) {
+                for (const month of months) {
+                    const id = `${month}CreditCardBalance`;
+                    if (yearData.creditCard.hasOwnProperty(id)) {
+                        creditCardBalanceTotal += Number(yearData.creditCard[id] || 0);
+                    }
+                }
+            }
+            balance = creditTotal - debitTotal;
+            percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
+
+            console.log("Totais Anuais Calculados:", {
+                debitTotal,
+                creditTotal,
+                creditCardBalanceTotal,
+                balance,
+                percentage
+            });
+        }
+
         function displayAnnualLaunches(yearData) {
-            let launchDataContainer = document.getElementById(
-                "launchDataContainer"
-            );
+            let launchDataContainer = document.getElementById("launchDataContainer");
             launchDataContainer.innerHTML = "";
 
             // Carrega os dados do localStorage
@@ -239,7 +265,6 @@
                         });
                     }
                 }
-
                 // Salva os dados no localStorage
                 saveDataToLocalStorage(annualLaunches);
             }
@@ -263,164 +288,108 @@
                 launchDataContainer.appendChild(launchGroupDiv);
             }
         }
-        function loadDataFromFirebase(userId) {
-            let currentYear = new URLSearchParams(window.location.search).get(
-                "year"
-            );
-            const yearData = {};
 
-            return new Promise((resolve, reject) => {
-                Promise.all(
-                    months.map((month) => {
-                        return new Promise((resolve, reject) => {
-                            const monthRef = ref(
-                                database,
-                                `users/${userId}/${month}-${currentYear}`
-                            );
-                            onValue(
-                                monthRef,
-                                (snapshot) => {
-                                    const monthData = snapshot.val();
-                                    yearData[month] = monthData;
-                                    resolve();
-                                },
-                                (error) => {
-                                    console.error(
-                                        `Erro ao obter dados de ${month}-${currentYear}:`,
-                                        error
-                                    );
-                                    reject(error);
-                                }
-                            );
-                        });
-                    })
-                )
-                    .then(() => {
-                        const creditCardRef = ref(
-                            database,
-                            `creditCardBalances/${userId}/${currentYear}`
-                        );
-                        return new Promise((resolve, reject) => {
-                            onValue(
-                                creditCardRef,
-                                (snapshot) => {
-                                    const creditCardData = snapshot.val();
-                                    yearData["creditCard"] = creditCardData;
-                                    resolve();
-                                },
-                                (error) => {
-                                    console.error(
-                                        `Erro ao obter dados do cartão de crédito:`,
-                                        error
-                                    );
-                                    reject(error);
-                                }
-                            );
-                        });
-                    })
-                    .then(() => {
-                        console.log("Dados do ano:", yearData);
-                        calculateAnnualTotals(yearData);
-                        displayAnnualLaunches(yearData); // Chama displayAnnualLaunches aqui
-                        resolve(yearData);
-                    })
-                    .catch((error) => {
-                        console.error("Erro ao carregar dados do Firebase:", error);
-                        reject(error);
-                    });
-            });
+        function updateBalanceValues(currency, exchangeRate) {
+            const debitTotalConverted = debitTotal * exchangeRate;
+            const creditTotalConverted = creditTotal * exchangeRate;
+            const creditCardBalanceTotalConverted = creditCardBalanceTotal * exchangeRate;
+            const balanceConverted = balance * exchangeRate;
+
+            document.getElementById("debitTotal").textContent = formatCurrency(debitTotalConverted, currency);
+            document.getElementById("creditTotal").textContent = formatCurrency(creditTotalConverted, currency);
+            document.getElementById("creditCardBalance").textContent = formatCurrency(creditCardBalanceTotalConverted, currency);
+            document.getElementById("balance").textContent = formatCurrency(balanceConverted, currency);
+            document.getElementById("balancePercentage").textContent = percentage.toFixed(2) + "%";
         }
 
-        function calculateAnnualTotals(yearData) {
-            creditCardBalanceTotal = 0;
-            let initialBalance = 0;
-            debitTotal = 0;
-            creditTotal = 0;
-            let titheTotal = 0;
-            let currentYear = new URLSearchParams(window.location.search).get(
-                "year"
-            );
-            currentYear = parseInt(currentYear) || new Date().getFullYear();
-            launchData = yearData;
-            for (const month in yearData) {
-                if (yearData.hasOwnProperty(month)) {
-                    const monthData = yearData[month];
-                    if (monthData) {
-                        creditTotal += Number(monthData.totalCredit || 0);
-                        debitTotal += Number(monthData.totalDebit || 0);
-                        if (monthData.tithe) {
-                            titheTotal += Number(monthData.tithe || 0);
-                        }
-                    }
-                }
+        function formatCurrency(amount, currency) {
+            switch (currency) {
+                case "EUR":
+                    return "€" + amount.toFixed(2);
+                case "USD":
+                    return "$" + amount.toFixed(2);
+                case "GBP":
+                    return "£" + amount.toFixed(2);
+                default:
+                    return "R$" + amount.toFixed(2);
             }
-
-            const creditCardData = yearData["creditCard"];
-
-            if (creditCardData) {
-                for (const month of months) {
-                    const id = `${month}CreditCardBalance`;
-                    if (creditCardData && creditCardData.hasOwnProperty(id)) {
-                        creditCardBalanceTotal += Number(creditCardData[id] || 0);
-                    }
-                }
-            }
-            balance = creditTotal - debitTotal;
-            percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
         }
 
         function convertCurrency() {
             const selectedCurrency = instances[0].el.value;
-            console.log("Moeda selecionada:", selectedCurrency); // Adicionado o console.log
-            // Obter taxas de câmbio
+
             fetch(`https://open.er-api.com/v6/latest/BRL`)
                 .then((response) => response.json())
                 .then((data) => {
                     const exchangeRate = data.rates[selectedCurrency];
-
-                    calculateAnnualTotals(launchData);
-
-                    // Atualizar os valores com a nova moeda
-                    updateBalanceValues(
-                        selectedCurrency,
-                        exchangeRate,
-                        debitTotal,
-                        creditTotal,
-                        creditCardBalanceTotal,
-                        balance,
-                        percentage
-                    );
+                    updateBalanceValues(selectedCurrency, exchangeRate);
                 })
                 .catch((error) =>
                     console.error("Erro ao obter taxas de câmbio:", error)
                 );
         }
-        function updateBalanceValues(
-            currency,
-            exchangeRate,
-            debitTotal,
-            creditTotal,
-            creditCardBalanceTotal,
-            balance,
-            percentage
-        ) {
-            document.getElementById("debitTotal").textContent = formatCurrency(
-                debitTotal * exchangeRate,
-                currency
-            );
-            document.getElementById("creditTotal").textContent = formatCurrency(
-                creditTotal * exchangeRate,
-                currency
-            );
-            document.getElementById("creditCardBalance").textContent =
-                formatCurrency(creditCardBalanceTotal * exchangeRate, currency);
-            document.getElementById("balance").textContent = formatCurrency(
-                balance * exchangeRate,
-                currency
-            );
-            document.getElementById("balancePercentage").textContent =
-                percentage.toFixed(2) + "%";
-        }
+
+        // --- Inicialização ---
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log("Usuário autenticado:", user.uid);
+                try {
+                    // Carregar os dados de todos os meses e o cartão de crédito de forma assíncrona
+                    const yearData = {};
+                    const monthDataPromises = months.map(month => loadMonthData(user.uid, month, currentYear));
+                    const creditCardDataPromise = loadCreditCardData(user.uid, currentYear);
+
+                    const monthDataResults = await Promise.all(monthDataPromises);
+                    months.forEach((month, index) => {
+                        yearData[month] = monthDataResults[index];
+                    });
+
+                    yearData.creditCard = await creditCardDataPromise;
+
+                    // Agora que todos os dados foram carregados, calcular os totais e exibir
+                    calculateAnnualTotals(yearData);
+                    displayAnnualLaunches(yearData);
+                    convertCurrency(); // Converte a moeda após o carregamento dos dados
+
+                } catch (error) {
+                    console.error("Erro ao carregar dados:", error);
+                    // Tratar o erro, talvez exibir uma mensagem para o usuário
+                }
+            } else {
+                window.location.href = "login.html";
+            }
+        });
+
+        var instances;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var elems = document.querySelectorAll("select");
+            instances = M.FormSelect.init(elems);
+
+            document
+                .getElementById("currencySelect")
+                .addEventListener("change", convertCurrency);
+
+            document
+                .getElementById("backButton")
+                .addEventListener("click", function () {
+                    window.history.back();
+                });
+            document
+                .getElementById("nextButton")
+                .addEventListener("click", function () {
+                    window.history.back();
+                });
+
+            // Crie o link aqui, após currentYear ser definido
+            const askAiButton = document.getElementById('askAiButton');
+            console.log("relatorio.html - Valor de currentYear antes do link:", currentYear);
+            askAiButton.href = `iareports.html?year=${currentYear}`;
+
+            //  Chamando a função convertCurrency após a inicialização do materialize
+            convertCurrency();
+        });
+
         // Funções para deslizamento de tela touch:
         var touchstartX = 0;
         var touchendX = 0;
@@ -450,34 +419,6 @@
                 window.history.back(); // Redireciona para a página anterior
             }
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            var elems = document.querySelectorAll("select");
-            instances = M.FormSelect.init(elems);
-
-            document
-                .getElementById("currencySelect")
-                .addEventListener("change", convertCurrency);
-
-            document
-                .getElementById("backButton")
-                .addEventListener("click", function () {
-                    window.history.back();
-                });
-            document
-                .getElementById("nextButton")
-                .addEventListener("click", function () {
-                    window.history.back();
-                });
-
-            // Crie o link aqui, após currentYear ser definido
-            const askAiButton = document.getElementById('askAiButton');
-            console.log("relatorio.html - Valor de currentYear antes do link:", currentYear);
-            askAiButton.href = `iareports.html?year=${currentYear}`;
-
-            // Chame a função convertCurrency após a inicialização do materialize
-            convertCurrency();
-        });
     </script>
 </body>
 
