@@ -317,7 +317,7 @@
         console.log("Todos os dados do ano carregados:", yearData);
       } catch (error) {
         console.error("Erro ao carregar os dados do ano:", error);
-        return;
+        return; // Aborta se falhar ao carregar os dados do ano
       }
 
       for (const mes of meses) {
@@ -328,7 +328,7 @@
             const ws = XLSX.utils.aoa_to_sheet(data);
             XLSX.utils.book_append_sheet(wb, ws, mes);
             console.log(`Planilha ${mes} adicionada ao arquivo Excel.`);
-            hasData = true;
+            hasData = true; // Marca que pelo menos um mês tem dados
           } else {
             console.warn(`Dados não encontrados ou insuficientes para ${mes} ${currentYear}.`);
           }
@@ -340,19 +340,35 @@
       try {
         if (hasData) {
           console.log("Gerando e salvando arquivo Excel...");
-          // XLSX.writeFile(wb, `DadosMensais-${currentYear}.xlsx`); // Remover esta linha
-          const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' }); // Gerar o arquivo como base64
-          const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout; // Criar a data URL
+          const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+          const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout;
 
-          // Redirecionar para a data URL para iniciar o download
-          window.location.href = dataUrl;
-          console.log("Arquivo Excel gerado e salvo com sucesso!");
+          // Use a função de download universal
+          downloadArquivo(dataUrl, `DadosMensais-${currentYear}.xlsx`);
+
+          console.log("Arquivo Excel gerado e encaminhado para download!");
         } else {
           console.warn("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
           alert("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
         }
       } catch (error) {
         console.error("Erro ao gerar o arquivo Excel:", error);
+      }
+    }
+
+    function downloadArquivo(url, filename) {
+      // Verifica se está no ambiente Android
+      if (window.android && window.android.downloadFile) {
+        // Chama o método nativo no Android
+        window.android.downloadFile(url, filename);
+      } else {
+        // Cria um link para iniciar o download no navegador
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     }
 
