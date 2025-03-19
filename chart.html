@@ -309,21 +309,20 @@
       const currentYear = new URLSearchParams(window.location.search).get('year') || new Date().getFullYear().toString();
       const meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
       const wb = XLSX.utils.book_new();
-      let hasData = false;  // Flag para verificar se algum mês tem dados
+      let hasData = false;
 
-      // Carrega todos os dados do ano para usar os saldos finais dos meses anteriores
       let yearData = {};
       try {
         yearData = await loadDataFromFirebase(user.uid, currentYear);
         console.log("Todos os dados do ano carregados:", yearData);
       } catch (error) {
         console.error("Erro ao carregar os dados do ano:", error);
-        return; // Aborta se falhar ao carregar os dados do ano
+        return;
       }
 
       for (const mes of meses) {
         try {
-          const data = await getDadosParaExcel(user.uid, mes, currentYear, yearData); // Passa yearData
+          const data = await getDadosParaExcel(user.uid, mes, currentYear, yearData);
           if (data && data.length > 1) {
             console.log(`Dados obtidos para ${mes} ${currentYear}:`, data);
             const ws = XLSX.utils.aoa_to_sheet(data);
@@ -341,7 +340,12 @@
       try {
         if (hasData) {
           console.log("Gerando e salvando arquivo Excel...");
-          XLSX.writeFile(wb, `DadosMensais-${currentYear}.xlsx`);
+          // XLSX.writeFile(wb, `DadosMensais-${currentYear}.xlsx`); // Remover esta linha
+          const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' }); // Gerar o arquivo como base64
+          const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout; // Criar a data URL
+
+          // Redirecionar para a data URL para iniciar o download
+          window.location.href = dataUrl;
           console.log("Arquivo Excel gerado e salvo com sucesso!");
         } else {
           console.warn("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
