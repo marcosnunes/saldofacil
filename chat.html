@@ -63,70 +63,7 @@
       </div>
     </div>
   </div>
-
-  <script type="module">
-    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
-    import firebaseConfig from './config.js';
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const form = document.getElementById('chatForm');
-    const messageInput = document.getElementById('messageInput');
-    const chatMessages = document.getElementById('chat-messages');
-    const userEmailInput = document.getElementById('userEmail');
-
-    // Obter o e-mail do usuário logado
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        userEmailInput.value = user.email;
-        setupChat(user.email);
-      } else {
-        window.location.href = "login.html"; // Redireciona para a página de login se não estiver autenticado
-      }
-    });
-
-    function setupChat(userEmail) {
-      const messagesRef = collection(db, 'messages');
-      const q = query(messagesRef, orderBy('timestamp'));
-
-      onSnapshot(q, (snapshot) => {
-        chatMessages.innerHTML = '';
-        snapshot.forEach((doc) => {
-          const message = doc.data();
-          const messageClass = message.email === userEmail ? 'user-message' : 'bot-message';
-          chatMessages.innerHTML += `<div class="message ${messageClass}">${message.text}</div>`;
-        });
-        chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll para a última mensagem
-      });
-
-      form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-
-        const messageText = messageInput.value;
-        if (messageText.trim() === '') return;
-
-        try {
-          await addDoc(collection(db, 'messages'), {
-            email: userEmail,
-            text: messageText,
-            timestamp: new Date(),
-          });
-          messageInput.value = '';
-        } catch (error) {
-          console.error('Erro ao enviar mensagem:', error);
-        }
-      });
-    }
-
-    document
-      .getElementById("backButton")
-      .addEventListener("click", function () {
-        window.history.back();
-      });
-    document
+  
 <script type="module">
   import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
@@ -232,6 +169,7 @@
     var instances = M.FormSelect.init(elems);
   });
 </script>
+
 </body>
 
 </html>
