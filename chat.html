@@ -63,112 +63,98 @@
       </div>
     </div>
   </div>
-  
-<script type="module">
-  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
-  import firebaseConfig from './config.js';
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const form = document.getElementById('chatForm');
-  const messageInput = document.getElementById('messageInput');
-  const chatMessages = document.getElementById('chat-messages');
-  const userEmailInput = document.getElementById('userEmail');
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
+    import firebaseConfig from './config.js';
 
-  // Obter o e-mail do usuário logado
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      userEmailInput.value = user.email;
-      setupChat(user.email);
-    } else {
-      window.location.href = "login.html"; // Redireciona para a página de login se não estiver autenticado
-    }
-  });
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const form = document.getElementById('chatForm');
+    const messageInput = document.getElementById('messageInput');
+    const chatMessages = document.getElementById('chat-messages');
+    const userEmailInput = document.getElementById('userEmail');
 
-  function setupChat(userEmail) {
-    const messagesRef = collection(db, 'messages');
-    const q = query(messagesRef, orderBy('timestamp'));
-
-    onSnapshot(q, (snapshot) => {
-      chatMessages.innerHTML = '';
-      snapshot.forEach((doc) => {
-        const message = doc.data();
-        chatMessages.innerHTML += `<div class="message"><strong>${message.email}:</strong> ${message.text}</div>`;
-      });
-      chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll para a última mensagem
-    });
-
-    form.addEventListener('submit', async function (event) {
-      event.preventDefault();
-
-      const messageText = messageInput.value;
-      if (messageText.trim() === '') return;
-
-      try {
-        await addDoc(collection(db, 'messages'), {
-          email: userEmail,
-          text: messageText,
-          timestamp: serverTimestamp(), // Usamos serverTimestamp para garantir que o timestamp seja gerado no servidor
-        });
-        messageInput.value = ''; // Limpa o campo de entrada de texto após o envio
-      } catch (error) {
-        console.error('Erro ao enviar mensagem:', error);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        userEmailInput.value = user.email;
+        setupChat(user.email);
+      } else {
+        window.location.href = "login.html";
       }
     });
-  }
 
-  document
-    .getElementById("backButton")
-    .addEventListener("click", function () {
-      window.history.back();
-    });
-  document
-    .getElementById("nextButton")
-    .addEventListener("click", function () {
-      window.history.back();
-    });
+    function setupChat(userEmail) {
+      const messagesRef = collection(db, 'messages');
+      const q = query(messagesRef, orderBy('timestamp'));
 
-  // Funções para deslizamento de tela touch:
-  var touchstartX = 0;
-  var touchendX = 0;
-  var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+      onSnapshot(q, (snapshot) => {
+        chatMessages.innerHTML = '';
+        snapshot.forEach((doc) => {
+          const message = doc.data();
+          chatMessages.innerHTML += `<div class="message"><strong>${message.email}:</strong> ${message.text}</div>`;
+        });
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
 
-  document.addEventListener("touchstart", function (event) {
-    touchstartX = event.changedTouches[0].screenX;
-  });
+      form.addEventListener('submit', async function (event) {
+        event.preventDefault();
 
-  document.addEventListener("touchend", function (event) {
-    touchendX = event.changedTouches[0].screenX;
-    handleGesture();
-  });
+        const messageText = messageInput.value;
+        if (messageText.trim() === '') return;
 
-  function handleGesture() {
-    if (
-      touchendX < touchstartX &&
-      Math.abs(touchendX - touchstartX) > gestureZone
-    ) {
-      // Deslizamento para a esquerda
-      window.history.back(); // Redireciona para a página anterior
-    } else if (
-      touchendX > touchstartX &&
-      Math.abs(touchendX - touchstartX) > gestureZone
-    ) {
-      // Deslizamento para a direita
-      window.history.back(); // Redireciona para a página anterior
+        try {
+          await addDoc(collection(db, 'messages'), {
+            email: userEmail,
+            text: messageText,
+            timestamp: serverTimestamp(),
+          });
+          messageInput.value = '';
+        } catch (error) {
+          console.error('Erro ao enviar mensagem:', error);
+        }
+      });
     }
-  }
-</script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('select');
-    var instances = M.FormSelect.init(elems);
-  });
-</script>
+    document.getElementById("backButton").addEventListener("click", function () {
+      window.history.back();
+    });
+    document.getElementById("nextButton").addEventListener("click", function () {
+      window.history.back();
+    });
+
+    var touchstartX = 0;
+    var touchendX = 0;
+    var gestureZone = 50;
+
+    document.addEventListener("touchstart", function (event) {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", function (event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+    });
+
+    function handleGesture() {
+      if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+        window.history.back();
+      } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+        window.history.back();
+      }
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('select');
+      var instances = M.FormSelect.init(elems);
+    });
+  </script>
 </body>
 
 </html>
