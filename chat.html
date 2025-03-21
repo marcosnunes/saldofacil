@@ -67,7 +67,7 @@
 <script type="module">
   import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
   import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
   import firebaseConfig from './config.js';
 
   const app = initializeApp(firebaseConfig);
@@ -111,9 +111,9 @@
         await addDoc(collection(db, 'messages'), {
           email: userEmail,
           text: messageText,
-          timestamp: new Date(),
+          timestamp: serverTimestamp(), // Usamos serverTimestamp para garantir que o timestamp seja gerado no servidor
         });
-        messageInput.value = '';
+        messageInput.value = ''; // Limpa o campo de entrada de texto após o envio
       } catch (error) {
         console.error('Erro ao enviar mensagem:', error);
       }
@@ -169,6 +169,7 @@
     var instances = M.FormSelect.init(elems);
   });
 </script>
+
 
 </body>
 
