@@ -11,29 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
   <link rel="stylesheet" href="style.css" />
   <title>Chat</title>
-  <style>
-    #chat-messages {
-      height: 300px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    .message {
-      margin-bottom: 5px;
-    }
-
-    .user-message {
-      text-align: right;
-      color: blue;
-    }
-
-    .bot-message {
-      text-align: left;
-      color: green;
-    }
-  </style>
 </head>
 
 <body>
@@ -67,12 +44,12 @@
   <script type="module">
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js';
+    import { getDatabase, ref, get, set, onValue, push } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
     import firebaseConfig from './config.js';
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
+    const db = getDatabase(app); // Usando getDatabase em vez de getFirestore
     const form = document.getElementById('chatForm');
     const messageInput = document.getElementById('messageInput');
     const chatMessages = document.getElementById('chat-messages');
@@ -81,23 +58,76 @@
     onAuthStateChanged(auth, (user) => {
       if (user) {
         userEmailInput.value = user.email;
-        setupChat(user.email);
+        checkRealtimeDatabaseConnection().then(isConnected => {
+          if (isConnected) {
+            setupChat(user.email);
+          } else {
+            chatMessages.innerHTML = `<p style="color: red;">Não foi possível conectar ao Realtime Database. Verifique sua conexão com a internet e tente novamente.</p>`;
+          }
+        });
       } else {
         window.location.href = "login.html";
       }
     });
 
-    function setupChat(userEmail) {
-      const messagesRef = collection(db, 'messages');
-      const q = query(messagesRef, orderBy('timestamp'));
+    async function checkRealtimeDatabaseConnection() {
+      try {
+        const db = getDatabase();
+        const userId = auth.currentUser.uid; // Pega o ID do usuário logado
+        const userRef = ref(db, `users/${userId}`); // Referência ao seu nó de usuário
+        const snapshot = await get(userRef);
 
-      onSnapshot(q, (snapshot) => {
+        if (snapshot.exists()) {
+          console.log("Conexão com o Realtime Database OK.");
+          return true;
+        } else {
+          console.warn("Seu nó de usuário não encontrado.");
+          return false;
+        }
+      } catch (error) {
+        console.error("Erro ao verificar a conexão com o Realtime Database:", error);
+        return false;
+      }
+    }
+
+    function setupChat(userEmail) {
+      const messagesRef = ref(db, 'messages'); // Referência ao nó 'messages'
+      let isConnected = true;
+
+      const unsubscribe = onValue(messagesRef, (snapshot) => {
+        if (!snapshot.exists()) {
+          chatMessages.innerHTML = '<p>Nenhuma mensagem encontrada.</p>';
+          return;
+        }
+
         chatMessages.innerHTML = '';
-        snapshot.forEach((doc) => {
-          const message = doc.data();
-          chatMessages.innerHTML += `<div class="message"><strong>${message.email}:</strong> ${message.text}</div>`;
-        });
+        const messages = snapshot.val();
+
+        for (const key in messages) {
+          const message = messages[key];
+          // Formatação da data e hora
+          const timestamp = new Date(message.timestamp);
+          const day = String(timestamp.getDate()).padStart(2, '0');
+          const month = String(timestamp.getMonth() + 1).padStart(2, '0'); // Janeiro é 0!
+          const hours = String(timestamp.getHours()).padStart(2, '0');
+          const minutes = String(timestamp.getMinutes()).padStart(2, '0');
+          const formattedTime = `${day}/${month} ${hours}:${minutes}`;
+
+          chatMessages.innerHTML += `<div class="message"><strong>${message.email}</strong> (${formattedTime}): ${message.text}</div>`;
+        }
+
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        if (!isConnected) {
+          isConnected = true;
+          console.log('Conexão com o Realtime Database restabelecida!');
+          alert('Conexão com o chat restabelecida!');
+        }
+
+      }, (error) => {
+        isConnected = false;
+        console.error('Erro ao receber mensagens do Realtime Database:', error);
+        chatMessages.innerHTML = `<p style="color: red;">Erro ao carregar as mensagens. Verifique sua conexão com a internet e tente novamente.</p>`;
       });
 
       form.addEventListener('submit', async function (event) {
@@ -107,14 +137,16 @@
         if (messageText.trim() === '') return;
 
         try {
-          await addDoc(collection(db, 'messages'), {
+          const newMessageRef = push(messagesRef); // Cria uma chave única para cada mensagem
+          await set(newMessageRef, { // Salva a mensagem no Realtime Database
             email: userEmail,
             text: messageText,
-            timestamp: serverTimestamp(),
+            timestamp: new Date().getTime() // Realtime Database não tem serverTimestamp
           });
           messageInput.value = '';
         } catch (error) {
           console.error('Erro ao enviar mensagem:', error);
+          alert('Erro ao enviar a mensagem. Por favor, tente novamente.');
         }
       });
     }

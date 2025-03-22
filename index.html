@@ -3,12 +3,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="description"
-    content="Com este app você consegue prever o seu saldo futuro adicionando seus débitos e créditos 
+  <meta name="description" content="Com este app você consegue prever o seu saldo futuro adicionando seus débitos e créditos 
     recorrentes. Faça login em outros dispositivos e recupere os seus dados. Agora com IA para analisar 
     seus lançamentos.">
-  <meta name="keywords"
-    content="saldo fácil aplicativo, saldo fácil playstore, saldo fácil app, cálculo capital de giro, 
+  <meta name="keywords" content="saldo fácil aplicativo, saldo fácil playstore, saldo fácil app, cálculo capital de giro, 
     previsão de saldo, finanças pessoais, orçamento doméstico, controle financeiro, cartão de crédito, 
     dízimos, relatório financeiro, gráficos, assistente virtual, assistente financeiro, inteligência artificial, 
     IA, autossuficiência financeira, autossuficiência, planejamento financeiro, planejamento orçamentário, 
@@ -43,7 +41,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-64RG615HVR"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-64RG615HVR');
@@ -135,6 +133,9 @@
             <div class="card" id="card20">
               <div class="card-content"><a id="askAiButton" class="card-title">Assistente</a></div>
             </div>
+            <div class="card" id="card21">
+              <div class="card-content"><a id="chatButton" class="card-title">Chat ao vivo</a></div>
+            </div>
             <div class="card" id="limparDadosCard">
               <div class="card-content"><span class="card-title">Recomeçar</span></div>
             </div>
@@ -216,6 +217,8 @@
       // Define os eventos de clique
       document.getElementById("card20").addEventListener("click", () => window.location.href = `aichat.html?year=${currentYear}`);
 
+      // Define os eventos de clique
+      document.getElementById("card21").addEventListener("click", () => window.location.href = `chat.html`);
 
       // Salva o ano selecionado no localStorage quando ele for alterado pelo usuário
       yearSelector.addEventListener('change', function () {
