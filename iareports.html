@@ -2,6 +2,17 @@
 <html lang="pt-BR">
 
 <head>
+    <title>Relatórios IA</title>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="google" content="translate" />
     <meta name="description" content="Calculadora de Investimentos" />
@@ -10,10 +21,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
     <link rel="stylesheet" href="style.css" />
-    <title>Relatórios IA</title>
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div class="navigation">
         <nav>
             <div class="nav-wrapper">
@@ -71,43 +85,43 @@
                 return null;
             }
         }
-         async function askAI(question, data) {
-                const apiKey = 'AIzaSyDioXHfm347qde4THFrybu6X8yxk3Y3nII';
-                const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
-                const askButton = document.getElementById("askButton");
-                // Formate os dados e a pergunta em um prompt
-                const prompt = `Você é um assistente financeiro chamado Gemini. Com base nos seguintes dados de gastos:\n${JSON.stringify(data)}\nResponda à seguinte pergunta: ${question}`;
-                try {
-                    askButton.disabled = true;
-                    askButton.textContent = "Carregando...";
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{
-                                    text: prompt
-                                }]
+        async function askAI(question, data) {
+            const apiKey = 'AIzaSyDioXHfm347qde4THFrybu6X8yxk3Y3nII';
+            const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+            const askButton = document.getElementById("askButton");
+            // Formate os dados e a pergunta em um prompt
+            const prompt = `Você é um assistente financeiro chamado Gemini. Com base nos seguintes dados de gastos:\n${JSON.stringify(data)}\nResponda à seguinte pergunta: ${question}`;
+            try {
+                askButton.disabled = true;
+                askButton.textContent = "Carregando...";
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: prompt
                             }]
-                        })
-                    });
-                    if (!response.ok) {
-                        throw new Error(`Erro na requisição: ${response.status}`);
-                    }
-                    const result = await response.json();
-                    const aiResponse = result.candidates[0].content.parts[0].text;
-                    document.getElementById('reportArea').textContent = aiResponse;
-                } catch (error) {
-                    console.error("Erro ao comunicar com a IA:", error);
-                    document.getElementById('reportArea').textContent = "Erro ao obter resposta da IA.";
-                } finally {
-                    askButton.disabled = false;
-                    askButton.textContent = "Perguntar";
-                    document.getElementById("userQuestion").value = "";
+                        }]
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status}`);
                 }
+                const result = await response.json();
+                const aiResponse = result.candidates[0].content.parts[0].text;
+                document.getElementById('reportArea').textContent = aiResponse;
+            } catch (error) {
+                console.error("Erro ao comunicar com a IA:", error);
+                document.getElementById('reportArea').textContent = "Erro ao obter resposta da IA.";
+            } finally {
+                askButton.disabled = false;
+                askButton.textContent = "Perguntar";
+                document.getElementById("userQuestion").value = "";
             }
+        }
 
         document.getElementById("askButton").addEventListener("click", () => {
             const userQuestion = document.getElementById("userQuestion").value;
