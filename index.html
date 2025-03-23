@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="style-index.css">
+  <link rel="manifest" href="/manifest.json">
   <title>Saldo Fácil</title>
 </head>
 
@@ -335,6 +336,19 @@
       currentYear = parseInt(this.value); // Atualiza a variável global
       localStorage.setItem('selectedYear', this.value); // Salva o ano atual no localStorage
     });
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registrado com sucesso:', registration);
+          })
+          .catch(error => {
+            console.log('Erro ao registrar o Service Worker:', error);
+          });
+      });
+    }
   </script>
 </body>
 

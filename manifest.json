@@ -1,0 +1,15 @@
+{
+    "name": "Saldo Fácil",
+    "short_name": "SaldoFacil",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#007BFF",
+    "icons": [
+      {
+        "src": "/favicon.ico",
+        "sizes": "48x48",
+        "type": "image/ico"
+      }
+    ]
+  }
