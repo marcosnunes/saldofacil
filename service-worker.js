@@ -1,4 +1,4 @@
-const CACHE_NAME = 'saldo-facil-cache-v1';
+const CACHE_NAME = 'saldo-facil-cache-v2'; // Alterado o CACHE_NAME
 const urlsToCache = [
   '/',
   '/index.html',
@@ -9,7 +9,8 @@ const urlsToCache = [
   '/config.js',
   '/utils.js',
   '/service-worker.js',
-  // Adicione aqui outros arquivos estáticos (CSS, JavaScript, etc.)
+  '/assets/icon-192x192.png',
+  '/assets/icon-512x512.png'
 ];
 
 self.addEventListener('install', event => {
@@ -32,9 +33,18 @@ self.addEventListener('fetch', event => {
         }
 
         // Not in cache - fetch from network
-        return fetch(event.request);
-      }
-    )
+        return fetch(event.request)
+          .catch(() => {
+            // Network error (offline)
+            console.log('Offline: Requisição falhou:', event.request.url);
+            return new Response(
+              '<h1>Você está offline.</h1><p>Algumas funcionalidades podem não estar disponíveis.</p>',
+              {
+                headers: { 'Content-Type': 'text/html' }
+              }
+            );
+          });
+      })
   );
 });
 
