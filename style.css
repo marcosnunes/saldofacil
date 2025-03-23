@@ -603,7 +603,7 @@
 
 @media screen and (max-width: 600px) {
   #chat-messages {
-    height: 480px;
+    height: 450px;
   }  
 }
 
