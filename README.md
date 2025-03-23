@@ -4,7 +4,7 @@ Disponível na Playstore
 https://play.google.com/store/apps/details?id=com.autossuficiencia
 
 Para computador e iPhone acesse pelo link:
-https://marcosnunes.github.io/saldofacil
+https://saldofacil.vercel.app
 
 <b>O que é o app Saldo Fácil?</b>
 Todos precisamos ter nossa vida financeira organizada.
@@ -60,7 +60,13 @@ resaltar que o app não transfere os seus dados para outro dispositivo, ou seja,
 salvamento no localstorage. Dessa forma se você quiser imprimir em PDF deve sempre usar o aplicativo no computador ou no
 tablet.</br>
 
+<b>Perguntando para IA</b>
+Obtenha insights sobre seus lançamentos perguntando para a IA Gemini. Você pode perguntar o que desejar sobre 
+seus lançamentos financeiros, ajudando a identificar padrões, sugerir economias e responder dúvidas sobre sua
+situação financeira. Por exemplo, você pode perguntar "Quanto gastei em alimentação este mês?" ou "Qual foi
+meu maior gasto no último trimestre?".</br>
+
 <b>Qual é o endereço do site do App?</b>
 O Saldo Fácil é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
 diretamente no navegador em qualquer outro dispositivo através do endereço
-https://marcosnunes.github.io/saldofacil
+https://saldofacil.vercel.app
