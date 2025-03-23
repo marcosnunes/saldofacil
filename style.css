@@ -594,11 +594,17 @@
 
 /* Estilos da página de chat */
 #chat-messages {
-  height: 300px;
+  height: 350px;
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 10px;
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  #chat-messages {
+    height: 480px;
+  }
 }
 
 .message {
