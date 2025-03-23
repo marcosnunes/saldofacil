@@ -6,6 +6,7 @@
 /* Oculta o botões em telas menores */
 @media screen and (max-width: 1080px) {
 
+  #pdfButton,
   #backButton,
   #nextButton {
     display: none !important;
