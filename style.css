@@ -594,7 +594,7 @@
 
 /* Estilos da página de chat */
 #chat-messages {
-  height: 320px;
+  height: 340px;
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 10px;
