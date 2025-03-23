@@ -601,6 +601,10 @@
   margin-bottom: 10px;
 }
 
+#card-content-chat {
+  height: 100vh;
+}
+
 .message {
   margin-bottom: 5px;
 }
