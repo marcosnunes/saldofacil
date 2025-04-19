@@ -102,6 +102,7 @@
         <p>Cartão de Crédito: <span id="januaryCreditCardBalance" class="orange-text">0.00</span></p>
         <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
         <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
+        <p>Total Investimentos: <span id="JanTotalInvestment" class="orange-text">0.00</span></p>
         <p>Saldo Final: <span id="totalJaneiro">0.00</span></p>
         <p>Balanço: <span id="balance"></span></p>
         <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
@@ -137,6 +138,7 @@
         user = currentUser; // Atribuir o usuário à variável user
         loadDataFromDatabase(currentUser.uid); // Carregar dados do banco de dados
         loadCreditCardBalance(currentUser.uid); // Carregar o saldo do cartão de crédito
+        loadInvestmentBalance(currentUser.uid); // Carrega o saldo de investimentos
       } else {
         window.location.href = "login.html"; // Redireciona para a página de login se não estiver autenticado
       }
@@ -157,6 +159,19 @@
       }
     });
 
+    // Função para carregar o saldo de investimentos do Firebase
+    function loadInvestmentBalance(userId, callback) {
+      let currentYear = new URLSearchParams(window.location.search).get('year');
+      const balanceRef = ref(database, `investimentBalances/${userId}/${currentYear}/januaryinvestimentBalance`);
+      onValue(balanceRef, (snapshot) => {
+        const balance = Number(snapshot.val() || '0.00'); // Garante que o valor seja um número
+        document.getElementById('JanTotalInvestment').textContent = balance.toFixed(2); // Exibe no formato correto
+        if (callback) {
+          callback(balance); // Executa a função de callback com o valor
+        }
+      });
+    }
+
     function loadDataFromDatabase(userId) {
       let currentYear = new URLSearchParams(window.location.search).get('year');
       const januaryRef = ref(database, 'users/' + userId + '/january' + '-' + currentYear);
@@ -172,9 +187,11 @@
           document.getElementById("totalJaneiro").textContent = data.finalBalance || '0.00';
           document.getElementById("balance").textContent = data.balance || '0.00';
           document.getElementById("totalPorcentagem").textContent = data.percentage || '0.00%';
+          loadInvestmentBalance(user.uid, (investmentBalance) => { // Carrega o saldo de investimentos e passa uma função de callback
+            calculateTotal(investmentBalance);
+          });
           loadCreditCardBalance(user.uid);
           updateDataCards(); // Atualizar os cards de dados
-          calculateTotal(); // Calcular totais
         }
       });
     }
@@ -192,11 +209,11 @@
     function saveDataToDatabase(userId) {
       let currentYear = new URLSearchParams(window.location.search).get('year');
       const januaryData = {
-        creditCardBalance: document.getElementById("januaryCreditCardBalance").textContent, // 
+        creditCardBalance: document.getElementById("januaryCreditCardBalance").textContent,
         initialBalance: document.getElementById("JanInitialBalance").value,
         transactions: inputData,
         tithe: document.getElementById("januaryTithe").textContent,
-        creditCardBalance: document.getElementById("januaryCreditCardBalance").textContent, // Incluindo o saldo do cartão de crédito
+        creditCardBalance: document.getElementById("januaryCreditCardBalance").textContent,
         totalCredit: document.getElementById("totalCredit").textContent,
         totalDebit: document.getElementById("totalDebit").textContent,
         finalBalance: document.getElementById("totalJaneiro").textContent,
@@ -212,7 +229,7 @@
         });
     }
 
-    function calculateTotal() {
+    function calculateTotal(investmentBalance) {
       if (!user) {
         // Se o usuário não estiver logado, não faça nada
         return;
@@ -222,6 +239,11 @@
       var debitTotal = 0;
       var creditTotal = 0;
       var titheTotal = 0; // Variável para o total do dízimo
+
+      // Se o saldo de investimento não foi passado, busca o valor do elemento
+      if (investmentBalance === undefined) {
+        investmentBalance = Number(document.getElementById("JanTotalInvestment").textContent);
+      }
 
       // Calcular totais usando os dados digitados
       for (var j = 0; j < inputData.length; j++) {
@@ -240,9 +262,9 @@
       var formattedTithe = !isNaN(titheTotal) ? titheTotal.toFixed(2) : '0.00';
       document.getElementById("januaryTithe").textContent = formattedTithe;
 
-      var total = initialBalance + creditTotal - debitTotal;
+      var total = initialBalance + creditTotal - debitTotal - investmentBalance;
       var formattedTotal = !isNaN(total) ? total.toFixed(2) : '0.00';
-      var balance = creditTotal - debitTotal;
+      var balance = creditTotal - debitTotal - investmentBalance;
       var formattedBalance = !isNaN(balance) ? balance.toFixed(2) : '0.00';
       document.getElementById("balance").textContent = formattedBalance;
       document.getElementById("totalJaneiro").textContent = formattedTotal;

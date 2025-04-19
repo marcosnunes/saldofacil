@@ -93,7 +93,8 @@
         <p>Cartão de Crédito: <span id="decCreditCardBalance" class="orange-text">0.00</span></p>
         <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
         <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
-        <p>Saldo Final: <span id="totalDec">0.00</span></p>
+        <p>Total Investimentos: <span id="decTotalInvestment" class="orange-text">0.00</span></p>
+        <p>Saldo Final: <span id="totalDecember">0.00</span></p>
         <p>Balanço: <span id="balance"></span></p>
         <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
         <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
@@ -145,6 +146,19 @@
       }
     });
 
+    // Função para carregar o saldo de investimentos do Firebase
+    function loadInvestmentBalance(userId, callback) {
+      let currentYear = new URLSearchParams(window.location.search).get('year');
+      const balanceRef = ref(database, `investimentBalances/${userId}/${currentYear}/decemberinvestimentBalance`);
+      onValue(balanceRef, (snapshot) => {
+        const balance = Number(snapshot.val() || '0.00'); // Garante que o valor seja um número
+        document.getElementById('decTotalInvestment').textContent = balance.toFixed(2); // Exibe no formato correto
+        if (callback) {
+          callback(balance); // Executa a função de callback com o valor
+        }
+      });
+    }
+
     function loadDataFromDatabase(userId) {
       console.log("Iniciando carregamento dos dados para o usuário:", userId);
       let currentYear = new URLSearchParams(window.location.search).get('year');
@@ -167,9 +181,11 @@
               document.getElementById("DecInitialBalance").innerText = novembroFinalBalance;
               inputData = [];
             }
-
+            loadInvestmentBalance(user.uid, (investmentBalance) => { // Carrega o saldo de investimentos e passa uma função de callback
+              calculateTotal(investmentBalance);
+            });
+            loadCreditCardBalance(user.uid);
             updateDataCards();
-            calculateTotal();
           });
         }
       });
@@ -193,7 +209,7 @@
         creditCardBalance: document.getElementById("decCreditCardBalance").textContent,
         totalCredit: document.getElementById("totalCredit").textContent,
         totalDebit: document.getElementById("totalDebit").textContent,
-        finalBalance: document.getElementById("totalDec").textContent,
+        finalBalance: document.getElementById("totalDecember").textContent,
         balance: document.getElementById("balance").textContent,
         percentage: document.getElementById("totalPorcentagem").textContent
       };
@@ -207,12 +223,17 @@
     }
 
 
-    function calculateTotal() {
+    function calculateTotal(investmentBalance) {
       var creditCardBalance = Number(document.getElementById("decCreditCardBalance").textContent);
       var initialBalance = Number(document.getElementById("DecInitialBalance").innerText);
       var debitTotal = 0;
       var creditTotal = 0;
       var titheTotal = 0;
+
+      // Se o saldo de investimento não foi passado, busca o valor do elemento
+      if (investmentBalance === undefined) {
+        investmentBalance = Number(document.getElementById("decTotalInvestment").textContent);
+      }
 
       for (var j = 0; j < inputData.length; j++) {
         debitTotal += Number(inputData[j].debit || 0);
@@ -228,12 +249,12 @@
       var formattedTithe = !isNaN(titheTotal) ? titheTotal.toFixed(2) : '0.00';
       document.getElementById("decTithe").textContent = formattedTithe;
 
-      var total = initialBalance + creditTotal - debitTotal;
+      var total = initialBalance + creditTotal - debitTotal - investmentBalance;
       var formattedTotal = !isNaN(total) ? total.toFixed(2) : '0.00';
-      var balance = creditTotal - debitTotal;
+      var balance = creditTotal - debitTotal - investmentBalance;
       var formattedBalance = !isNaN(balance) ? balance.toFixed(2) : '0.00';
       document.getElementById("balance").textContent = formattedBalance;
-      document.getElementById("totalDec").textContent = formattedTotal;
+      document.getElementById("totalDecember").textContent = formattedTotal;
       document.getElementById("totalCredit").textContent = !isNaN(creditTotal) ? creditTotal.toFixed(2) : '0.00';
       document.getElementById("totalDebit").textContent = !isNaN(debitTotal) ? debitTotal.toFixed(2) : '0.00';
 
@@ -879,7 +900,7 @@
               document.getElementById("decCreditCardBalance").textContent = "0.00";
               document.getElementById("totalCredit").textContent = "0.00";
               document.getElementById("totalDebit").textContent = "0.00";
-              document.getElementById("totalDec").textContent = "0.00";
+              document.getElementById("totalDecember").textContent = "0.00";
               document.getElementById("balance").textContent = "0.00";
               document.getElementById("totalPorcentagem").textContent = "0.00%";
               // Atualiza os cards de dados

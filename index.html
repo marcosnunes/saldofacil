@@ -147,6 +147,9 @@
             <div class="card" id="card19">
               <div class="card-content"><span class="card-title">Gráficos</span></div>
             </div>
+            <div class="card" id="card22">
+              <div class="card-content"><span class="card-title">Investimentos</span></div>
+            </div>
             <div class="card" id="card20">
               <div class="card-content"><a id="askAiButton" class="card-title">Assistente</a></div>
             </div>
@@ -346,6 +349,7 @@
       document.getElementById("card19").addEventListener("click", () => window.location.href = `chart.html?year=${currentYear}`);
       document.getElementById("card20").addEventListener("click", () => window.location.href = `aichat.html?year=${currentYear}`);
       document.getElementById("card21").addEventListener("click", () => window.location.href = `chat.html`);
+      document.getElementById("card22").addEventListener("click", () => window.location.href = `investimentos.html?year=${currentYear}`);
     });
 
     yearSelector.addEventListener('change', function () {
