@@ -98,14 +98,96 @@
       </div>
       <div class="card">
         <div class="card-content">
+          <span class="card-title">Rendimento da Conta de Investimentos</span>
+          <p>Saldo atualizado mês a mês com juros compostos.</p><br>
+          <div class="card-balance-content" id="rendimentoMensal">
+            <div class="card-content">
+              <span class="card-title">Jan</span>
+              <p><span id="janeiroRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Fev</span>
+              <p><span id="fevereiroRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Mar</span>
+              <p><span id="marçoRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Abr</span>
+              <p><span id="abrilRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Mai</span>
+              <p><span id="maioRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Jun</span>
+              <p><span id="junhoRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Jul</span>
+              <p><span id="julhoRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Ago</span>
+              <p><span id="agostoRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Set</span>
+              <p><span id="setembroRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Out</span>
+              <p><span id="outubroRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Nov</span>
+              <p><span id="novembroRendimento">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Dez</span>
+              <p><span id="dezembroRendimento">0.00</span></p>
+            </div>
+          </div>
+          <div class="input-field">
+            <input type="number" class="rendimentoAnual" id="rendimentoAnual"
+              placeholder="Digite a taxa de rendimento Anual (%)"><br>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
           <span class="card-title">Total investido no ano</span>
-          <p><span id="anualTotalBalance">0.00</span></p>
+          <p>Relatório de rendimentos. Você pode usar os valores de referência para inserir no card para estimar o rendimento anual.</p><br>
+          <div class="card-balance-content">
+            <div class="card-content">
+              <span class="card-title">Bruto</span>
+              <p><span id="anualTotalBalance">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Renda</span>
+              <p><span id="anualTotalFees">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Saldo final</span>
+              <p><span id="anualTotalBalanceWithFees">0.00</span></p>
+            </div>
+            <div class="card-content">
+              <div class="card-tittle">
+                <label for="cdiValue">CDI</label>
+                <p><span id="cdiValue">Carregando...</span></p>
+                <label for="poupancaValue">Poupança</label>
+                <p><span id="poupancaValue">Carregando...</span></p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="card">
         <div class="card-content">
           <span class="card-title">Saldo Total</span>
-          <p>Saldo total fundos de investimentos + montante da conta corrente</p><br>
+          <p>Saldo total montante investido (Sem juros) + montante da conta corrente.</p><br>
           <div class="card-balance-content">
             <div class="card-content">
               <span class="card-title">Jan</span>
@@ -239,6 +321,8 @@
         } else {
           window.location.href = "login.html";
         }
+        updateCardBalances(); // Chamada após o carregamento dos dados
+        calcularRendimento(); // Chamada para calcular o rendimento
       });
 
       const months = [
@@ -748,15 +832,126 @@
             // Atualizar as visualizações aqui
             updateGroupedCardContainer();
             updateCardBalances();
+            calcularRendimento();
           }
           else {
             // Se não houver dados, ainda precisamos atualizar as views para limpar valores existentes
             data = [];
             updateGroupedCardContainer();
             updateCardBalances();
+            calcularRendimento();
           }
         });
       }
+
+      // Obter o valor de rendimento anual inserido pelo usuário
+      let rendimentoAnualInput = document.getElementById('rendimentoAnual');
+      let rendimentoAnual = parseFloat(rendimentoAnualInput.value) || 0;
+
+      function calcularRendimento() {
+        const montantesIniciais = {
+          Janeiro: parseFloat(document.getElementById('januaryinvestimentBalance').textContent) || 0,
+          Fevereiro: parseFloat(document.getElementById('februaryinvestimentBalance').textContent) || 0,
+          Março: parseFloat(document.getElementById('marchinvestimentBalance').textContent) || 0,
+          Abril: parseFloat(document.getElementById('aprilinvestimentBalance').textContent) || 0,
+          Maio: parseFloat(document.getElementById('mayinvestimentBalance').textContent) || 0,
+          Junho: parseFloat(document.getElementById('juneinvestimentBalance').textContent) || 0,
+          Julho: parseFloat(document.getElementById('julyinvestimentBalance').textContent) || 0,
+          Agosto: parseFloat(document.getElementById('augustinvestimentBalance').textContent) || 0,
+          Setembro: parseFloat(document.getElementById('septemberinvestimentBalance').textContent) || 0,
+          Outubro: parseFloat(document.getElementById('octoberinvestimentBalance').textContent) || 0,
+          Novembro: parseFloat(document.getElementById('novemberinvestimentBalance').textContent) || 0,
+          Dezembro: parseFloat(document.getElementById('decemberinvestimentBalance').textContent) || 0
+        };
+
+        let rendimentoMensal = rendimentoAnual / 100 / 12;
+        let saldoAtual = 0;
+        let totalRendimento = 0; // Variável para armazenar o total do rendimento
+        let saldoDezembro = 0;
+
+        const meses = [
+          "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+
+        meses.forEach(mes => {
+          const montanteInicial = montantesIniciais[mes];
+          saldoAtual += montanteInicial;
+          let rendimentoDoMes = saldoAtual * rendimentoMensal;
+          saldoAtual += rendimentoDoMes;
+          totalRendimento += rendimentoDoMes;
+
+          // Atualiza o elemento HTML correspondente
+          const elementoRendimento = document.getElementById(`${mes.toLowerCase()}Rendimento`);
+          if (elementoRendimento) {
+            elementoRendimento.textContent = saldoAtual.toFixed(2);
+          }
+
+          if (mes === "Dezembro") {
+            saldoDezembro = saldoAtual;
+          }
+        });
+
+        // Atualiza os elementos HTML com o total de rendimento e o saldo de dezembro
+        const anualTotalBalanceElement = document.getElementById('anualTotalBalance');
+        const anualTotalFeesElement = document.getElementById('anualTotalFees');
+        const anualTotalBalanceWithFeesElement = document.getElementById('anualTotalBalanceWithFees');
+
+        if (anualTotalBalanceElement) {
+          const totalInvestido = Object.values(montantesIniciais).reduce((acc, val) => acc + val, 0);
+          anualTotalBalanceElement.textContent = totalInvestido.toFixed(2);
+        }
+
+        if (anualTotalFeesElement) {
+          anualTotalFeesElement.textContent = totalRendimento.toFixed(2);
+        }
+
+        if (anualTotalBalanceWithFeesElement) {
+          anualTotalBalanceWithFeesElement.textContent = saldoDezembro.toFixed(2);
+        }
+      }
+
+      // Função para buscar os valores da API e atualizar o span
+      function fetchCurrentValue() {
+        // URL do arquivo CSV
+        const csvUrl =
+          "https://dadosabertos.bcb.gov.br/dataset/11-taxa-de-juros---selic/resource/b73edc07-bbac-430c-a2cb-b1639e605fa8/download/taxa_selic_mensal.csv";
+
+        // Faz o parsing do CSV
+        Papa.parse(csvUrl, {
+          download: true,
+          header: true,
+          dynamicTyping: true,
+          complete: function (results) {
+            // Verifica se há dados e se o header está correto
+            if (
+              results &&
+              results.data &&
+              results.data.length > 0 &&
+              results.meta.fields.includes("data") &&
+              results.meta.fields.includes("valor")
+            ) {
+              // Obtém o último valor da Selic
+              const lastData = results.data[results.data.length - 1];
+              const latestSelicValue = lastData.valor;
+
+              // Exibe a taxa Selic
+              document.getElementById("poupancaValue").textContent =
+                latestSelicValue.toFixed(2) + "%";
+            } else {
+              document.getElementById("poupancaValue").textContent =
+                "Dados não disponíveis";
+            }
+          },
+          error: function (error) {
+            console.error("Erro ao fazer o parsing do CSV:", error);
+            document.getElementById("poupancaValue").textContent = "Erro ao carregar";
+          },
+        });
+        document.getElementById("cdiValue").textContent = "Não disponível";
+      }
+      // Chama a função de busca ao carregar a página
+      fetchCurrentValue();
 
       document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('backButton').addEventListener('click', function () {
@@ -782,10 +977,15 @@
 
         // Verificar se o usuário está autenticado e carregar os dados inicialmente
         if (auth.currentUser) {
-          //currentYear = new URLSearchParams(window.location.search).get('year') || new Date().getFullYear();
           loadDataFromDatabase(auth.currentUser.uid);
         }
         M.FormSelect.init(elems, {}); // Inicializa o select após todos os event listeners
+
+        document.getElementById('rendimentoAnual').addEventListener('input', function () {
+          // Obter o valor do input e converter para float
+          rendimentoAnual = parseFloat(this.value) || 0;
+          calcularRendimento();
+        });
 
       });
 
@@ -813,6 +1013,7 @@
         }
       }
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 </body>
 
 </html>
