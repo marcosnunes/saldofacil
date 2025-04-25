@@ -452,7 +452,8 @@
             const monthTotalBalance = await loadMonthTotalBalance(auth.currentUser.uid, currentYear, monthRef);
             console.log(`Saldo total de ${month}:`, monthTotalBalance);
 
-            const grandTotal = investmentBalance + monthTotalBalance;
+            // const grandTotal = investmentBalance + monthTotalBalance;
+            const grandTotal = investmentBalance + totalRendimento;
             totalBalanceElement.textContent = grandTotal.toFixed(2);
           } else {
             console.warn(`Elemento não encontrado: ${id} ou ${totalBalanceId}`);
