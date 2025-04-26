@@ -45,7 +45,8 @@
   .navigation,
   .iframe-container,
   #Registrar_Compra,
-  #importButton {
+  #importButton,
+  #tutorial_gerar_excel {
     display: none !important;
   }
 
