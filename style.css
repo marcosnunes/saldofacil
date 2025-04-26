@@ -12,6 +12,10 @@
     display: none !important;
   }
 
+  #aviso-tela {
+    display: block;
+  }
+
   .nav-wrapper .brand-logo {
     font-size: 16px !important;
     padding: 0;
