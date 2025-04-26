@@ -12,10 +12,6 @@
     display: none !important;
   }
 
-  #aviso-tela {
-    display: block;
-  }
-
   .nav-wrapper .brand-logo {
     font-size: 16px !important;
     padding: 0;
@@ -429,17 +425,12 @@
   gap: 10px;
 }
 
-/* Ajustes específicos para telas maiores ou iguais a 1100px */
+/* Ajustes específicos para telas maiores ou iguais a 768px */
 @media screen and (min-width: 768px) {
   .card-balance-content {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);
   }
-}
-
-#aviso-tela {
-  display: none !important;
-  /* Oculta o aviso de tela pequena por padrão */
 }
 
 .card-balance-content .card-content {
