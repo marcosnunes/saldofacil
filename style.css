@@ -433,7 +433,7 @@
   }
 }
 
-#container .aviso-tela {
+#aviso-tela {
   display: none !important;
   /* Oculta o aviso de tela pequena por padrão */
 }
