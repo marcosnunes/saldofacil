@@ -159,7 +159,8 @@
       <div class="card">
         <div class="card-content">
           <span class="card-title">Total investido no ano</span>
-          <p>Relatório de rendimentos. Você pode usar os valores dos índices do seu fundo de investimentos para inserir no card acima para estimar o
+          <p>Relatório de rendimentos. Você pode usar os valores dos índices do seu fundo de investimentos para inserir
+            no card acima para estimar o
             rendimento anual.</p><br>
           <div class="card-balance-content">
             <div class="card-content">
@@ -414,27 +415,28 @@
 
       function updateCardBalances() {
         const monthsAbbreviation = [
-          { id: 'januaryinvestimentBalance', month: 'Janeiro', totalBalanceId: 'januaryTotalBalance', monthRef: 'january' },
-          { id: 'februaryinvestimentBalance', month: 'Fevereiro', totalBalanceId: 'februaryTotalBalance', monthRef: 'february' },
-          { id: 'marchinvestimentBalance', month: 'Março', totalBalanceId: 'marchTotalBalance', monthRef: 'march' },
-          { id: 'aprilinvestimentBalance', month: 'Abril', totalBalanceId: 'aprilTotalBalance', monthRef: 'april' },
-          { id: 'mayinvestimentBalance', month: 'Maio', totalBalanceId: 'mayTotalBalance', monthRef: 'may' },
-          { id: 'juneinvestimentBalance', month: 'Junho', totalBalanceId: 'juneTotalBalance', monthRef: 'june' },
-          { id: 'julyinvestimentBalance', month: 'Julho', totalBalanceId: 'julyTotalBalance', monthRef: 'july' },
-          { id: 'augustinvestimentBalance', month: 'Agosto', totalBalanceId: 'augustTotalBalance', monthRef: 'august' },
-          { id: 'septemberinvestimentBalance', month: 'Setembro', totalBalanceId: 'septemberTotalBalance', monthRef: 'september' },
-          { id: 'octoberinvestimentBalance', month: 'Outubro', totalBalanceId: 'octoberTotalBalance', monthRef: 'october' },
-          { id: 'novemberinvestimentBalance', month: 'Novembro', totalBalanceId: 'novemberTotalBalance', monthRef: 'november' },
-          { id: 'decemberinvestimentBalance', month: 'Dezembro', totalBalanceId: 'decemberTotalBalance', monthRef: 'december' }
+          { id: 'januaryinvestimentBalance', month: 'Janeiro', totalBalanceId: 'januaryTotalBalance', monthRef: 'january', rendimentoId: 'janeiroRendimento' },
+          { id: 'februaryinvestimentBalance', month: 'Fevereiro', totalBalanceId: 'februaryTotalBalance', monthRef: 'february', rendimentoId: 'fevereiroRendimento' },
+          { id: 'marchinvestimentBalance', month: 'Março', totalBalanceId: 'marchTotalBalance', monthRef: 'march', rendimentoId: 'marçoRendimento' },
+          { id: 'aprilinvestimentBalance', month: 'Abril', totalBalanceId: 'aprilTotalBalance', monthRef: 'april', rendimentoId: 'abrilRendimento' },
+          { id: 'mayinvestimentBalance', month: 'Maio', totalBalanceId: 'mayTotalBalance', monthRef: 'may', rendimentoId: 'maioRendimento' },
+          { id: 'juneinvestimentBalance', month: 'Junho', totalBalanceId: 'juneTotalBalance', monthRef: 'june', rendimentoId: 'junhoRendimento' },
+          { id: 'julyinvestimentBalance', month: 'Julho', totalBalanceId: 'julyTotalBalance', monthRef: 'july', rendimentoId: 'julhoRendimento' },
+          { id: 'augustinvestimentBalance', month: 'Agosto', totalBalanceId: 'augustTotalBalance', monthRef: 'august', rendimentoId: 'agostoRendimento' },
+          { id: 'septemberinvestimentBalance', month: 'Setembro', totalBalanceId: 'septemberTotalBalance', monthRef: 'september', rendimentoId: 'setembroRendimento' },
+          { id: 'octoberinvestimentBalance', month: 'Outubro', totalBalanceId: 'octoberTotalBalance', monthRef: 'october', rendimentoId: 'outubroRendimento' },
+          { id: 'novemberinvestimentBalance', month: 'Novembro', totalBalanceId: 'novemberTotalBalance', monthRef: 'november', rendimentoId: 'novembroRendimento' },
+          { id: 'decemberinvestimentBalance', month: 'Dezembro', totalBalanceId: 'decemberTotalBalance', monthRef: 'december', rendimentoId: 'dezembroRendimento' }
         ];
 
         let anualTotal = 0; // Variável para armazenar o total anual
 
-        monthsAbbreviation.forEach(async ({ id, month, totalBalanceId, monthRef }) => {
+        monthsAbbreviation.forEach(async ({ id, month, totalBalanceId, monthRef, rendimentoId }) => {
           const investmentBalanceElement = document.getElementById(id);
           const totalBalanceElement = document.getElementById(totalBalanceId);
+          const rendimentoElement = document.getElementById(rendimentoId);
 
-          if (investmentBalanceElement && totalBalanceElement) {
+          if (investmentBalanceElement && totalBalanceElement && rendimentoElement) {
             // Filtra os dados para o mês atual
             const monthlyData = data.filter(item => item.month.startsWith(month));
 
@@ -452,7 +454,9 @@
             const monthTotalBalance = await loadMonthTotalBalance(auth.currentUser.uid, currentYear, monthRef);
             console.log(`Saldo total de ${month}:`, monthTotalBalance);
 
-            const grandTotal = investmentBalance + monthTotalBalance;
+            // Usar o valor do rendimento diretamente do elemento HTML
+            const rendimentoMensal = parseFloat(rendimentoElement.textContent) || 0;
+            const grandTotal = rendimentoMensal + monthTotalBalance;
             totalBalanceElement.textContent = grandTotal.toFixed(2);
           } else {
             console.warn(`Elemento não encontrado: ${id} ou ${totalBalanceId}`);
