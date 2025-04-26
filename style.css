@@ -426,7 +426,7 @@
 }
 
 /* Ajustes específicos para telas maiores ou iguais a 1100px */
-@media screen and (min-width: 1024px) {
+@media screen and (min-width: 768px) {
   .card-balance-content {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);
