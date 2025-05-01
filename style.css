@@ -614,10 +614,8 @@
 
 .user-message {
   text-align: right;
-  color: blue;
 }
 
 .bot-message {
   text-align: left;
-  color: green;
 }
