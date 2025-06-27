@@ -220,83 +220,80 @@
             debitTotal = 0;
             creditTotal = 0;
             creditCardBalanceTotal = 0;
-            let initialBalance = 0;
             balance = 0;
             percentage = 0;
 
-            for (const month in yearData) {
-                if (yearData.hasOwnProperty(month)) {
-                    const monthData = yearData[month];
-                    if (monthData) {
-                        creditTotal += Number(monthData.totalCredit || 0);
-                        debitTotal += Number(monthData.totalDebit || 0);
-                    }
+            // Calcula totais dos lançamentos mensais
+            for (const month of months) {
+                const monthData = yearData.monthlyTransactions[month];
+                if (monthData) {
+                    creditTotal += Number(monthData.totalCredit || 0);
+                    debitTotal += Number(monthData.totalDebit || 0);
                 }
             }
-            if (yearData.creditCard) {
-                for (const month of months) {
-                    const id = `${month}CreditCardBalance`;
-                    if (yearData.creditCard.hasOwnProperty(id)) {
-                        creditCardBalanceTotal += Number(yearData.creditCard[id] || 0);
-                    }
+
+            // Calcula total dos lançamentos do cartão de crédito
+            if (yearData.creditCardTransactions) {
+                for (const transactionId in yearData.creditCardTransactions) {
+                    creditCardBalanceTotal += Number(yearData.creditCardTransactions[transactionId].value || 0);
                 }
             }
+
             balance = creditTotal - debitTotal;
             percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
 
-            console.log("Totais Anuais Calculados:", {
-                debitTotal,
-                creditTotal,
-                creditCardBalanceTotal,
-                balance,
-                percentage
-            });
+            console.log("Totais Anuais Calculados (incluindo cartão):", { debitTotal, creditTotal, creditCardBalanceTotal, balance });
         }
 
         function displayAnnualLaunches(yearData) {
-            let launchDataContainer = document.getElementById("launchDataContainer");
+            const launchDataContainer = document.getElementById("launchDataContainer");
             launchDataContainer.innerHTML = "";
 
-            // Carrega os dados do localStorage
-            let annualLaunches = loadDataFromLocalStorage();
+            const annualLaunches = {};
 
-            // Se não houver dados no localStorage, calcula a partir de yearData
-            if (!annualLaunches) {
-                annualLaunches = {};
-                for (const month in yearData) {
-                    const monthData = yearData[month];
+            // 1. Processa os lançamentos mensais
+            if (yearData.monthlyTransactions) {
+                for (const month in yearData.monthlyTransactions) {
+                    const monthData = yearData.monthlyTransactions[month];
                     if (monthData && monthData.transactions) {
                         monthData.transactions.forEach((transaction) => {
                             const description = transaction.description;
-                            const credit = parseFloat(transaction.credit) || 0;
-                            const debit = parseFloat(transaction.debit) || 0;
-
-                            if (annualLaunches.hasOwnProperty(description)) {
-                                annualLaunches[description] += credit - debit;
-                            } else {
-                                annualLaunches[description] = credit - debit;
-                            }
+                            const amount = (parseFloat(transaction.credit) || 0) - (parseFloat(transaction.debit) || 0);
+                            annualLaunches[description] = (annualLaunches[description] || 0) + amount;
                         });
                     }
                 }
-                // Salva os dados no localStorage
-                saveDataToLocalStorage(annualLaunches);
             }
 
-            // Exibe os dados na página
-            for (const description in annualLaunches) {
+            // 2. Processa os lançamentos do cartão de crédito
+            if (yearData.creditCardTransactions) {
+                for (const id in yearData.creditCardTransactions) {
+                    const transaction = yearData.creditCardTransactions[id];
+                    // Agrupa removendo a data no final (ex: "Uber (05/01)" vira "Uber")
+                    const description = transaction.description.split(' (')[0];
+                    const amount = - (parseFloat(transaction.value) || 0); // Cartão é sempre débito
+                    annualLaunches[description] = (annualLaunches[description] || 0) + amount;
+                }
+            }
+
+            // 3. Exibe os dados agrupados na página
+            // Ordena as descrições em ordem alfabética para consistência
+            const sortedDescriptions = Object.keys(annualLaunches).sort();
+
+            for (const description of sortedDescriptions) {
                 const total = annualLaunches[description];
                 const launchGroupDiv = document.createElement("div");
                 launchGroupDiv.classList.add("launch-group");
 
                 const descriptionSpan = document.createElement("span");
                 descriptionSpan.classList.add("description");
-                descriptionSpan.textContent = "Descrição: " + description;
+                descriptionSpan.textContent = description; // Exibe a descrição base
                 launchGroupDiv.appendChild(descriptionSpan);
 
                 const totalSpan = document.createElement("span");
                 totalSpan.classList.add("total");
-                totalSpan.textContent = "Total: R$" + total.toFixed(2);
+                // Usa a função de formatação de moeda que já existe
+                totalSpan.textContent = "Total: " + formatCurrency(total, 'BRL');
                 launchGroupDiv.appendChild(totalSpan);
 
                 launchDataContainer.appendChild(launchGroupDiv);
@@ -348,26 +345,38 @@
             if (user) {
                 console.log("Usuário autenticado:", user.uid);
                 try {
-                    // Carregar os dados de todos os meses e o cartão de crédito de forma assíncrona
-                    const yearData = {};
+                    // Prepara todas as promessas de carregamento de dados
                     const monthDataPromises = months.map(month => loadMonthData(user.uid, month, currentYear));
-                    const creditCardDataPromise = loadCreditCardData(user.uid, currentYear);
+                    const creditCardDataPromise = loadAllCreditCardData(user.uid, currentYear);
 
-                    const monthDataResults = await Promise.all(monthDataPromises);
+                    // Executa todas as promessas em paralelo
+                    const allPromises = [...monthDataPromises, creditCardDataPromise];
+                    const results = await Promise.all(allPromises);
+
+                    // Separa os resultados
+                    const creditCardData = results.pop(); // O último resultado é o do cartão
+                    const monthlyResults = results; // O resto são os dados mensais
+
+                    // Monta o objeto de dados completo para o relatório
+                    const fullReportData = {
+                        monthlyTransactions: {},
+                        creditCardTransactions: creditCardData
+                    };
+
                     months.forEach((month, index) => {
-                        yearData[month] = monthDataResults[index];
+                        fullReportData.monthlyTransactions[month] = monthlyResults[index];
                     });
 
-                    yearData.creditCard = await creditCardDataPromise;
+                    // Salva os dados combinados no localStorage para a IA
+                    saveDataToLocalStorage(fullReportData);
 
-                    // Agora que todos os dados foram carregados, calcular os totais e exibir
-                    calculateAnnualTotals(yearData);
-                    displayAnnualLaunches(yearData);
+                    // Agora que todos os dados foram carregados e salvos, calcula os totais e exibe
+                    calculateAnnualTotals(fullReportData);
+                    displayAnnualLaunches(fullReportData);
                     convertCurrency(); // Converte a moeda após o carregamento dos dados
 
                 } catch (error) {
                     console.error("Erro ao carregar dados:", error);
-                    // Tratar o erro, talvez exibir uma mensagem para o usuário
                 }
             } else {
                 window.location.href = "login.html";
@@ -375,6 +384,25 @@
         });
 
         var instances;
+
+        // NOVA FUNÇÃO: Carrega todos os dados do cartão de crédito do ano
+        function loadAllCreditCardData(userId, year) {
+            return new Promise((resolve, reject) => {
+                const creditCardRef = ref(database, `creditCardData/${userId}/${year}`);
+                // A sintaxe correta é passar o 'reject' como o segundo argumento (errorCallback) do onValue
+                onValue(
+                    creditCardRef,
+                    (snapshot) => {
+                        resolve(snapshot.val() || {});
+                    },
+                    (error) => {
+                        // Se ocorrer um erro (ex: permissão negada), a promessa será rejeitada.
+                        reject(error);
+                    },
+                    { onlyOnce: true }
+                );
+            });
+        }
 
         document.addEventListener("DOMContentLoaded", function () {
             var elems = document.querySelectorAll("select");

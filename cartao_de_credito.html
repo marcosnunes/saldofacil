@@ -92,6 +92,7 @@
               <p><span id="decemberCreditCardBalance">0.00</span></p>
             </div>
             <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+            <a id="askAiButton" class="btn btn-default">Perguntar à IA</a>
           </div>
         </div>
       </div>
@@ -128,6 +129,8 @@
             <label for="billingValue">Valor da Compra</label>
           </div>
           <button id="addButton" class="btn btn-default">Adicionar</button>
+          <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
+          <button id="importButton" class="btn btn-default">Importar Fatura</button>
         </div>
       </div>
       <div id="groupedCardContainer"></div>
@@ -143,7 +146,7 @@
       displayYearInTitle();
 
       import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-      import { getDatabase, ref, set, onValue, remove } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+      import { getDatabase, ref, set, onValue, remove, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
       import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
       import firebaseConfig from './config.js';
 
@@ -151,7 +154,9 @@
       const auth = getAuth(app);
       const database = getDatabase(app);
 
-      let data = [];
+      // --- ARQUITETURA CORRETA ---
+      let data = []; // Contém dados apenas do ano atual para exibição
+      let allTimeData = {}; // <-- 1. DECLARAÇÃO DA VARIÁVEL GLOBAL
 
       onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -171,24 +176,23 @@
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
       ];
 
+      // <-- 2. FUNÇÃO DE CARREGAMENTO GLOBAL DE DADOS
       function loadDataFromDatabase(userId) {
-        const dataRef = ref(database, `creditCardData/${userId}/${currentYear}`);
-        onValue(dataRef, (snapshot) => {
-          const fetchedData = snapshot.val();
-          if (fetchedData) {
-            // Assumindo que fetchedData é um objeto com IDs como chaves
-            data = Object.keys(fetchedData).map(key => ({ ...fetchedData[key], id: key }));
-            console.log("Dados carregados:", data); // Depuração
-            // Atualizar as visualizações aqui
-            updateGroupedCardContainer();
-            updateCardBalances();
-          }
-          else {
-            // Se não houver dados, ainda precisamos atualizar as views para limpar valores existentes
-            data = [];
-            updateGroupedCardContainer();
-            updateCardBalances();
-          }
+        // Carrega TODOS os dados do usuário, de todos os anos.
+        const allDataRef = ref(database, `creditCardData/${userId}`);
+
+        onValue(allDataRef, (snapshot) => {
+          allTimeData = snapshot.val() || {}; // Atualiza nossa variável global com tudo
+
+          // Agora, filtramos os dados apenas para o ano atual para exibição na tela
+          const yearData = allTimeData[currentYear] || {};
+          data = Object.keys(yearData).map(key => ({ ...yearData[key], id: key }));
+
+          console.log(`Todos os dados carregados. Exibindo ${data.length} itens para o ano de ${currentYear}.`);
+
+          // As funções de atualização da interface não mudam, elas continuam usando a variável 'data' filtrada.
+          updateGroupedCardContainer();
+          updateCardBalances();
         });
       }
 
@@ -200,13 +204,15 @@
         });
       }
 
-      function addItemToDatabase(userId, item) {
+      function addItemToDatabase(userId, item, year) {
         const itemId = uuidv4();
-        const itemRef = ref(database, `creditCardData/${userId}/${currentYear}/${itemId}`);
-        set(itemRef, { ...item, id: itemId }) // Incluindo o ID no item
+        const itemRef = ref(database, `creditCardData/${userId}/${year}/${itemId}`);
+        const itemToSave = { ...item, id: itemId };
+
+        // Retornamos a promessa para que possamos usar Promise.all
+        return set(itemRef, itemToSave)
           .then(() => {
-            console.log("Item adicionado com sucesso.");
-            loadDataFromDatabase(userId);
+            console.log(`Item "${item.description}" adicionado com sucesso ao ano ${year}.`);
           })
           .catch((error) => {
             console.error("Erro ao adicionar item:", error);
@@ -219,47 +225,42 @@
         const description = document.getElementById('description').value;
         const multiplicator = parseInt(document.getElementById('multiplicator').value);
         const billingValue = parseFloat(document.getElementById('billingValue').value);
-        let currentYear = new URLSearchParams(window.location.search).get('year');
+        let baseYear = parseInt(currentYear) || new Date().getFullYear();
 
-        if (!month || !description || isNaN(multiplicator) || isNaN(billingValue)) {
-          alert("Por favor, preencha todos os campos corretamente.");
+        if (!month || !description || isNaN(multiplicator) || isNaN(billingValue) || multiplicator <= 0 || billingValue <= 0) {
+          alert("Por favor, preencha todos os campos corretamente com valores válidos.");
           return;
         }
-        currentYear = parseInt(currentYear) || new Date().getFullYear();
 
         const valuePerMonth = billingValue / multiplicator;
-        const items = [];
         let currentMonthIndex = months.indexOf(month);
-        let year = currentYear; // Usando uma variável local para iteração.
+        let yearForInstallment = baseYear;
 
         for (let i = 0; i < multiplicator; i++) {
           const monthName = monthsPT[currentMonthIndex];
-          const yearMonth = `${monthName} ${year}`; // Usando a variável year.
-          items.push({
-            month: yearMonth,
-            description: description,
+          const item = {
+            month: `${monthName} ${yearForInstallment}`,
+            description: `${description} - Parcela ${i + 1}/${multiplicator}`,
             value: valuePerMonth
-          });
+          };
+          addItemToDatabase(userId, item, yearForInstallment);
 
-          currentMonthIndex = (currentMonthIndex + 1) % 12;
-          if (currentMonthIndex === 0) {
-            year++; // Incrementa o ano local.
+          currentMonthIndex++;
+          if (currentMonthIndex >= 12) {
+            currentMonthIndex = 0;
+            yearForInstallment++;
           }
         }
 
-        items.forEach(item => addItemToDatabase(userId, item));
-
-        // Limpar os campos de entrada e a caixa de seleção
         document.getElementById('month').value = '';
         document.getElementById('description').value = '';
         document.getElementById('multiplicator').value = '';
         document.getElementById('billingValue').value = '';
-        M.FormSelect.init(document.querySelectorAll('select'), {}); // Re-inicializar caixa de seleção
+        M.FormSelect.init(document.querySelectorAll('select'), {});
       }
 
       function updateCardBalances() {
-        let currentYear = new URLSearchParams(window.location.search).get('year');
-        currentYear = parseInt(currentYear) || new Date().getFullYear(); // Obtenha o ano corretamente
+        let yearToDisplay = parseInt(currentYear) || new Date().getFullYear();
         const monthsAbbreviation = [
           { id: 'januaryCreditCardBalance', month: 'Janeiro' },
           { id: 'februaryCreditCardBalance', month: 'Fevereiro' },
@@ -279,83 +280,69 @@
           const element = document.getElementById(id);
           if (element) {
             const filteredData = data.filter(item => {
-              // Filtra as faturas para incluir apenas as do ano corrente e do mês específico
               const [itemMonth, itemYear] = item.month.split(' ');
-              return itemMonth === month && parseInt(itemYear) === currentYear;
+              return itemMonth === month && parseInt(itemYear) === yearToDisplay;
             });
             const totalValue = filteredData.reduce((acc, item) => acc + item.value, 0);
             element.textContent = totalValue.toFixed(2);
           }
         });
 
-        // Atualiza os valores no banco de dados
         const userId = auth.currentUser.uid;
-        updateBalancesInDatabase(userId, currentYear);
+        updateBalancesInDatabase(userId, yearToDisplay);
       }
 
-      function updateBalancesInDatabase(userId, currentYear) {
+      function updateBalancesInDatabase(userId, year) {
         const balanceElements = [
-          { id: 'januaryCreditCardBalance', month: 'Janeiro' },
-          { id: 'februaryCreditCardBalance', month: 'Fevereiro' },
-          { id: 'marchCreditCardBalance', month: 'Março' },
-          { id: 'aprilCreditCardBalance', month: 'Abril' },
-          { id: 'mayCreditCardBalance', month: 'Maio' },
-          { id: 'juneCreditCardBalance', month: 'Junho' },
-          { id: 'julyCreditCardBalance', month: 'Julho' },
-          { id: 'augustCreditCardBalance', month: 'Agosto' },
-          { id: 'septemberCreditCardBalance', month: 'Setembro' },
-          { id: 'octoberCreditCardBalance', month: 'Outubro' },
-          { id: 'novemberCreditCardBalance', month: 'Novembro' },
-          { id: 'decemberCreditCardBalance', month: 'Dezembro' }
+          { id: 'januaryCreditCardBalance' },
+          { id: 'februaryCreditCardBalance' },
+          { id: 'marchCreditCardBalance' },
+          { id: 'aprilCreditCardBalance' },
+          { id: 'mayCreditCardBalance' },
+          { id: 'juneCreditCardBalance' },
+          { id: 'julyCreditCardBalance' },
+          { id: 'augustCreditCardBalance' },
+          { id: 'septemberCreditCardBalance' },
+          { id: 'octoberCreditCardBalance' },
+          { id: 'novemberCreditCardBalance' },
+          { id: 'decemberCreditCardBalance' }
         ];
 
-        balanceElements.forEach(({ id, month }) => {
+        balanceElements.forEach(({ id }) => {
           const element = document.getElementById(id);
           if (element) {
             const value = parseFloat(element.textContent) || 0;
-            const monthRef = ref(database, `creditCardBalances/${userId}/${currentYear}/${id}`); // Usando o ano na referência
-            set(monthRef, value)
-              .then(() => {
-                console.log(`${id} atualizado no banco de dados com valor ${value}.`);
-              })
-              .catch((error) => {
-                console.error(`Erro ao atualizar ${id} no banco de dados:`, error);
-              });
+            const monthRef = ref(database, `creditCardBalances/${userId}/${year}/${id}`);
+            set(monthRef, value).catch((error) => {
+              console.error(`Erro ao atualizar ${id} no banco de dados:`, error);
+            });
           }
         });
       }
 
       function updateGroupedCardContainer() {
-        let currentYear = new URLSearchParams(window.location.search).get('year');
-        currentYear = parseInt(currentYear) || new Date().getFullYear(); // Obtém o ano corrente
+        let yearToDisplay = parseInt(currentYear) || new Date().getFullYear();
         const container = document.getElementById('groupedCardContainer');
         container.innerHTML = '';
 
         const groupedData = data.reduce((acc, item) => {
           const [itemMonth, itemYear] = item.month.split(' ');
-          if (parseInt(itemYear) === currentYear) {
-            if (!acc[item.description]) {
-              acc[item.description] = [];
+          if (parseInt(itemYear) === yearToDisplay) {
+            const baseDescription = item.description.split(' (')[0].split(' - Parcela')[0];
+            if (!acc[baseDescription]) {
+              acc[baseDescription] = [];
             }
-            acc[item.description].push(item);
+            acc[baseDescription].push(item);
           }
           return acc;
         }, {});
 
-        Object.keys(groupedData).forEach(description => {
+        Object.keys(groupedData).sort().forEach(description => {
           const items = groupedData[description];
           items.sort((a, b) => {
-            const [monthA, yearA] = a.month.split(' ');
-            const [monthB, yearB] = b.month.split(' ');
-
-            const monthIndexA = monthsPT.indexOf(monthA);
-            const monthIndexB = monthsPT.indexOf(monthB);
-
-            if (yearA !== yearB) {
-              return parseInt(yearA) - parseInt(yearB);
-            }
-
-            return monthIndexA - monthIndexB;
+            const [monthA] = a.month.split(' ');
+            const [monthB] = b.month.split(' ');
+            return monthsPT.indexOf(monthA) - monthsPT.indexOf(monthB);
           });
 
           const card = document.createElement('div');
@@ -370,15 +357,14 @@
 
           items.forEach(item => {
             const paragraph = document.createElement('p');
-            paragraph.textContent = `${item.month}: R$ ${item.value.toFixed(2)}`;
+            paragraph.textContent = `${item.description}: R$ ${item.value.toFixed(2)}`;
             cardContent.appendChild(paragraph);
           });
 
-          // Botão de exclusão do card
           const deleteButton = document.createElement('button');
           deleteButton.className = 'btn-delete';
-          deleteButton.textContent = 'Excluir';
-          deleteButton.addEventListener('click', () => deleteCard(description));
+          deleteButton.textContent = 'Excluir Compra';
+          deleteButton.addEventListener('click', () => deleteCard(description, items));
           cardContent.appendChild(deleteButton);
 
           card.appendChild(cardContent);
@@ -386,98 +372,204 @@
         });
       }
 
-      function deleteCard(description) {
+      function deleteCard(description, itemsToDelete) {
+        if (!confirm(`Tem certeza que deseja excluir todos os lançamentos de "${description}"?`)) {
+          return;
+        }
+
         const userId = auth.currentUser.uid;
-        let currentYear = new URLSearchParams(window.location.search).get('year');
-        currentYear = parseInt(currentYear) || new Date().getFullYear();
-
-        // 1. Remover os itens do array 'data' localmente
-        data = data.filter(item => !(item.description === description && parseInt(item.month.split(" ")[1]) === currentYear));
-
-        // 2. Atualiza os cartões de dados e calcula os totais após a exclusão
-        updateGroupedCardContainer();
-        updateCardBalances();
-
-        // 3. Excluir os itens do Firebase
-        const itemsToDelete = data.filter(item => item.description === description && parseInt(item.month.split(" ")[1]) === currentYear); // Pega os IDs novamente para garantir que tenha apenas os itens relacionados ao card
-
-        // Remover todos os itens associados a essa descrição
         const deletePromises = itemsToDelete.map(item => {
-          const itemRef = ref(database, `creditCardData/${userId}/${currentYear}/${item.id}`);
-          return remove(itemRef)
-            .then(() => {
-              console.log(`Item ${item.id} excluído com sucesso.`);
-            })
-            .catch((error) => {
-              console.error("Erro ao excluir item:", error);
-            });
+          const [, itemYear] = item.month.split(' ');
+          const itemRef = ref(database, `creditCardData/${userId}/${itemYear}/${item.id}`);
+          return remove(itemRef);
         });
 
-
-        // Atualiza a interface após a exclusão de todos os itens
         Promise.all(deletePromises)
           .then(() => {
-            console.log("Todos os itens do card foram excluídos do Firebase");
-
-            // 4. Atualiza o Firebase com a nova lista `data`
-            const userId = auth.currentUser.uid;
-            const dataRef = ref(database, `creditCardData/${userId}/${currentYear}`);
-            set(dataRef, data)
-              .then(() => {
-                console.log("Dados atualizados no Firebase");
-              })
-              .catch(error => {
-                console.error("Erro ao atualizar dados no Firebase:", error);
-              });
+            console.log(`Todos os itens de "${description}" foram excluídos.`);
           })
-          .catch((error) => {
+          .catch(error => {
             console.error("Erro ao excluir itens do Firebase:", error);
+            alert("Ocorreu um erro ao excluir a compra.");
           });
       }
 
       document.addEventListener('DOMContentLoaded', function () {
         var elems = document.querySelectorAll('select');
         M.FormSelect.init(elems, {});
-        document.getElementById('addButton').addEventListener('click', function () {
-          addItem();
-          updateGroupedCardContainer();
-          updateCardBalances();
-        });
-        document.getElementById('backButton').addEventListener('click', function () {
-          window.history.back();
-        });
-        document.getElementById('nextButton').addEventListener('click', function () {
-          window.history.back();
-        });
+        document.getElementById('addButton').addEventListener('click', addItem);
+        document.getElementById('backButton').addEventListener('click', () => window.history.back());
+        document.getElementById('nextButton').addEventListener('click', () => window.history.back());
+        document.getElementById('askAiButton').href = `iareports.html?year=${currentYear}`;
+      });
 
-        // Verificar se o usuário está autenticado e carregar os dados inicialmente
-        if (auth.currentUser) {
-          loadDataFromDatabase(auth.currentUser.uid);
+      document.getElementById("importButton").addEventListener('click', function () {
+        document.getElementById("ofxFile").click();
+      });
+
+      // <-- 3. FUNÇÃO DE IMPORTAÇÃO COM CHAVE COMPOSTA
+      document.getElementById("ofxFile").addEventListener('change', async function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const fileReader = new FileReader();
+        fileReader.onload = async function (e) {
+          const ofxData = e.target.result;
+          const userId = auth.currentUser.uid;
+
+          try {
+            const parsedTransactions = parseOFX(ofxData);
+
+            if (parsedTransactions.length === 0) {
+              alert("Nenhuma despesa de débito encontrada no arquivo OFX ou o arquivo é inválido.");
+              return;
+            }
+
+            const existingCompositeKeys = new Set();
+            for (const year in allTimeData) {
+              for (const itemId in allTimeData[year]) {
+                const item = allTimeData[year][itemId];
+                if (item && item.fitid && item.description) {
+                  const compositeKey = item.fitid + item.description;
+                  existingCompositeKeys.add(compositeKey);
+                }
+              }
+            }
+            console.log(`Verificando duplicatas contra ${existingCompositeKeys.size} chaves compostas de todo o histórico.`);
+
+            let newItemsCount = 0;
+            const promises = [];
+
+            for (const transaction of parsedTransactions) {
+              const newCompositeKey = transaction.fitid + transaction.description;
+
+              if (!existingCompositeKeys.has(newCompositeKey)) {
+                const newItem = {
+                  month: `${transaction.month} ${transaction.year}`,
+                  description: transaction.description,
+                  value: transaction.value,
+                  fitid: transaction.fitid
+                };
+                promises.push(addItemToDatabase(userId, newItem, transaction.year));
+                newItemsCount++;
+              } else {
+                console.log(`Ignorando chave composta duplicada: ${newCompositeKey}`);
+              }
+            }
+
+            if (promises.length > 0) {
+              await Promise.all(promises);
+            }
+
+            if (newItemsCount > 0) {
+              alert(`${newItemsCount} nova(s) despesa(s) importada(s) com sucesso!`);
+            } else {
+              alert("Nenhuma despesa nova para importar. As transações já existem.");
+            }
+
+          } catch (error) {
+            console.error("Erro ao processar arquivo OFX:", error);
+            alert("Erro ao processar arquivo OFX. Verifique se o formato é válido.");
+          }
+        };
+        fileReader.readAsText(file);
+        event.target.value = '';
+      });
+
+
+      function parseOFX(ofxData) {
+        console.log("================ INICIANDO PARSE DO ARQUIVO OFX ================");
+        const transactions = [];
+        const monthsPT = [
+          "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+        ];
+
+        const dtEndMatch = ofxData.match(/<DTEND>(\d{8})/);
+        if (!dtEndMatch) {
+          // Tenta encontrar a data no LEDGERBAL como fallback
+          const dtAsOfMatch = ofxData.match(/<DTASOF>(\d{8})/);
+          if (dtAsOfMatch) {
+            dtEndMatch = dtAsOfMatch;
+            console.warn("AVISO: Tag <DTEND> não encontrada. Usando <DTASOF> como data da fatura.");
+          } else {
+            console.error("ERRO CRÍTICO: Não foi possível encontrar <DTEND> ou <DTASOF>. A importação será abortada.");
+            alert("Erro: O arquivo OFX não contém uma data de fechamento de fatura válida (<DTEND> ou <DTASOF>).");
+            return [];
+          }
         }
 
-      });
+        const invoiceDateStr = dtEndMatch[1];
+        const invoiceYear = parseInt(invoiceDateStr.substring(0, 4), 10);
+        const invoiceMonthIndex = parseInt(invoiceDateStr.substring(4, 6), 10) - 1;
+        const invoiceMonthName = monthsPT[invoiceMonthIndex];
 
-      // Funções para deslizamento de tela touch:
+        console.log(`Fatura identificada com fechamento em: ${invoiceDateStr}`);
+        console.log(`==> Mês da Fatura definido como: ${invoiceMonthName} de ${invoiceYear}`);
+
+        const transactionRegex = /<STMTTRN>([\s\S]*?)<\/STMTTRN>/g;
+        let transactionBlocks = ofxData.match(transactionRegex);
+
+        if (!transactionBlocks) {
+          console.warn("AVISO: Nenhum bloco de transação <STMTTRN> encontrado no arquivo.");
+          return [];
+        }
+
+        console.log(`Encontrados ${transactionBlocks.length} blocos de transação no total.`);
+
+        for (let i = 0; i < transactionBlocks.length; i++) {
+          const block = transactionBlocks[i];
+
+          const typeMatch = block.match(/<TRNTYPE>(.*?)<\/TRNTYPE>/);
+          if (typeMatch && typeMatch[1] !== 'DEBIT') {
+            continue;
+          }
+
+          const amountMatch = block.match(/<TRNAMT>([-\d.]+)/);
+          const fitidMatch = block.match(/<FITID>([\w.-]+)/);
+          const memoMatch = block.match(/<MEMO>(.*?)<\/MEMO>/s);
+          const postedDateMatch = block.match(/<DTPOSTED>(\d{8})/);
+
+          if (amountMatch && fitidMatch && memoMatch) {
+            const value = Math.abs(parseFloat(amountMatch[1]));
+            const fitid = fitidMatch[1];
+            let description = memoMatch[1].trim();
+
+            if (postedDateMatch) {
+              const dateStr = postedDateMatch[1];
+              const day = dateStr.substring(6, 8);
+              const month = dateStr.substring(4, 6);
+              description = `${description} (${day}/${month})`;
+            }
+
+            const finalTransaction = {
+              month: invoiceMonthName,
+              year: invoiceYear,
+              description,
+              value,
+              fitid
+            };
+            transactions.push(finalTransaction);
+          }
+        }
+        console.log(`\n================ PARSE FINALIZADO ================`);
+        console.log(`Total de transações de DÉBITO a serem importadas: ${transactions.length}`);
+        return transactions;
+      }
+
       var touchstartX = 0;
       var touchendX = 0;
-      var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+      var gestureZone = 50;
 
-      document.addEventListener('touchstart', function (event) {
-        touchstartX = event.changedTouches[0].screenX;
-      });
-
-      document.addEventListener('touchend', function (event) {
-        touchendX = event.changedTouches[0].screenX;
+      document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+      document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
         handleGesture();
       });
 
       function handleGesture() {
-        if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
-          // Deslizamento para a esquerda
-          window.history.back(); // Redireciona para a página anterior
-        } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
-          // Deslizamento para a direita
-          window.history.back(); // Redireciona para a página anterior
+        if (Math.abs(touchendX - touchstartX) > gestureZone) {
+          window.history.back();
         }
       }
     </script>
