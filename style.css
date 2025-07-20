@@ -46,7 +46,8 @@
   .iframe-container,
   #Registrar_Compra,
   #importButton,
-  #tutorial_gerar_excel {
+  #tutorial_gerar_excel,
+  #initBalanceInfo {
     display: none !important;
   }
 
