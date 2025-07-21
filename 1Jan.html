@@ -881,49 +881,6 @@
       }
     }
 
-    // Função para exportar para PDF
-    function exportToPDF() {
-      // Verifica se o dispositivo é móvel
-      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        // Redireciona para uma nova página com o conteúdo para impressão
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-          <html>
-          <head>
-            <title>Janeiro - PDF</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-            <style>
-              /* Estilos para impressão */
-              body { font-family: Arial, sans-serif; }
-              .container { width: 100%; }
-              .card { border: 1px solid #ccc; margin-bottom: 10px; }
-              .card-content { padding: 10px; }
-              .card-title { font-size: 1.2em; }
-              #pdfButton { display: none; } /* Oculta o botão de exportação */
-            </style>
-          </head>
-          <body>
-            <div class="container">
-              <h1>Janeiro</h1>
-              ${document.querySelector('.container').innerHTML}
-            </div>
-          </body>
-          </html>
-        `);
-        printWindow.document.close();
-        printWindow.focus();
-
-        // Espera um curto período antes de imprimir para garantir que o conteúdo seja carregado
-        setTimeout(() => {
-          printWindow.print();
-          printWindow.close();
-        }, 500);
-      } else {
-        // Se não for um dispositivo móvel, usa o window.print() normal
-        window.print();
-      }
-    }
-
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>

@@ -3,9 +3,22 @@
   padding: 0;
 }
 
-@media screen and (max-width: 425px) {
-  #pdfButton {
-    display: none;
+/* Oculta o botões em telas menores */
+@media screen and (max-width: 768px) {
+
+  #pdfButton,
+  #backButton,
+  #nextButton {
+    display: none !important;
+  }
+
+  .nav-wrapper .brand-logo {
+    font-size: 16px !important;
+    padding: 0;
+  }
+
+  .card {
+    padding: 3px;
   }
 }
 
