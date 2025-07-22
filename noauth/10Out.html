@@ -15,9 +15,9 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button onclick="redredirectToSep()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redredirectToSep()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Outubro</span>
-        <button onclick="redirectToNov()" class="btn btn-default">Próximo</button>
+        <button id="nextButton" onclick="redirectToNov()" class="btn btn-default">Próximo</button>
       </div>
     </nav>
   </div>
@@ -725,7 +725,7 @@
         redirectToSep(); // Redireciona para a página anterior
       }
     }
-    
+
   </script>
 </body>
 

@@ -13,9 +13,9 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button onclick="redirectToIndex()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToIndex()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">FAQ</span>
-        <button onclick="redirectToIndex()" class="btn btn-default">Próximo</button>
+        <button id="nextButton" onclick="redirectToIndex()" class="btn btn-default">Próximo</button>
       </div>
     </nav>
   </div>
@@ -24,62 +24,67 @@
     <h4>O que é o app Saldo Fácil?</h4>
     <p>Todos precisamos ter nossa vida financeira organizada.</p>
     <p>Este app é uma ferramenta que auxilia no controle financeiro anual de qualquer pessoa.
-       Ele possui as telas de cada mês onde podemos fazer os lançamentos diários,
-       dos <b>Créditos</b> (receitas) e <b>Débitos</b> (despesas).</p>
+      Ele possui as telas de cada mês onde podemos fazer os lançamentos diários,
+      dos <b>Créditos</b> (receitas) e <b>Débitos</b> (despesas).</p>
 
     <h4>Como eu uso o app?</h4>
-    <p>É importante adicionar sempre um saldo inicial que deve ser digitado no mês de <b>Janeiro</b> 
-       no campo <b>Saldo Inicial</b>, ainda que os lançamentos das contas e ganhos sejam 
-       realizados a partir do meio do ano, por exemplo. Os valores dos saldos iniciais dos meses subsequêntes 
-       a janeiro serão preenchidos automaticamente conforme o fechamento do mês anterior.
+    <p>É importante adicionar sempre um saldo inicial que deve ser digitado no mês de <b>Janeiro</b>
+      no campo <b>Saldo Inicial</b>, ainda que os lançamentos das contas e ganhos sejam
+      realizados a partir do meio do ano, por exemplo. Os valores dos saldos iniciais dos meses subsequêntes
+      a janeiro serão preenchidos automaticamente conforme o fechamento do mês anterior.
     </p>
-    <p>No campo <b>Fazer lançamentos</b>, você pode adicionar os créditos (o que entra) e os débitos 
-       (o que sai). Você pode digitar o dia da operação e adicionar uma descrição para identificação.
+    <p>No campo <b>Fazer lançamentos</b>, você pode adicionar os créditos (o que entra) e os débitos
+      (o que sai). Você pode digitar o dia da operação e adicionar uma descrição para identificação.
     </p>
     <p>A tela <b>Cartão de Crédito</b> se destina aos gastos com cartão de crédito.</p>
-    <p>Você pode inserir as operações de compra adicionando a descrição da compra para identificação, 
-       a quantidade de parcelas em que será dividida a compra e o valor total da compra que será 
-       realizada. O <b>Mês da Compra</b> deve ser selecionado da seguinte forma:
+    <p>Você pode inserir as operações de compra adicionando a descrição da compra para identificação,
+      a quantidade de parcelas em que será dividida a compra e o valor total da compra que será
+      realizada. O <b>Mês da Compra</b> deve ser selecionado da seguinte forma:
     </p>
-    <p>Se a compra estiver sendo realizada antes do fechamento da fatura do cartão, mas depois do dia 1 do mês, 
-       deve ser selecionado o mês anterior para que o app considere a primeira parcela para o mês em que 
-       será paga a primeira parcela. Por exemplo: Se a compra foi realizada em maio, a primeira parcela será 
-       lançada para junho. Se a primeira parcela ocorrer em Janeiro, o seletor Mês da Compra 
-       não precisa ser selecionado. Se for selecionado o mês de Janeiro a primeira parcela ocorrerá 
-       em Fevereiro. Para que a primeira parcela ocorra em Janeiro, não selecione o Mês da Compra. Os valores 
-       das faturas de cada mês serão obtidos e exibidos no card acima na tela e serão automaticamente 
-       direcionados para cada mês para serem subtraídos do saldo do mês.
+    <p>Se a compra estiver sendo realizada antes do fechamento da fatura do cartão, mas depois do dia 1 do mês,
+      deve ser selecionado o mês anterior para que o app considere a primeira parcela para o mês em que
+      será paga a primeira parcela. Por exemplo: Se a compra foi realizada em maio, a primeira parcela será
+      lançada para junho. Se a primeira parcela ocorrer em Janeiro, o seletor Mês da Compra
+      não precisa ser selecionado. Se for selecionado o mês de Janeiro a primeira parcela ocorrerá
+      em Fevereiro. Para que a primeira parcela ocorra em Janeiro, não selecione o Mês da Compra. Os valores
+      das faturas de cada mês serão obtidos e exibidos no card acima na tela e serão automaticamente
+      direcionados para cada mês para serem subtraídos do saldo do mês.
     </p>
-    <p>A página <b>Relatório</b> mostra cada lançamento dos meses do ano e soma os valores de cada lançamento 
-       agrupando segundo a <b>descrição</b> do lançamento. É importante prestar atenção na digitação da descrição 
-       do lançamento para que o app reconheça cada lançamento, os agrupe e exiba na página Relatório. Por exemplo: 
-       se você digitar <b>Salário</b> no mês de Janeiro e no mês de Fevereiro digitar a palavra Salário com um espaço 
-       na frente, o app não vai reconhecer como sendo a mesma palavra. Para que reconheça todos os caracteres no
-       campo descrição devem ser iguais.
+    <p>A página <b>Relatório</b> mostra cada lançamento dos meses do ano e soma os valores de cada lançamento
+      agrupando segundo a <b>descrição</b> do lançamento. É importante prestar atenção na digitação da descrição
+      do lançamento para que o app reconheça cada lançamento, os agrupe e exiba na página Relatório. Por exemplo:
+      se você digitar <b>Salário</b> no mês de Janeiro e no mês de Fevereiro digitar a palavra Salário com um espaço
+      na frente, o app não vai reconhecer como sendo a mesma palavra. Para que reconheça todos os caracteres no
+      campo descrição devem ser iguais.
     </p>
-    <p>Uma dica para você ter uma perspectiva da sua situação financeira anual é lançar todos os recebimentos fixos e 
-      gastos fixos do ano. Com isso você vai conseguir ter uma visão de quanto vai sobrar ou faltar de dinheiro a cada 
-      mês e vai poder fazer planos com relação aos seus gastos. Para contas variáveis, como por exemplo contas de energia, e 
+    <p>Uma dica para você ter uma perspectiva da sua situação financeira anual é lançar todos os recebimentos fixos e
+      gastos fixos do ano. Com isso você vai conseguir ter uma visão de quanto vai sobrar ou faltar de dinheiro a cada
+      mês e vai poder fazer planos com relação aos seus gastos. Para contas variáveis, como por exemplo contas de
+      energia, e
       água, você pode estimar um valor "por alto". Observe o seu consumo dos anos anteriores e faça o lançamento para o
       ano corrente de um valor estimado baseado no seu maior consumo. Quando sua conta chegar, cheque se você está tendo
-      um consumo maior ou menor do que o provisionado, apague o lançamento que você havia feito e insira um lançamento 
-      com o valor real da sua conta. Assim você vai conseguir ter um real controle dos seus gastos e vai planejar 
-      práticas de economia que vão refletir no seu estilo de vida.      
+      um consumo maior ou menor do que o provisionado, apague o lançamento que você havia feito e insira um lançamento
+      com o valor real da sua conta. Assim você vai conseguir ter um real controle dos seus gastos e vai planejar
+      práticas de economia que vão refletir no seu estilo de vida.
     </p>
-   
+
     <h4>Os cálculos não estão dando resultados corretos</h4>
     <p>Este aplicativo é um webapp. Ele foi totalmente desenvolvido em html e javascript.</p>
-    <p>Novas atualizações estão sendo implementadas a todo instante. Como o site usa o localstorage e não a nuvem para 
-       armazenar os dados, pode ser que alguma atualização atrapalhe nos seus resultados quando você acessar o aplicativo. 
-       Se isto ocorre basta você clicar em "Recomeçar" na tela inicial do aplicativo. Será necessário refazer os lançamentos.</p>
+    <p>Novas atualizações estão sendo implementadas a todo instante. Como o site usa o localstorage e não a nuvem para
+      armazenar os dados, pode ser que alguma atualização atrapalhe nos seus resultados quando você acessar o
+      aplicativo.
+      Se isto ocorre basta você clicar em "Recomeçar" na tela inicial do aplicativo. Será necessário refazer os
+      lançamentos.</p>
 
     <h4>Posso exportar para PDF?</h4>
-    <p>Sim. Porém em dispositivos smartphones e pelo aplicativo Android isso não é possível. Para exportar para PDF utilize um 
-       computador ou tablet acessando atravéz da página do aplicativo no navegador do seu dispositivo.</p>
+    <p>Sim. Porém em dispositivos smartphones e pelo aplicativo Android isso não é possível. Para exportar para PDF
+      utilize um
+      computador ou tablet acessando atravéz da página do aplicativo no navegador do seu dispositivo.</p>
 
     <h4>Qual é o endereço do site do App?</h4>
-    <p>O Saldo Fácil é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou 
-       diretamente no navegador em qualquer outro dispositivo através do endereço <b>https://saldofacil.vercel.app</b>.</p>     
+    <p>O Saldo Fácil é um webapp. Você pode acessá-lo no app instalado no Android baixado da Playstore ou
+      diretamente no navegador em qualquer outro dispositivo através do endereço <b>https://saldofacil.vercel.app</b>.
+    </p>
 
   </div>
 
@@ -89,6 +94,36 @@
     // Redirecionar para outras páginas
     function redirectToIndex() {
       window.location.href = 'index.html';
+    }
+
+    // Funções para deslizamento de tela touch:
+    var touchstartX = 0;
+    var touchendX = 0;
+    var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+
+    document.addEventListener("touchstart", function (event) {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", function (event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+    });
+
+    function handleGesture() {
+      if (
+        touchendX < touchstartX &&
+        Math.abs(touchendX - touchstartX) > gestureZone
+      ) {
+        // Deslizamento para a esquerda
+        window.history.back(); // Redireciona para a página anterior
+      } else if (
+        touchendX > touchstartX &&
+        Math.abs(touchendX - touchstartX) > gestureZone
+      ) {
+        // Deslizamento para a direita
+        window.history.back(); // Redireciona para a página anterior
+      }
     }
   </script>
 </body>

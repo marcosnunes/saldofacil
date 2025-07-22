@@ -15,9 +15,9 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button onclick="redirectToAug()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToAug()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Setembro</span>
-        <button onclick="redirectToOut()" class="btn btn-default">Próximo</button>
+        <button id="nextButton" onclick="redirectToOut()" class="btn btn-default">Próximo</button>
       </div>
     </nav>
   </div>
@@ -720,13 +720,13 @@
     function handleGesture() {
       if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
         // Deslizamento para a esquerda
-        redirectToOct(); // Redireciona para a próxima página
+        redirectToOut(); // Redireciona para a próxima página
       } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
         // Deslizamento para a direita
         redirectToAug(); // Redireciona para a página anterior
       }
     }
-    
+
   </script>
 </body>
 

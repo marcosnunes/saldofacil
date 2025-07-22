@@ -15,6 +15,7 @@
   .nav-wrapper .brand-logo {
     font-size: 16px !important;
     padding: 0;
+    margin-top: 15px;
   }
 
   .card {

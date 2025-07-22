@@ -15,9 +15,9 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button onclick="redirectToIndex()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToIndex()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Cartão</span>
-        <button onclick="redirectToIndex()" class="btn btn-default">Próximo</button>
+        <button id="nextButton" onclick="redirectToIndex()" class="btn btn-default">Próximo</button>
       </div>
     </nav>
   </div>
@@ -82,7 +82,8 @@
     <div class="card">
       <div class="card-content">
         <span class="card-title">Registrar compra</span>
-        <p>Se a compra foi realizada em dezembro e a 1ª parcela for em Janeiro, não selecione o <b>Mês da compra</b> para fazer o lançamento.</p>
+        <p>Se a compra foi realizada em dezembro e a 1ª parcela for em Janeiro, não selecione o <b>Mês da compra</b>
+          para fazer o lançamento.</p>
         <div class="input-field">
           <select class="month-select form-control" id="month">
             <option value="" disabled selected>Mês da compra</option>
@@ -317,6 +318,37 @@
         localStorage.setItem(monthKey, monthBalance);
       }
     }
+
+    // Funções para deslizamento de tela touch:
+    var touchstartX = 0;
+    var touchendX = 0;
+    var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+
+    document.addEventListener("touchstart", function (event) {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", function (event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+    });
+
+    function handleGesture() {
+      if (
+        touchendX < touchstartX &&
+        Math.abs(touchendX - touchstartX) > gestureZone
+      ) {
+        // Deslizamento para a esquerda
+        window.history.back(); // Redireciona para a página anterior
+      } else if (
+        touchendX > touchstartX &&
+        Math.abs(touchendX - touchstartX) > gestureZone
+      ) {
+        // Deslizamento para a direita
+        window.history.back(); // Redireciona para a página anterior
+      }
+    }
+
   </script>
 </body>
 

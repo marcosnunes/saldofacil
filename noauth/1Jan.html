@@ -15,9 +15,9 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button onclick="redirectToIndex()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToIndex()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Janeiro</span>
-        <button onclick="redirectToFev()" class="btn btn-default">Próximo</button>
+        <button id="nextButton" onclick="redirectToFev()" class="btn btn-default">Próximo</button>
       </div>
     </nav>
   </div>
@@ -31,8 +31,8 @@
     <div class="card" id="aviso-saldo-inicial">
       <div class="card-content">
         <p>Adicione aqui o saldo inicial, ainda que você inicie os seus
-          lançamentos no meio do ano. Marque a caixa "repetir" se você 
-          quer que seu lançamento se repita até dezembro. Clique em editar 
+          lançamentos no meio do ano. Marque a caixa "repetir" se você
+          quer que seu lançamento se repita até dezembro. Clique em editar
           para editar o card inserido.
         </p>
       </div>

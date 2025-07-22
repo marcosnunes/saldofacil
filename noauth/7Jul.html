@@ -15,9 +15,9 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button onclick="redirectToJun()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToJun()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Julho</span>
-        <button onclick="redirectToAgo()" class="btn btn-default">Próximo</button>
+        <button id="nextButton" onclick="redirectToAgo()" class="btn btn-default">Próximo</button>
       </div>
     </nav>
   </div>
@@ -726,7 +726,7 @@
         redirectToJun(); // Redireciona para a página anterior
       }
     }
-    
+
   </script>
 </body>
 
