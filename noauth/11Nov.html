@@ -15,7 +15,7 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button id="backButton" onclick="redredirectToOut()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToOut()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Novembro</span>
         <button id="nextButton" onclick="redirectToDez()" class="btn btn-default">Próximo</button>
       </div>
@@ -225,7 +225,7 @@
     }
 
     // Redirecionar para outras páginas
-    function redredirectToOut() {
+    function redirectToOut() {
       window.location.href = '10Out.html';
       calculateTotal();
       savedata();

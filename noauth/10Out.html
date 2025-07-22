@@ -15,7 +15,7 @@
   <div class="navigation">
     <nav>
       <div class="nav-wrapper">
-        <button id="backButton" onclick="redredirectToSep()" class="btn btn-default">Voltar</button>
+        <button id="backButton" onclick="redirectToSep()" class="btn btn-default">Voltar</button>
         <span class="brand-logo center">Outubro</span>
         <button id="nextButton" onclick="redirectToNov()" class="btn btn-default">Próximo</button>
       </div>
@@ -225,7 +225,7 @@
     }
 
     // Redirecionar para outras páginas
-    function redredirectToSep() {
+    function redirectToSep() {
       window.location.href = '9Set.html';
       calculateTotal();
       savedata();
