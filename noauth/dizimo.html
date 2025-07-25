@@ -88,74 +88,81 @@
         </div>
       </div>
     </div>
+    <div class="card" id="adsCard">
+      <div class="card-content">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // Recupere o valor do dízimo do localStorage para cada mês
-        var januaryTithe = localStorage.getItem("januaryTithe");
-        var februaryTithe = localStorage.getItem("februaryTithe");
-        var marchTithe = localStorage.getItem("marchTithe");
-        var aprilTithe = localStorage.getItem("aprilTithe");
-        var mayTithe = localStorage.getItem("mayTithe");
-        var juneTithe = localStorage.getItem("juneTithe");
-        var julyTithe = localStorage.getItem("julyTithe");
-        var augustTithe = localStorage.getItem("augustTithe");
-        var septemberTithe = localStorage.getItem("septemberTithe");
-        var octoberTithe = localStorage.getItem("octoberTithe");
-        var novemberTithe = localStorage.getItem("novemberTithe");
-        var decemberTithe = localStorage.getItem("decemberTithe");
+      </div>
+    </div>
+  </div>
 
-        // Atualize os elementos HTML com os valores recuperados
-        document.getElementById("januaryTithe").textContent = januaryTithe || "0.00";
-        document.getElementById("februaryTithe").textContent = februaryTithe || "0.00";
-        document.getElementById("marchTithe").textContent = marchTithe || "0.00";
-        document.getElementById("aprilTithe").textContent = aprilTithe || "0.00";
-        document.getElementById("mayTithe").textContent = mayTithe || "0.00";
-        document.getElementById("juneTithe").textContent = juneTithe || "0.00";
-        document.getElementById("julyTithe").textContent = julyTithe || "0.00";
-        document.getElementById("augustTithe").textContent = augustTithe || "0.00";
-        document.getElementById("septemberTithe").textContent = septemberTithe || "0.00";
-        document.getElementById("octoberTithe").textContent = octoberTithe || "0.00";
-        document.getElementById("novemberTithe").textContent = novemberTithe || "0.00";
-        document.getElementById("decemberTithe").textContent = decemberTithe || "0.00";
-      });
 
-      function redirectToIndex() {
-        window.location.href = 'index.html';
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Recupere o valor do dízimo do localStorage para cada mês
+      var januaryTithe = localStorage.getItem("januaryTithe");
+      var februaryTithe = localStorage.getItem("februaryTithe");
+      var marchTithe = localStorage.getItem("marchTithe");
+      var aprilTithe = localStorage.getItem("aprilTithe");
+      var mayTithe = localStorage.getItem("mayTithe");
+      var juneTithe = localStorage.getItem("juneTithe");
+      var julyTithe = localStorage.getItem("julyTithe");
+      var augustTithe = localStorage.getItem("augustTithe");
+      var septemberTithe = localStorage.getItem("septemberTithe");
+      var octoberTithe = localStorage.getItem("octoberTithe");
+      var novemberTithe = localStorage.getItem("novemberTithe");
+      var decemberTithe = localStorage.getItem("decemberTithe");
+
+      // Atualize os elementos HTML com os valores recuperados
+      document.getElementById("januaryTithe").textContent = januaryTithe || "0.00";
+      document.getElementById("februaryTithe").textContent = februaryTithe || "0.00";
+      document.getElementById("marchTithe").textContent = marchTithe || "0.00";
+      document.getElementById("aprilTithe").textContent = aprilTithe || "0.00";
+      document.getElementById("mayTithe").textContent = mayTithe || "0.00";
+      document.getElementById("juneTithe").textContent = juneTithe || "0.00";
+      document.getElementById("julyTithe").textContent = julyTithe || "0.00";
+      document.getElementById("augustTithe").textContent = augustTithe || "0.00";
+      document.getElementById("septemberTithe").textContent = septemberTithe || "0.00";
+      document.getElementById("octoberTithe").textContent = octoberTithe || "0.00";
+      document.getElementById("novemberTithe").textContent = novemberTithe || "0.00";
+      document.getElementById("decemberTithe").textContent = decemberTithe || "0.00";
+    });
+
+    function redirectToIndex() {
+      window.location.href = 'index.html';
+    }
+
+    // Funções para deslizamento de tela touch:
+    var touchstartX = 0;
+    var touchendX = 0;
+    var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+
+    document.addEventListener("touchstart", function (event) {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener("touchend", function (event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+    });
+
+    function handleGesture() {
+      if (
+        touchendX < touchstartX &&
+        Math.abs(touchendX - touchstartX) > gestureZone
+      ) {
+        // Deslizamento para a esquerda
+        window.history.back(); // Redireciona para a página anterior
+      } else if (
+        touchendX > touchstartX &&
+        Math.abs(touchendX - touchstartX) > gestureZone
+      ) {
+        // Deslizamento para a direita
+        window.history.back(); // Redireciona para a página anterior
       }
+    }
 
-      // Funções para deslizamento de tela touch:
-      var touchstartX = 0;
-      var touchendX = 0;
-      var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
-
-      document.addEventListener("touchstart", function (event) {
-        touchstartX = event.changedTouches[0].screenX;
-      });
-
-      document.addEventListener("touchend", function (event) {
-        touchendX = event.changedTouches[0].screenX;
-        handleGesture();
-      });
-
-      function handleGesture() {
-        if (
-          touchendX < touchstartX &&
-          Math.abs(touchendX - touchstartX) > gestureZone
-        ) {
-          // Deslizamento para a esquerda
-          window.history.back(); // Redireciona para a página anterior
-        } else if (
-          touchendX > touchstartX &&
-          Math.abs(touchendX - touchstartX) > gestureZone
-        ) {
-          // Deslizamento para a direita
-          window.history.back(); // Redireciona para a página anterior
-        }
-      }
-
-    </script>
+  </script>
 </body>
 
 </html>
