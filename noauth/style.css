@@ -4,19 +4,12 @@
 }
 
 /* Oculta o botões em telas menores */
-@media screen and (max-width: 1024px) {
-  
-  #adsCard {
-    display: none !important;
-  }
-}
-
-/* Oculta o botões em telas menores */
 @media screen and (max-width: 768px) {
 
   #pdfButton,
   #backButton,
-  #nextButton {
+  #nextButton,
+  #adsCard {
     display: none !important;
   }
 
