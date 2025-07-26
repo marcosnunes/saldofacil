@@ -4,14 +4,21 @@
 <head>
     <title>Relatórios IA</title>
     <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                "gtm.start": new Date().getTime(),
+                event: "gtm.js",
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != "dataLayer" ? "&l=" + l : "";
+            j.async = true;
+            j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, "script", "dataLayer", "GTM-54RF6LLM");
+    </script>
     <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="google" content="translate" />
@@ -26,16 +33,14 @@
 <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
+            style="display: none; visibility: hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div class="navigation">
-        <nav>
-            <div class="nav-wrapper">
-                <button id="backButton" class="btn btn-default">Voltar</button>
-                <span class="brand-logo center">Assistente</span>
-                <button id="nextButton" class="btn btn-default">Próximo</button>
-            </div>
-        </nav>
+        <div class="nav-wrapper">
+            <button id="backButton" class="btn btn-default">Voltar</button>
+            <span class="brand-logo center">Assistente</span>
+            <button id="nextButton" class="btn btn-default">Próximo</button>
+        </div>
     </div>
     <div class="container">
         <div class="card">
@@ -47,24 +52,23 @@
         <div class="card">
             <div class="card-content">
                 <h5>Pergunte à IA sobre seus Gastos</h5>
-                <input type="text" id="userQuestion" placeholder="Faça sua pergunta...">
+                <input type="text" id="userQuestion" placeholder="Faça sua pergunta..." />
                 <button id="askButton" class="btn btn-default">Perguntar</button>
             </div>
         </div>
     </div>
 
     <script type="module">
-
-        import {
-            GoogleGenerativeAI
-        } from 'https://esm.run/@google/generative-ai';
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
         const urlParams = new URLSearchParams(window.location.search);
-        const currentYear = urlParams.get('year');
+        const currentYear = urlParams.get("year");
 
         console.log("iareports.html - Valor de currentYear:", currentYear);
 
         if (!currentYear) {
-            console.warn("iareports.html - Parâmetro 'year' não encontrado na URL!");
+            console.warn(
+                "iareports.html - Parâmetro 'year' não encontrado na URL!"
+            );
         }
         const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; // Chave para armazenar no localStorage
 
@@ -86,36 +90,45 @@
             }
         }
         async function askAI(question, data) {
-            const apiKey = 'AIzaSyDTX8U1_TfVOc2oMtc08Xxaz03x55sh8B0';
-            const apiUrl = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey;
+            const apiKey = "AIzaSyDTX8U1_TfVOc2oMtc08Xxaz03x55sh8B0";
+            const apiUrl =
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
+                apiKey;
             const askButton = document.getElementById("askButton");
             // Formate os dados e a pergunta em um prompt
-            const prompt = `Você é um assistente financeiro chamado Gemini. Com base nos seguintes dados de gastos:\n${JSON.stringify(data)}\nResponda à seguinte pergunta: ${question}`;
+            const prompt = `Você é um assistente financeiro chamado Gemini. Com base nos seguintes dados de gastos:\n${JSON.stringify(
+                data
+            )}\nResponda à seguinte pergunta: ${question}`;
             try {
                 askButton.disabled = true;
                 askButton.textContent = "Carregando...";
                 const response = await fetch(apiUrl, {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: prompt
-                            }]
-                        }]
-                    })
+                        contents: [
+                            {
+                                parts: [
+                                    {
+                                        text: prompt,
+                                    },
+                                ],
+                            },
+                        ],
+                    }),
                 });
                 if (!response.ok) {
                     throw new Error(`Erro na requisição: ${response.status}`);
                 }
                 const result = await response.json();
                 const aiResponse = result.candidates[0].content.parts[0].text;
-                document.getElementById('reportArea').textContent = aiResponse;
+                document.getElementById("reportArea").textContent = aiResponse;
             } catch (error) {
                 console.error("Erro ao comunicar com a IA:", error);
-                document.getElementById('reportArea').textContent = "Erro ao obter resposta da IA.";
+                document.getElementById("reportArea").textContent =
+                    "Erro ao obter resposta da IA.";
             } finally {
                 askButton.disabled = false;
                 askButton.textContent = "Perguntar";
@@ -128,7 +141,8 @@
             const data = loadDataFromLocalStorage(); // Carregue os dados do localStorage
 
             if (!data) {
-                document.getElementById("reportArea").textContent = "Nenhum dado encontrado.";
+                document.getElementById("reportArea").textContent =
+                    "Nenhum dado encontrado.";
                 return;
             }
 
@@ -137,35 +151,46 @@
 
         document.addEventListener("DOMContentLoaded", function () {
             // Mensagem de saudação inicial
-            document.getElementById("reportArea").textContent = "Olá! Eu sou o Gemini, seu assistente financeiro. Como posso ajudar você hoje?";
+            document.getElementById("reportArea").textContent =
+                "Olá! Eu sou o Gemini, seu assistente financeiro. Como posso ajudar você hoje?";
         });
 
-        document.getElementById('backButton').addEventListener('click', function () {
-            window.history.back();
-        });
-        document.getElementById('nextButton').addEventListener('click', function () {
-            window.history.back();
-        });
+        document
+            .getElementById("backButton")
+            .addEventListener("click", function () {
+                window.history.back();
+            });
+        document
+            .getElementById("nextButton")
+            .addEventListener("click", function () {
+                window.history.back();
+            });
 
         // Funções para deslizamento de tela touch:
         var touchstartX = 0;
         var touchendX = 0;
         var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
 
-        document.addEventListener('touchstart', function (event) {
+        document.addEventListener("touchstart", function (event) {
             touchstartX = event.changedTouches[0].screenX;
         });
 
-        document.addEventListener('touchend', function (event) {
+        document.addEventListener("touchend", function (event) {
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         });
 
         function handleGesture() {
-            if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+            if (
+                touchendX < touchstartX &&
+                Math.abs(touchendX - touchstartX) > gestureZone
+            ) {
                 // Deslizamento para a esquerda
                 window.history.back(); // Redireciona para a página anterior
-            } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+            } else if (
+                touchendX > touchstartX &&
+                Math.abs(touchendX - touchstartX) > gestureZone
+            ) {
                 // Deslizamento para a direita
                 window.history.back(); // Redireciona para a página anterior
             }
