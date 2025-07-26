@@ -80,8 +80,27 @@ body {
 }
 
 .page-footer {
-  padding: 20px 0;
+  padding: 20px 0 !important;
+  padding-bottom: 50px !important;
+  text-align: center !important;
+  font-size: 16px !important;
   width: 100%;
+}
+
+.divider {
+  height: 1px;
+  background-color: #f8f9fa;
+}
+
+.custom-flow-text {
+  font-size: 16px !important;
+  text-align: center !important;
+}
+
+.grey-text.text-lighten-4 {
+  font-size: 16px !important;
+  color: #f8f9fa;
+  text-align: center;
 }
 
 .main-content {

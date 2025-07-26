@@ -3,7 +3,6 @@
   padding: 0;
 }
 
-/* Oculta o botões em telas menores */
 @media screen and (max-width: 768px) {
 
   #pdfButton,
@@ -25,7 +24,6 @@
 }
 
 @media print {
-  /* Redefine as margens para zero (ou outro valor desejado) */
   * {
     margin: 0;
     padding: 0;
@@ -35,7 +33,6 @@
     display: none;
   }
 
-   /* Redefine as bordas para nenhum (ou outro estilo desejado) */
   .card {
     width: 100%;
     padding: 20px;
@@ -57,7 +54,6 @@
     text-align: center;
   }
   
-  /* Oculte elementos que não devem ser impressos */
   #pdfButton {
     display: none;
   }
@@ -148,17 +144,14 @@
   margin-bottom: 20px;
 }
 
-/* Estilo para valores de crédito em verde claro */
 .green-text {
-  color: #00aa00; /* Ou a cor de verde desejada */
+  color: #00aa00;
 }
 
-/* Estilo para valores de débito em laranja */
 .orange-text {
-  color: #ff6600; /* Ou a cor de laranja desejada */
+  color: #ff6600;
 }
 
-/* Remova a linha de sublinhado do input */
 .input-field input[type="number"]:focus:not([readonly]),
 .input-field input[type="text"]:focus:not([readonly]) {
   border-bottom: none !important;
