@@ -22,75 +22,78 @@
       </div>
     </nav>
   </div>
-  <div class="container">
-    <div class="iframe-container" id="chart">
-      <iframe title="Grafico" src="chart.html" frameborder="0"></iframe>
-    </div>
-    <div>
-      <button onclick="redirectToIndex()" class="btn btn-default">Início</button>
-    </div>
-    <div class="card">
-      <div class="card-content" id="initBalance">
-        <span class="card-title">Saldo Inicial de Novembro</span>
-        <p><span id="NovemberInitialBalance">0.00</span></p>
+  <div class="main-content" style="margin-top: 60px; margin-bottom: 60px;">
+    <div class="container">
+      <div class="iframe-container" id="chart">
+        <iframe title="Grafico" src="chart.html" frameborder="0"></iframe>
       </div>
-    </div>
-    <div class="card" id="card-lancamento">
-      <div class="card-content">
-        <span class="card-title">Fazer lançamento</span>
-        <div class="input-field">
-          <input type="text" class="description form-control" id="novDescription" placeholder="Descrição">
-          <label for="novDescription">Descrição</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="debit form-control" id="novDebit" oninput="calculateTotal()" placeholder="Débito">
-          <label for="novDebit">Débito</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="credit form-control" id="novCredit" oninput="calculateTotal()"
-            placeholder="Crédito">
-          <label for="novCredit">Crédito</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="day form-control" id="novDay" placeholder="Dia">
-          <label for="novDay">Dia</label>
-        </div>
-        <div class="add-container">
-          <button onclick="addData('Novembro')" class="btn btn-default">Adicionar</button>
-          <span style="margin-right: 20px;"></span> <!-- Espaço entre os elementos -->
-          <label>
-            <input type="checkbox" id="repeatCheckbox">
-            <span>Repetir</span>
-          </label>
+      <div>
+        <button onclick="redirectToIndex()" class="btn btn-default">Início</button>
+      </div>
+      <div class="card">
+        <div class="card-content" id="initBalance">
+          <span class="card-title">Saldo Inicial de Novembro</span>
+          <p><span id="NovemberInitialBalance">0.00</span></p>
         </div>
       </div>
-    </div>
-    <div id="dataCards">
-      <!-- Os cards de dados adicionados aparecerão aqui -->
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">Resultados</span>
-        <p>Dízimo: <span id="novemberTithe" class="blue-text">0.00</span></p>
-        <p>Cartão de Crédito: <span id="novemberCreditCardBalance" class="orange-text">0.00</span></p>
-        <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
-        <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
-        <p>Saldo Final: <span id="totalNovembro">0.00</span></p>
-        <p>Balanço: <span id="balance"></span></p>
-        <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p><br>
-        <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+      <div class="card" id="card-lancamento">
+        <div class="card-content">
+          <span class="card-title">Fazer lançamento</span>
+          <div class="input-field">
+            <input type="text" class="description form-control" id="novDescription" placeholder="Descrição">
+            <label for="novDescription">Descrição</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="debit form-control" id="novDebit" oninput="calculateTotal()"
+              placeholder="Débito">
+            <label for="novDebit">Débito</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="credit form-control" id="novCredit" oninput="calculateTotal()"
+              placeholder="Crédito">
+            <label for="novCredit">Crédito</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="day form-control" id="novDay" placeholder="Dia">
+            <label for="novDay">Dia</label>
+          </div>
+          <div class="add-container">
+            <button onclick="addData('Novembro')" class="btn btn-default">Adicionar</button>
+            <span style="margin-right: 20px;"></span> <!-- Espaço entre os elementos -->
+            <label>
+              <input type="checkbox" id="repeatCheckbox">
+              <span>Repetir</span>
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="card" id="adsCard">
-      <div class="card-content">
-        <script async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
-          crossorigin="anonymous"></script>
-        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
-          data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+      <div id="dataCards">
+        <!-- Os cards de dados adicionados aparecerão aqui -->
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Resultados</span>
+          <p>Dízimo: <span id="novemberTithe" class="blue-text">0.00</span></p>
+          <p>Cartão de Crédito: <span id="novemberCreditCardBalance" class="orange-text">0.00</span></p>
+          <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
+          <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
+          <p>Saldo Final: <span id="totalNovembro">0.00</span></p>
+          <p>Balanço: <span id="balance"></span></p>
+          <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p><br>
+          <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+        </div>
+      </div>
+      <div class="card" id="adsCard">
+        <div class="card-content">
+          <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
+            crossorigin="anonymous"></script>
+          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
+            data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
       </div>
     </div>
   </div>

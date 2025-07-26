@@ -37,67 +37,69 @@
       </div>
     </nav>
   </div>
-  <div class="container">
-    <button id="homeButton" class="btn btn-default">Inicio</button>
-    <button id="clearMonthButton" class="btn btn-default">Limpar Mês</button>
-    <div class="card">
-      <div class="card-content" id="initBalance">
-        <span class="card-title">Saldo inicial de novembro</span>
-        <div class="form-control" id="NovInitialBalance">0.00</div>
+  <div class="main-content" style="margin-top: 60px; margin-bottom: 60px;">>
+    <div class="container">
+      <button id="homeButton" class="btn btn-default">Inicio</button>
+      <button id="clearMonthButton" class="btn btn-default">Limpar Mês</button>
+      <div class="card">
+        <div class="card-content" id="initBalance">
+          <span class="card-title">Saldo inicial de novembro</span>
+          <div class="form-control" id="NovInitialBalance">0.00</div>
+        </div>
       </div>
-    </div>
-    <div class="card" id="card-lancamento">
-      <div class="card-content">
-        <span class="card-title">Fazer lançamento</span>
-        <div class="input-field">
-          <input type="text" class="description form-control" id="novDescription" placeholder="Descrição">
-          <label for="novDescription">Descrição</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="debit form-control" id="novDebit" placeholder="Débito">
-          <label for="novDebit">Débito</label>
-        </div>
-        <div class="input-field">
-          <div style="display: flex; align-items: center;">
-            <div style="width: 100%">
-              <label for="novCredit">Crédito</label>
-              <input type="number" class="credit form-control" id="novCredit" placeholder="Crédito">
-            </div>
-            <div>
-              <label>
-                <input type="checkbox" id="titheCheckbox">
-                <span>Dízimo</span>
-              </label>
+      <div class="card" id="card-lancamento">
+        <div class="card-content">
+          <span class="card-title">Fazer lançamento</span>
+          <div class="input-field">
+            <input type="text" class="description form-control" id="novDescription" placeholder="Descrição">
+            <label for="novDescription">Descrição</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="debit form-control" id="novDebit" placeholder="Débito">
+            <label for="novDebit">Débito</label>
+          </div>
+          <div class="input-field">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 100%">
+                <label for="novCredit">Crédito</label>
+                <input type="number" class="credit form-control" id="novCredit" placeholder="Crédito">
+              </div>
+              <div>
+                <label>
+                  <input type="checkbox" id="titheCheckbox">
+                  <span>Dízimo</span>
+                </label>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="input-field">
-          <input type="number" class="day form-control" id="novDay" placeholder="Dia">
-          <label for="novDay">Dia</label>
-        </div>
-        <div class="add-container">
-          <button id="addButton" class="btn btn-default">Adicionar</button>
-          <span style="margin-right: 20px;"></span>
-          <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
-          <button id="importButton" class="btn btn-default">Importar Extrato</button>
+          <div class="input-field">
+            <input type="number" class="day form-control" id="novDay" placeholder="Dia">
+            <label for="novDay">Dia</label>
+          </div>
+          <div class="add-container">
+            <button id="addButton" class="btn btn-default">Adicionar</button>
+            <span style="margin-right: 20px;"></span>
+            <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
+            <button id="importButton" class="btn btn-default">Importar Extrato</button>
+          </div>
         </div>
       </div>
-    </div>
-    <div id="dataCards">
-      <!-- Os cards de dados adicionados aparecerão aqui -->
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">Resultados</span>
-        <p>Dízimo: <span id="novTithe" class="blue-text">0.00</span></p>
-        <p>Cartão de Crédito: <span id="novCreditCardBalance" class="orange-text">0.00</span></p>
-        <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
-        <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
-        <p>Total Investimentos: <span id="novTotalInvestment" class="orange-text">0.00</span></p>
-        <p>Saldo Final: <span id="totalNovember">0.00</span></p>
-        <p>Balanço: <span id="balance"></span></p>
-        <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
-        <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+      <div id="dataCards">
+        <!-- Os cards de dados adicionados aparecerão aqui -->
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Resultados</span>
+          <p>Dízimo: <span id="novTithe" class="blue-text">0.00</span></p>
+          <p>Cartão de Crédito: <span id="novCreditCardBalance" class="orange-text">0.00</span></p>
+          <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
+          <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
+          <p>Total Investimentos: <span id="novTotalInvestment" class="orange-text">0.00</span></p>
+          <p>Saldo Final: <span id="totalNovember">0.00</span></p>
+          <p>Balanço: <span id="balance"></span></p>
+          <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
+          <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+        </div>
       </div>
     </div>
   </div>
