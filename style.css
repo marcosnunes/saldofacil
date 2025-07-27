@@ -15,7 +15,17 @@
   .nav-wrapper {
     flex-direction: column;
     align-items: center;
+    background-color: #007bff;
+    padding: 0px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nav-wrapper .brand-logo {
+    font-size: 16px !important;
     padding: 0;
+    margin-top: 26px;
   }
 
   .card {
@@ -99,14 +109,7 @@
   z-index: 1000;
 }
 
-.nav-wrapper {
-  background-color: #007bff;
-  padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 
 .nav-wrapper .btn {
   background-color: #ffffff;
@@ -415,7 +418,22 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, auto);
   }
+
+  .nav-wrapper {
+    background-color: #007bff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    padding: 10px 15px 5px 15px;
+    justify-content: space-between;
+  }
+
+  .nav-wrapper .brand-logo {
+    font-size: 32px !important;
+    padding: 0;
+  }
 }
+
+
 
 .card-balance-content .card-content {
   background-color: #f5f5f5;
@@ -588,7 +606,7 @@
 @media screen and (max-width: 600px) {
   #chat-messages {
     height: 400px;
-  }  
+  }
 }
 
 .message {
