@@ -423,7 +423,7 @@
     background-color: #007bff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    padding: 10px 15px 5px 15px;
+    padding: 10px 0px 5px 0px;
     justify-content: space-between;
   }
 
