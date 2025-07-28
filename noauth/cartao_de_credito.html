@@ -22,112 +22,114 @@
       </div>
     </nav>
   </div>
-  <div class="container">
-    <div class="balance-value" id="balanceValue">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Valores das faturas</span>
-          <div class="card-balance-content">
-            <div class="card-content">
-              <span class="card-title">Jan</span>
-              <p><span id="januaryCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Fev</span>
-              <p><span id="februaryCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mar</span>
-              <p><span id="marchCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Abr</span>
-              <p><span id="aprilCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mai</span>
-              <p><span id="mayCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jun</span>
-              <p><span id="juneCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jul</span>
-              <p><span id="julyCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Ago</span>
-              <p><span id="augustCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Set</span>
-              <p><span id="septemberCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Out</span>
-              <p><span id="octoberCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Nov</span>
-              <p><span id="novemberCreditCardBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Dez</span>
-              <p><span id="decemberCreditCardBalance">0.00</span></p>
+  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="container">
+      <div class="balance-value" id="balanceValue">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Valores das faturas</span>
+            <div class="card-balance-content">
+              <div class="card-content">
+                <span class="card-title">Jan</span>
+                <p><span id="januaryCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Fev</span>
+                <p><span id="februaryCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mar</span>
+                <p><span id="marchCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Abr</span>
+                <p><span id="aprilCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mai</span>
+                <p><span id="mayCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jun</span>
+                <p><span id="juneCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jul</span>
+                <p><span id="julyCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Ago</span>
+                <p><span id="augustCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Set</span>
+                <p><span id="septemberCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Out</span>
+                <p><span id="octoberCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Nov</span>
+                <p><span id="novemberCreditCardBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Dez</span>
+                <p><span id="decemberCreditCardBalance">0.00</span></p>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">Registrar compra</span>
-        <p>Se a compra foi realizada em dezembro e a 1ª parcela for em Janeiro, não selecione o <b>Mês da compra</b>
-          para fazer o lançamento.</p>
-        <div class="input-field">
-          <select class="month-select form-control" id="month">
-            <option value="" disabled selected>Mês da compra</option>
-            <option value="January">Janeiro</option>
-            <option value="February">Fevereiro</option>
-            <option value="March">Março</option>
-            <option value="April">Abril</option>
-            <option value="May">Maio</option>
-            <option value="June">Junho</option>
-            <option value="July">Julho</option>
-            <option value="August">Agosto</option>
-            <option value="September">Setembro</option>
-            <option value="October">Outubro</option>
-            <option value="November">Novembro</option>
-            <option value="December">Dezembro</option>
-          </select>
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Registrar compra</span>
+          <p>Se a compra foi realizada em dezembro e a 1ª parcela for em Janeiro, não selecione o <b>Mês da compra</b>
+            para fazer o lançamento.</p>
+          <div class="input-field">
+            <select class="month-select form-control" id="month">
+              <option value="" disabled selected>Mês da compra</option>
+              <option value="January">Janeiro</option>
+              <option value="February">Fevereiro</option>
+              <option value="March">Março</option>
+              <option value="April">Abril</option>
+              <option value="May">Maio</option>
+              <option value="June">Junho</option>
+              <option value="July">Julho</option>
+              <option value="August">Agosto</option>
+              <option value="September">Setembro</option>
+              <option value="October">Outubro</option>
+              <option value="November">Novembro</option>
+              <option value="December">Dezembro</option>
+            </select>
+          </div>
+          <div class="input-field">
+            <input type="text" class="description form-control" id="description" placeholder="Descrição">
+            <label for="description">Descrição</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="multiplicator form-control" id="multiplicator" placeholder="Qtd de parcelas">
+            <label for="multiplicator">Qtd de parcelas</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="value form-control" id="billingValue" placeholder="Valor da Compra">
+            <label for="billingValue">Valor da Compra</label>
+          </div>
+          <button onclick="addData()" class="btn btn-default">Adicionar</button>
         </div>
-        <div class="input-field">
-          <input type="text" class="description form-control" id="description" placeholder="Descrição">
-          <label for="description">Descrição</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="multiplicator form-control" id="multiplicator" placeholder="Qtd de parcelas">
-          <label for="multiplicator">Qtd de parcelas</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="value form-control" id="billingValue" placeholder="Valor da Compra">
-          <label for="billingValue">Valor da Compra</label>
-        </div>
-        <button onclick="addData()" class="btn btn-default">Adicionar</button>
       </div>
-    </div>
-    <div id="groupedCardContainer"></div>
-    <div class="card" id="adsCard">
-      <div class="card-content">
-        <script async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
-          crossorigin="anonymous"></script>
-        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
-          data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+      <div id="groupedCardContainer"></div>
+      <div class="card" id="adsCard">
+        <div class="card-content">
+          <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
+            crossorigin="anonymous"></script>
+          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
+            data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
       </div>
     </div>
   </div>

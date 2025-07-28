@@ -22,81 +22,85 @@
       </div>
     </nav>
   </div>
-  <div class="container">
-    <div class="card">
-      <div class="card-content">
-        <h3 class="card-title">Calculadora de Investimentos</h3>
-        <div class="input-field">
-          <input type="number" class="initial-amount" id="initialAmount" placeholder="Montante inicial">
-          <label for="initialAmount">Montante Inicial</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="monthly-contribution" id="monthlyContribution" placeholder="Contribuição mensal">
-          <label for="monthlyContribution">Contribuição Mensal</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="annual-interest-rate" id="annualInterestRate"
-            placeholder="Taxa de Juros Anual (%)">
-          <label for="annualInterestRate">Taxa de Juros Anual (%)</label>
-        </div>
-        <div class="input-field">
-          <input type="number" class="investment-duration" id="investmentDuration" placeholder="(meses)">
-          <label for="investmentDuration">Duração do Investimento</label>
-        </div>
-        <button id="calculateButton" class="btn btn-default">Calcular</button>
-        <div class="result">
-          <h5 class="card-title">Resultado:</h5>
-          <p>Total acumulado após <span id="investmentDurationResult">0</span> meses: <span
-              id="investmentResult">0.00</span></p>
-        </div>
-        <div class="references">
-          <h3 class="card-title">Valores de referência diários:</h3>
-          <p>Tx Poupança: <span id="poupancaValue">Carregando...</span></p>
-          <p>Tx selic: <span id="cdiValue">Carregando...</span></p>
-        </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-content">
-        <h3 class="card-title">Converter moeda</h3>
-        <div class="input-field">
-          <input type="number" class="initial-amount" id="initialAmountCurrency" placeholder="Digite">
-        </div>
-        <div>
-          <label>de</label>
-          <select id="initialAmountSelectionCurrency">
-            <option value="BRL">Real (R$)</option>
-            <option value="EUR">Euro (€)</option>
-            <option value="USD">Dólar ($)</option>
-            <option value="GBP">Libra Esterlina (£)</option>
-          </select>
-        </div>
-        <div>
-          <label>para</label>
-          <select id="convertedAmountSelectionCurrency">
-            <option value="BRL">Real (R$)</option>
-            <option value="EUR">Euro (€)</option>
-            <option value="USD">Dólar ($)</option>
-            <option value="GBP">Libra Esterlina (£)</option>
-          </select>
-        </div>
-        <div class="result">
-          <h3 class="card-title">Resultado:</h3>
-          <p><span id="initialAmountSelected">R$ 0.00</span> representam <span id="convertedAmountResult">R$ 0.00</span>
-          </p>
+  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="container">
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">Calculadora de Investimentos</h3>
+          <div class="input-field">
+            <input type="number" class="initial-amount" id="initialAmount" placeholder="Montante inicial">
+            <label for="initialAmount">Montante Inicial</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="monthly-contribution" id="monthlyContribution"
+              placeholder="Contribuição mensal">
+            <label for="monthlyContribution">Contribuição Mensal</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="annual-interest-rate" id="annualInterestRate"
+              placeholder="Taxa de Juros Anual (%)">
+            <label for="annualInterestRate">Taxa de Juros Anual (%)</label>
+          </div>
+          <div class="input-field">
+            <input type="number" class="investment-duration" id="investmentDuration" placeholder="(meses)">
+            <label for="investmentDuration">Duração do Investimento</label>
+          </div>
+          <button id="calculateButton" class="btn btn-default">Calcular</button>
+          <div class="result">
+            <h5 class="card-title">Resultado:</h5>
+            <p>Total acumulado após <span id="investmentDurationResult">0</span> meses: <span
+                id="investmentResult">0.00</span></p>
+          </div>
+          <div class="references">
+            <h3 class="card-title">Valores de referência diários:</h3>
+            <p>Tx Poupança: <span id="poupancaValue">Carregando...</span></p>
+            <p>Tx selic: <span id="cdiValue">Carregando...</span></p>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="card" id="adsCard">
-      <div class="card-content">
-        <script async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
-          crossorigin="anonymous"></script>
-        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
-          data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+      <div class="card">
+        <div class="card-content">
+          <h3 class="card-title">Converter moeda</h3>
+          <div class="input-field">
+            <input type="number" class="initial-amount" id="initialAmountCurrency" placeholder="Digite">
+          </div>
+          <div>
+            <label>de</label>
+            <select id="initialAmountSelectionCurrency">
+              <option value="BRL">Real (R$)</option>
+              <option value="EUR">Euro (€)</option>
+              <option value="USD">Dólar ($)</option>
+              <option value="GBP">Libra Esterlina (£)</option>
+            </select>
+          </div>
+          <div>
+            <label>para</label>
+            <select id="convertedAmountSelectionCurrency">
+              <option value="BRL">Real (R$)</option>
+              <option value="EUR">Euro (€)</option>
+              <option value="USD">Dólar ($)</option>
+              <option value="GBP">Libra Esterlina (£)</option>
+            </select>
+          </div>
+          <div class="result">
+            <h3 class="card-title">Resultado:</h3>
+            <p><span id="initialAmountSelected">R$ 0.00</span> representam <span id="convertedAmountResult">R$
+                0.00</span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="adsCard">
+        <div class="card-content">
+          <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
+            crossorigin="anonymous"></script>
+          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
+            data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
       </div>
     </div>
   </div>

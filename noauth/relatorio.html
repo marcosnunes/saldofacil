@@ -22,64 +22,67 @@
       </div>
     </nav>
   </div>
-  <div class="container">
-    <div class="card" id="tutorial">
-      <div class="card-content">
-        <p>Nesta tela você tem um demonstrativo anual dos seus resultados. Neste caso exibido aqui o Débito é tudo o que
-          você gastou no ano inteiro e o Crédito é tudo o que você recebeu. O Balanço mostra a diferença entre o
-          Crédito e o Débito. Também é exibido o balanço em porcentagem. 100% representa que você gastou tudo o que
-          recebeu. Um valor maior que 100% você gastou mais do que recebeu. Para manter o seu patrimônio sempre em
-          ascenção é importante manter o balanço não maior que 80%. O ideal é 70% para que você consiga fazer uma
-          reserva de emergência.</p>
-      </div>
-    </div>
-    <div class="balance-value" id="balanceValue">
-      <div class="card">
+  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="container">
+      <div class="card" id="tutorial">
         <div class="card-content">
-          <span class="card-title">Totais anual</span>
-          <div class="card-balance-content">
-            <div class="card-content">
-              <span class="card-title">Débito</span>
-              <p><span id="debitTotal" style="color: #d50000">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Crédito</span>
-              <p><span id="creditTotal">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Cartão de Crédito</span>
-              <p><span id="creditCardBalance">0.00</span></p>
-            </div>
-          </div>
+          <p>Nesta tela você tem um demonstrativo anual dos seus resultados. Neste caso exibido aqui o Débito é tudo o
+            que
+            você gastou no ano inteiro e o Crédito é tudo o que você recebeu. O Balanço mostra a diferença entre o
+            Crédito e o Débito. Também é exibido o balanço em porcentagem. 100% representa que você gastou tudo o que
+            recebeu. Um valor maior que 100% você gastou mais do que recebeu. Para manter o seu patrimônio sempre em
+            ascenção é importante manter o balanço não maior que 80%. O ideal é 70% para que você consiga fazer uma
+            reserva de emergência.</p>
+        </div>
+      </div>
+      <div class="balance-value" id="balanceValue">
+        <div class="card">
           <div class="card-content">
-            <span class="card-title">Balanço</span>
-            <p><span id="balance">0.00</span></p>
-            <p><span id="balancePercentage">0.00%</span></p>
+            <span class="card-title">Totais anual</span>
+            <div class="card-balance-content">
+              <div class="card-content">
+                <span class="card-title">Débito</span>
+                <p><span id="debitTotal" style="color: #d50000">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Crédito</span>
+                <p><span id="creditTotal">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Cartão de Crédito</span>
+                <p><span id="creditCardBalance">0.00</span></p>
+              </div>
+            </div>
+            <div class="card-content">
+              <span class="card-title">Balanço</span>
+              <p><span id="balance">0.00</span></p>
+              <p><span id="balancePercentage">0.00%</span></p>
+            </div>
+          </div>
+          <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+        </div>
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Lançamentos anuais</span>
+            <div id="launchDataContainer"></div>
           </div>
         </div>
-        <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
       </div>
-      <div class="card">
+      <div class="card" id="adsCard">
         <div class="card-content">
-          <span class="card-title">Lançamentos anuais</span>
-          <div id="launchDataContainer"></div>
+          <script async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
+            crossorigin="anonymous"></script>
+          <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
+            data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
         </div>
-      </div>
-    </div>
-    <div class="card" id="adsCard">
-      <div class="card-content">
-        <script async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2490151457200906"
-          crossorigin="anonymous"></script>
-        <ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86"
-          data-ad-client="ca-pub-2490151457200906" data-ad-slot="8738365217"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
       </div>
     </div>
   </div>
-  
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {

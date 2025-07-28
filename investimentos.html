@@ -35,245 +35,248 @@
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="container">
-    <div class="balance-value" id="balanceValue">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Saldo de investimentos</span>
-          <p>Saldo total retirados da conta corrente e depositados em investimentos.</p><br>
-          <div class="card-balance-content">
-            <div class="card-content">
-              <span class="card-title">Jan</span>
-              <p><span id="januaryinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Fev</span>
-              <p><span id="februaryinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mar</span>
-              <p><span id="marchinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Abr</span>
-              <p><span id="aprilinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mai</span>
-              <p><span id="mayinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jun</span>
-              <p><span id="juneinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jul</span>
-              <p><span id="julyinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Ago</span>
-              <p><span id="augustinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Set</span>
-              <p><span id="septemberinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Out</span>
-              <p><span id="octoberinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Nov</span>
-              <p><span id="novemberinvestimentBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Dez</span>
-              <p><span id="decemberinvestimentBalance">0.00</span></p>
-            </div>
-            <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Rendimento da Conta de Investimentos</span>
-          <p>Saldo atualizado mês a mês com juros compostos.</p><br>
-          <div class="card-balance-content" id="rendimentoMensal">
-            <div class="card-content">
-              <span class="card-title">Jan</span>
-              <p><span id="janeiroRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Fev</span>
-              <p><span id="fevereiroRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mar</span>
-              <p><span id="marçoRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Abr</span>
-              <p><span id="abrilRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mai</span>
-              <p><span id="maioRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jun</span>
-              <p><span id="junhoRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jul</span>
-              <p><span id="julhoRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Ago</span>
-              <p><span id="agostoRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Set</span>
-              <p><span id="setembroRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Out</span>
-              <p><span id="outubroRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Nov</span>
-              <p><span id="novembroRendimento">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Dez</span>
-              <p><span id="dezembroRendimento">0.00</span></p>
-            </div>
-          </div>
-          <div class="input-field">
-            <input type="number" class="rendimentoAnual" id="rendimentoAnual"
-              placeholder="Digite a taxa de rendimento Anual (%)"><br>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Total investido no ano</span>
-          <p>Relatório de rendimentos. Você pode usar os valores dos índices do seu fundo de investimentos para inserir
-            no card acima para estimar o
-            rendimento anual.</p><br>
-          <div class="card-balance-content">
-            <div class="card-content">
-              <span class="card-title">Bruto</span>
-              <p><span id="anualTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Renda</span>
-              <p><span id="anualTotalFees">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Saldo final</span>
-              <p><span id="anualTotalBalanceWithFees">0.00</span></p>
+  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="container">
+      <div class="balance-value" id="balanceValue">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Saldo de investimentos</span>
+            <p>Saldo total retirados da conta corrente e depositados em investimentos.</p><br>
+            <div class="card-balance-content">
+              <div class="card-content">
+                <span class="card-title">Jan</span>
+                <p><span id="januaryinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Fev</span>
+                <p><span id="februaryinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mar</span>
+                <p><span id="marchinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Abr</span>
+                <p><span id="aprilinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mai</span>
+                <p><span id="mayinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jun</span>
+                <p><span id="juneinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jul</span>
+                <p><span id="julyinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Ago</span>
+                <p><span id="augustinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Set</span>
+                <p><span id="septemberinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Out</span>
+                <p><span id="octoberinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Nov</span>
+                <p><span id="novemberinvestimentBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Dez</span>
+                <p><span id="decemberinvestimentBalance">0.00</span></p>
+              </div>
+              <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Saldo Total</span>
-          <p>Saldo total montante investido (Sem juros) + montante da conta corrente.</p><br>
-          <div class="card-balance-content">
-            <div class="card-content">
-              <span class="card-title">Jan</span>
-              <p><span id="januaryTotalBalance">0.00</span></p>
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Rendimento da Conta de Investimentos</span>
+            <p>Saldo atualizado mês a mês com juros compostos.</p><br>
+            <div class="card-balance-content" id="rendimentoMensal">
+              <div class="card-content">
+                <span class="card-title">Jan</span>
+                <p><span id="janeiroRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Fev</span>
+                <p><span id="fevereiroRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mar</span>
+                <p><span id="marçoRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Abr</span>
+                <p><span id="abrilRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mai</span>
+                <p><span id="maioRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jun</span>
+                <p><span id="junhoRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jul</span>
+                <p><span id="julhoRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Ago</span>
+                <p><span id="agostoRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Set</span>
+                <p><span id="setembroRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Out</span>
+                <p><span id="outubroRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Nov</span>
+                <p><span id="novembroRendimento">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Dez</span>
+                <p><span id="dezembroRendimento">0.00</span></p>
+              </div>
             </div>
-            <div class="card-content">
-              <span class="card-title">Fev</span>
-              <p><span id="februaryTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mar</span>
-              <p><span id="marchTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Abr</span>
-              <p><span id="aprilTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Mai</span>
-              <p><span id="mayTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jun</span>
-              <p><span id="juneTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Jul</span>
-              <p><span id="julyTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Ago</span>
-              <p><span id="augustTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Set</span>
-              <p><span id="septemberTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Out</span>
-              <p><span id="octoberTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Nov</span>
-              <p><span id="novemberTotalBalance">0.00</span></p>
-            </div>
-            <div class="card-content">
-              <span class="card-title">Dez</span>
-              <p><span id="decemberTotalBalance">0.00</span></p>
+            <div class="input-field">
+              <input type="number" class="rendimentoAnual" id="rendimentoAnual"
+                placeholder="Digite a taxa de rendimento Anual (%)"><br>
             </div>
           </div>
         </div>
-      </div>
-      <div class="card" id="card-lancamento">
-        <div class="card-content">
-          <span class="card-title">Movimentar investimentos</span>
-          <div class="input-field">
-            <input type="text" class="description form-control" id="investDescription" placeholder="Descrição">
-            <label for="investDescription">Descrição</label>
-          </div>
-          <div class="input-field">
-            <input type="number" class="debit form-control" id="investDebit" placeholder="Retirar">
-            <label for="investDebit">Retirar</label>
-          </div>
-          <div class="input-field">
-            <input type="number" class="credit form-control" id="investCredit" placeholder="Aplicar">
-            <label for="investCredit">Aplicar</label>
-          </div>
-          <div class="input-field">
-            <select class="month form-control" id="investMonth">
-              <option value="" disabled selected>Selecione o Mês</option>
-              <option value="Janeiro">Janeiro</option>
-              <option value="Fevereiro">Fevereiro</option>
-              <option value="Março">Março</option>
-              <option value="Abril">Abril</option>
-              <option value="Maio">Maio</option>
-              <option value="Junho">Junho</option>
-              <option value="Julho">Julho</option>
-              <option value="Agosto">Agosto</option>
-              <option value="Setembro">Setembro</option>
-              <option value="Outubro">Outubro</option>
-              <option value="Novembro">Novembro</option>
-              <option value="Dezembro">Dezembro</option>
-            </select>
-            <label for="investMonth">Mês</label>
-          </div>
-          <div class="add-container">
-            <button id="addButton" class="btn btn-default">Adicionar</button>
-            <span style="margin-right: 20px;"></span>
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Total investido no ano</span>
+            <p>Relatório de rendimentos. Você pode usar os valores dos índices do seu fundo de investimentos para
+              inserir
+              no card acima para estimar o
+              rendimento anual.</p><br>
+            <div class="card-balance-content">
+              <div class="card-content">
+                <span class="card-title">Bruto</span>
+                <p><span id="anualTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Renda</span>
+                <p><span id="anualTotalFees">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Saldo final</span>
+                <p><span id="anualTotalBalanceWithFees">0.00</span></p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div id="groupedCardContainer"></div>
-      <div id="dataCards">
-        <!-- Os cards de dados adicionados aparecerão aqui -->
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Saldo Total</span>
+            <p>Saldo total montante investido (Sem juros) + montante da conta corrente.</p><br>
+            <div class="card-balance-content">
+              <div class="card-content">
+                <span class="card-title">Jan</span>
+                <p><span id="januaryTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Fev</span>
+                <p><span id="februaryTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mar</span>
+                <p><span id="marchTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Abr</span>
+                <p><span id="aprilTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Mai</span>
+                <p><span id="mayTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jun</span>
+                <p><span id="juneTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Jul</span>
+                <p><span id="julyTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Ago</span>
+                <p><span id="augustTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Set</span>
+                <p><span id="septemberTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Out</span>
+                <p><span id="octoberTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Nov</span>
+                <p><span id="novemberTotalBalance">0.00</span></p>
+              </div>
+              <div class="card-content">
+                <span class="card-title">Dez</span>
+                <p><span id="decemberTotalBalance">0.00</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="card-lancamento">
+          <div class="card-content">
+            <span class="card-title">Movimentar investimentos</span>
+            <div class="input-field">
+              <input type="text" class="description form-control" id="investDescription" placeholder="Descrição">
+              <label for="investDescription">Descrição</label>
+            </div>
+            <div class="input-field">
+              <input type="number" class="debit form-control" id="investDebit" placeholder="Retirar">
+              <label for="investDebit">Retirar</label>
+            </div>
+            <div class="input-field">
+              <input type="number" class="credit form-control" id="investCredit" placeholder="Aplicar">
+              <label for="investCredit">Aplicar</label>
+            </div>
+            <div class="input-field">
+              <select class="month form-control" id="investMonth">
+                <option value="" disabled selected>Selecione o Mês</option>
+                <option value="Janeiro">Janeiro</option>
+                <option value="Fevereiro">Fevereiro</option>
+                <option value="Março">Março</option>
+                <option value="Abril">Abril</option>
+                <option value="Maio">Maio</option>
+                <option value="Junho">Junho</option>
+                <option value="Julho">Julho</option>
+                <option value="Agosto">Agosto</option>
+                <option value="Setembro">Setembro</option>
+                <option value="Outubro">Outubro</option>
+                <option value="Novembro">Novembro</option>
+                <option value="Dezembro">Dezembro</option>
+              </select>
+              <label for="investMonth">Mês</label>
+            </div>
+            <div class="add-container">
+              <button id="addButton" class="btn btn-default">Adicionar</button>
+              <span style="margin-right: 20px;"></span>
+            </div>
+          </div>
+        </div>
+        <div id="groupedCardContainer"></div>
+        <div id="dataCards">
+          <!-- Os cards de dados adicionados aparecerão aqui -->
+        </div>
       </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>

@@ -35,66 +35,68 @@
             <button id="nextButton" class="btn btn-default">Próximo</button>
         </div>
     </div>
-    <div class="container">
-        <div class="card" id="tutorial">
-            <div class="card-content">
-                <p>
-                    Selecione a moeda desejada para aplicar o câmbio e visualizar o seu
-                    relatório anual em Euros, Dólares ou Libras Esterlinas. Para que o
-                    saldo do cartão de crédito seja exibido corretamente, é importante
-                    percorrer todos os meses do ano para atualização dos saldos finais
-                    devido à dependencia destes valores entre si.
-                </p>
-            </div>
-        </div>
-
-        <div class="card" id="currencyConverter">
-            <div class="card-content">
-                <span class="card-title">Converter para:</span>
-                <select id="currencySelect">
-                    <option value="BRL">Real (R$)</option>
-                    <option value="EUR">Euro (€)</option>
-                    <option value="USD">Dólar ($)</option>
-                    <option value="GBP">Libra Esterlina (£)</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="balance-value" id="balanceValue">
-            <div class="card">
+    <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+        <div class="container">
+            <div class="card" id="tutorial">
                 <div class="card-content">
-                    <span class="card-title">Totais anual</span>
-                    <div class="card-balance-content">
-                        <div class="card-content">
-                            <span class="card-title">Débito</span>
-                            <p id="debitTotal">0.00</p>
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title">Crédito</span>
-                            <p id="creditTotal">0.00</p>
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title">Cartão de Crédito</span>
-                            <p id="creditCardBalance">0.00</p>
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title">Balanço</span>
-                            <p id="balance">0.00</p>
-                            <p id="balancePercentage">0.00%</p>
+                    <p>
+                        Selecione a moeda desejada para aplicar o câmbio e visualizar o seu
+                        relatório anual em Euros, Dólares ou Libras Esterlinas. Para que o
+                        saldo do cartão de crédito seja exibido corretamente, é importante
+                        percorrer todos os meses do ano para atualização dos saldos finais
+                        devido à dependencia destes valores entre si.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card" id="currencyConverter">
+                <div class="card-content">
+                    <span class="card-title">Converter para:</span>
+                    <select id="currencySelect">
+                        <option value="BRL">Real (R$)</option>
+                        <option value="EUR">Euro (€)</option>
+                        <option value="USD">Dólar ($)</option>
+                        <option value="GBP">Libra Esterlina (£)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="balance-value" id="balanceValue">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Totais anual</span>
+                        <div class="card-balance-content">
+                            <div class="card-content">
+                                <span class="card-title">Débito</span>
+                                <p id="debitTotal">0.00</p>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">Crédito</span>
+                                <p id="creditTotal">0.00</p>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">Cartão de Crédito</span>
+                                <p id="creditCardBalance">0.00</p>
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title">Balanço</span>
+                                <p id="balance">0.00</p>
+                                <p id="balancePercentage">0.00%</p>
+                            </div>
                         </div>
                     </div>
+                    <div class="card-action">
+                        <button id="pdfButton" onclick="window.print()" class="btn btn-default">
+                            Exportar para PDF
+                        </button>
+                        <a id="askAiButton" class="btn btn-default">Perguntar à IA</a>
+                    </div>
                 </div>
-                <div class="card-action">
-                    <button id="pdfButton" onclick="window.print()" class="btn btn-default">
-                        Exportar para PDF
-                    </button>
-                    <a id="askAiButton" class="btn btn-default">Perguntar à IA</a>
-                </div>
-            </div>
-            <div class="card">
-                <div id="report" class="card-content">
-                    <span class="card-title">Lançamentos anuais</span>
-                    <div id="launchDataContainer"></div>
+                <div class="card">
+                    <div id="report" class="card-content">
+                        <span class="card-title">Lançamentos anuais</span>
+                        <div id="launchDataContainer"></div>
+                    </div>
                 </div>
             </div>
         </div>

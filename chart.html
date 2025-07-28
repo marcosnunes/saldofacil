@@ -36,33 +36,35 @@
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="container">
-    <div class="card">
-      <div class="card-content-chart">
-        <canvas id="creditDebitChart"></canvas>
+  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="container">
+      <div class="card">
+        <div class="card-content-chart">
+          <canvas id="creditDebitChart"></canvas>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <div class="card-content-chart">
-        <canvas id="monthlyBalanceChart"></canvas>
+      <div class="card">
+        <div class="card-content-chart">
+          <canvas id="monthlyBalanceChart"></canvas>
+        </div>
       </div>
-    </div>
-    <div class="card" id="tutorial_gerar_excel">
-      <div class="card-content">
-        <span class="card-title">Gerar Arquivo Excel Anual</span>
-        <p>Clique no botão abaixo para gerar um arquivo Excel com planilhas para cada mês do ano, utilizando os dados
-          salvos.</p><br>
-        <p>Os dados serão exportados em formato de planilha, com as seguintes colunas:</p>
-        <ul>
-          <li>DIA: Dia do mês</li>
-          <li>DESCRIÇÃO: Descrição da transação</li>
-          <li>CRÉDITO + : Valor creditado</li>
-          <li>DÉBITO - : Valor debitado</li>
-          <li>SALDO DO DIA: Saldo acumulado até o dia</li>
-        </ul><br>
-        <p>Os dados serão exportados para um arquivo Excel com planilhas separadas para cada mês do ano.</p><br>
-        <button id="gerarExcelButton" class="btn btn-default" disabled>Gerar Excel Mensal</button><br><br>
-        <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+      <div class="card" id="tutorial_gerar_excel">
+        <div class="card-content">
+          <span class="card-title">Gerar Arquivo Excel Anual</span>
+          <p>Clique no botão abaixo para gerar um arquivo Excel com planilhas para cada mês do ano, utilizando os dados
+            salvos.</p><br>
+          <p>Os dados serão exportados em formato de planilha, com as seguintes colunas:</p>
+          <ul>
+            <li>DIA: Dia do mês</li>
+            <li>DESCRIÇÃO: Descrição da transação</li>
+            <li>CRÉDITO + : Valor creditado</li>
+            <li>DÉBITO - : Valor debitado</li>
+            <li>SALDO DO DIA: Saldo acumulado até o dia</li>
+          </ul><br>
+          <p>Os dados serão exportados para um arquivo Excel com planilhas separadas para cada mês do ano.</p><br>
+          <button id="gerarExcelButton" class="btn btn-default" disabled>Gerar Excel Mensal</button><br><br>
+          <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+        </div>
       </div>
     </div>
   </div>
