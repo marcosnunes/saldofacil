@@ -65,9 +65,9 @@
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
   <div class="navigation">
-      <div class="nav-wrapper">
-        <span class="brand-logo center">Saldo Fácil</span>
-      </div>
+    <div class="nav-wrapper">
+      <span class="brand-logo center">Saldo Fácil</span>
+    </div>
   </div>
   <div class="user-container">
     <div id="user-name" class="user-name"></div> <!-- Adicionando a exibição do nome do usuário -->
@@ -154,6 +154,10 @@
             </div>
             <div class="card" id="card21">
               <div class="card-content"><a id="chatButton" class="card-title">Chat ao vivo</a></div>
+            </div>
+            <div class="card" id="card23">
+              <div class="card-content" style="text-align: center;"><span class="card-title">Salário líquido</span>
+              </div>
             </div>
             <div class="card" id="limparDadosCard">
               <div class="card-content"><span class="card-title">Recomeçar</span></div>
@@ -349,6 +353,7 @@
       document.getElementById("card20").addEventListener("click", () => window.location.href = `aichat.html?year=${currentYear}`);
       document.getElementById("card21").addEventListener("click", () => window.location.href = `chat.html`);
       document.getElementById("card22").addEventListener("click", () => window.location.href = `investimentos.html?year=${currentYear}`);
+      document.getElementById("card23").addEventListener("click", () => window.location.href = `ordenado.html`);
     });
 
     yearSelector.addEventListener('change', function () {

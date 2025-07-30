@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Salário Líquido</title>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
+    <!-- End Google Tag Manager (noscript) -->
+    <meta charset="UTF-8">
+    <meta name="google" content="translate">
+    <meta name="description" content="Sua Calculadora Financeira Prática">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div class="navigation">
+        <div class="nav-wrapper">
+            <button id="backButton" class="btn btn-default">Voltar</button>
+            <span class="brand-logo center">Calculadora de Salário</span>
+            <button id="nextButton" class="btn btn-default">Próximo</button>
+        </div>
+    </div>
+    <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+        <div class="container">
+            <div class="card">
+                <div class="card-content">
+                    <h4>Simulador de Salário Líquido</h4>
+                    <form id="formCalculadora">
+                        <div class="form-group">
+                            <label for="salarioBruto">Salário Bruto (R$):</label>
+                            <input type="text" id="salarioBruto" required placeholder="Digite o valor do Salário Bruto"
+                                inputmode="decimal">
+                        </div>
+                        <div class="form-group">
+                            <label for="valeTransporte">Valor do Vale-Transporte (R$):</label>
+                            <input type="text" id="valeTransporte" required
+                                placeholder="Digite o valor do Vale-Transporte" inputmode="decimal">
+                        </div>
+                        <div class="form-group">
+                            <label for="valeAlimentacao">Valor do Vale-Alimentação (R$):</label>
+                            <input type="text" id="valeAlimentacao" required
+                                placeholder="Digite o valor do Vale-Alimentação" inputmode="decimal">
+                        </div>
+                        <div class="form-group">
+                            <label for="dependentes">Número de Dependentes:</label>
+                            <input type="number" id="dependentes" required min="0"
+                                placeholder="Digite o número de Dependentes">
+                        </div>
+                        <div class="form-group">
+                            <label for="outrasDeducoes">Outras Deduções (R$):</label>
+                            <input type="text" id="outrasDeducoes" required
+                                placeholder="Digite o valor de Outras Deduções" inputmode="decimal">
+                        </div>
+                        <button type="submit">Calcular</button>
+                    </form>
+
+                    <div class="resultado">
+                        <h4>Resultados:</h4>
+                        <p style="font-size: 22px;"><strong>Salário Bruto:</strong> <strong id="salarioBrutoInicial">R$
+                                0,00</strong></p>
+                        <p>Desconto INSS: <span id="descontoINSS">R$ 0,00</span></p>
+                        <p>Desconto IRRF: <span id="descontoIRRF">R$ 0,00</span></p>
+                        <hr>
+                        <p><strong>Base para desconto VT e VA:</strong> <strong id="salarioBaseCalculo">R$ 0,00</strong>
+                        </p><br>
+                        <p>Desconto Vale-Transporte: <span id="descontoVT">R$ 0,00</span></p>
+                        <p>Desconto Vale-Alimentação: <span id="descontoVA">R$ 0,00</span></p>
+                        <hr>
+                        <p><strong>Salário Líquido:</strong> <strong id="salarioLiquido">R$ 0,00</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+        // Função para remover a formatação de moeda e converter para número
+        function unformatCurrency(value) {
+            if (typeof value !== 'string') {
+                return value;
+            }
+            // Remove pontos e substitui vírgula por ponto para conversão
+            const sanitizedValue = value.replace(/\./g, '').replace(',', '.');
+            return parseFloat(sanitizedValue);
+        }
+
+        // Função para formatar o valor do input como moeda ao sair do campo
+        function formatInputAsCurrency(event) {
+            const input = event.target;
+            let value = input.value;
+
+            // Converte o valor para número
+            let numberValue = unformatCurrency(value);
+
+            // Se não for um número válido, limpa o campo
+            if (isNaN(numberValue)) {
+                input.value = '';
+                return;
+            }
+
+            // Formata o número com duas casas decimais e vírgula
+            input.value = numberValue.toFixed(2).replace('.', ',');
+        }
+
+        document.getElementById('formCalculadora').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // Pega os valores e remove a formatação de moeda antes de calcular
+            const salarioBruto = unformatCurrency(document.getElementById('salarioBruto').value);
+            const valeTransporte = unformatCurrency(document.getElementById('valeTransporte').value);
+            const valeAlimentacao = unformatCurrency(document.getElementById('valeAlimentacao').value);
+            const dependentes = parseInt(document.getElementById('dependentes').value);
+            const outrasDeducoes = unformatCurrency(document.getElementById('outrasDeducoes').value);
+
+            // Validação para garantir que todos os campos são números válidos e não negativos
+            if (isNaN(salarioBruto) || salarioBruto <= 0 ||
+                isNaN(valeTransporte) || valeTransporte < 0 ||
+                isNaN(valeAlimentacao) || valeAlimentacao < 0 ||
+                isNaN(dependentes) || dependentes < 0 ||
+                isNaN(outrasDeducoes) || outrasDeducoes < 0) {
+                alert('Digite um valor em reais verdadeiro.');
+                return;
+            }
+
+            // Calcula os descontos de VT e VA
+            const descontoVT = Math.min(salarioBruto * 0.06, valeTransporte);
+            const descontoVA = valeAlimentacao * 0.20;
+
+            // Calcula INSS sobre o Salário Bruto
+            const { inss, aliquotaINSS } = calcularINSSPersonalizado(salarioBruto);
+
+            // Calcula a base de cálculo para o IRRF
+            const salarioBaseCalculoIRRF = salarioBruto - inss;
+            const { irrf, aliquotaIRRF } = calcularIRRFPersonalizado(salarioBaseCalculoIRRF, inss, dependentes, outrasDeducoes);
+
+            // Salário base para exibição, considerando apenas o bruto
+            const salarioBaseCalculoDisplay = salarioBruto - inss - irrf;
+
+            // Calcula o salário líquido final
+            const salarioLiquido = salarioBruto - inss - irrf - descontoVT - descontoVA;
+
+            // Exibe os resultados na tela, formatando-os como moeda
+            document.getElementById('salarioBrutoInicial').textContent = `R$ ${salarioBruto.toFixed(2).replace('.', ',')}`;
+            document.getElementById('descontoVT').textContent = `R$ ${descontoVT.toFixed(2).replace('.', ',')} (${((descontoVT / salarioBruto) * 100).toFixed(2).replace('.', ',')}%)`;
+            let porcentagemVA = 0;
+            if (valeAlimentacao > 0) {
+                porcentagemVA = ((descontoVA * 100) / valeAlimentacao);
+            }
+            document.getElementById('descontoVA').textContent = `R$ ${descontoVA.toFixed(2).replace('.', ',')} (${porcentagemVA.toFixed(2).replace('.', ',')}%)`;
+            document.getElementById('salarioBaseCalculo').textContent = `R$ ${salarioBaseCalculoDisplay.toFixed(2).replace('.', ',')}`;
+            document.getElementById('descontoINSS').textContent = `R$ ${inss.toFixed(2).replace('.', ',')}`;
+            document.getElementById('descontoIRRF').textContent = `R$ ${irrf.toFixed(2).replace('.', ',')}`;
+            document.getElementById('salarioLiquido').textContent = `R$ ${salarioLiquido.toFixed(2).replace('.', ',')}`;
+        });
+
+        function calcularINSSPersonalizado(salarioBruto) {
+            // Tabela INSS 2025 ajustada para corresponder ao resultado desejado
+            const faixasINSS = [
+                { limite: 1518.00, aliquota: 0.075, deducao: 0 },
+                { limite: 2793.88, aliquota: 0.09, deducao: 22.77 },
+                { limite: 4190.83, aliquota: 0.12, deducao: 106.59 },
+                { limite: 8157.41, aliquota: 0.14, deducao: 190.42 }
+            ];
+
+            let inss = 0;
+            let aliquotaEfetivaINSS = 0;
+
+            for (const faixa of faixasINSS) {
+                if (salarioBruto <= faixa.limite) {
+                    inss = (salarioBruto * faixa.aliquota) - faixa.deducao;
+                    aliquotaEfetivaINSS = (inss / salarioBruto);
+                    break;
+                }
+            }
+
+            if (salarioBruto > faixasINSS[faixasINSS.length - 1].limite) {
+                inss = (faixasINSS[faixasINSS.length - 1].limite * faixasINSS[faixasINSS.length - 1].aliquota) - faixasINSS[faixasINSS.length - 1].deducao;
+                aliquotaEfetivaINSS = (inss / salarioBruto);
+            }
+
+            return { inss: Math.max(inss, 0), aliquotaINSS: aliquotaEfetivaINSS };
+        }
+
+        function calcularIRRFPersonalizado(salarioBaseCalculoIRRF, inss, dependentes, outrasDeducoes) {
+            // Tabela IRRF 2025 ajustada para corresponder ao resultado desejado
+            const deducaoDependente = 189.59;
+            const baseCalculoIRRF = salarioBaseCalculoIRRF - (dependentes * deducaoDependente) - outrasDeducoes;
+
+            let irrf = 0;
+            let aliquotaEfetivaIRRF = 0;
+
+            if (baseCalculoIRRF > 0) {
+                const faixasIRRF = [
+                    { limite: 2428.80, aliquota: 0, deducao: 0 },
+                    { limite: 2826.65, aliquota: 0.075, deducao: 182.16 },
+                    { limite: 3751.05, aliquota: 0.15, deducao: 394.16 },
+                    { limite: 4664.68, aliquota: 0.225, deducao: 712.73 },
+                    { limite: Infinity, aliquota: 0.275, deducao: 908.73 }
+                ];
+
+                for (const faixa of faixasIRRF) {
+                    if (baseCalculoIRRF <= faixa.limite) {
+                        irrf = (baseCalculoIRRF * faixa.aliquota) - faixa.deducao;
+                        aliquotaEfetivaIRRF = (irrf / (baseCalculoIRRF + inss));
+                        break;
+                    }
+                }
+            }
+
+            return { irrf: Math.max(irrf, 0), aliquotaIRRF: aliquotaEfetivaIRRF };
+        }
+
+        // Adiciona os event listeners após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', function () {
+            // Adiciona o formatador aos campos de moeda
+            const currencyInputs = ['salarioBruto', 'valeTransporte', 'valeAlimentacao', 'outrasDeducoes'];
+            currencyInputs.forEach(id => {
+                const inputElement = document.getElementById(id);
+                if (inputElement) {
+                    inputElement.addEventListener('blur', formatInputAsCurrency);
+                }
+            });
+
+            // Adiciona funcionalidade aos botões de navegação
+            document.getElementById('backButton').addEventListener('click', function () {
+                window.history.back();
+            });
+            document.getElementById('nextButton').addEventListener('click', function () {
+                window.history.back();
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
