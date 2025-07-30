@@ -28,6 +28,15 @@
     margin-top: 26px;
   }
 
+  .card-content p {
+    font-size: 12px !important;
+  }
+
+  .card-content h4 {
+    font-size: 20px !important;
+  }
+
+
   .card {
     padding: 3px;
   }
