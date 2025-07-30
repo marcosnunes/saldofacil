@@ -45,18 +45,15 @@
                     <form id="formCalculadora">
                         <div class="form-group">
                             <label for="salarioBruto">Salário Bruto (R$):</label>
-                            <input type="text" id="salarioBruto" required placeholder="Digite o valor do Salário Bruto"
-                                inputmode="decimal">
+                            <input type="text" id="salarioBruto" required placeholder="Digite o valor do Salário Bruto" inputmode="decimal">
                         </div>
                         <div class="form-group">
                             <label for="valeTransporte">Vale-Transporte (R$):</label>
-                            <input type="text" id="valeTransporte" required placeholder="Digite o valor do VT"
-                                inputmode="decimal">
+                            <input type="text" id="valeTransporte" required placeholder="Digite o valor do VT" inputmode="decimal">
                         </div>
                         <div class="form-group">
                             <label for="valeAlimentacao">Vale-Alimentação (R$):</label>
-                            <input type="text" id="valeAlimentacao" required placeholder="Digite o valor do VA"
-                                inputmode="decimal">
+                            <input type="text" id="valeAlimentacao" required placeholder="Digite o valor do VA" inputmode="decimal">
                         </div>
                         <div class="form-group">
                             <label for="dependentes">Número de Dependentes:</label>
@@ -64,25 +61,29 @@
                         </div>
                         <div class="form-group">
                             <label for="outrasDeducoes">Outras Deduções (R$):</label>
-                            <input type="text" id="outrasDeducoes" required placeholder="Digite 0 para nenhuma"
-                                inputmode="decimal">
+                            <input type="text" id="outrasDeducoes" required placeholder="Digite 0 para nenhuma" inputmode="decimal">
                         </div>
                         <button type="submit">Calcular</button>
                     </form>
 
                     <div class="resultado">
                         <h4>Resultados:</h4>
-                        <p style="font-size: 22px;"><strong>Salário Bruto:</strong> <strong id="salarioBrutoInicial">R$
-                                0,00</strong></p>
+                        <p style="font-size: 22px;"><strong>Salário Bruto:</strong>
+                            <strong id="salarioBrutoInicial">R$ 0,00</strong></p>
                         <p>Desconto INSS: <span id="descontoINSS">R$ 0,00</span></p>
                         <p>Desconto IRRF: <span id="descontoIRRF">R$ 0,00</span></p>
                         <hr>
-                        <p><strong>Base p/ desconto do VT e VA:</strong> <strong id="salarioBaseCalculo">R$ 0,00</strong>
+                        <p><strong>Base p/ desconto do VT e VA:</strong>
+                            <strong id="salarioBaseCalculo">R$ 0,00</strong>
                         </p><br>
                         <p>Desconto do VT: <span id="descontoVT">R$ 0,00</span></p>
                         <p>Desconto do VA: <span id="descontoVA">R$ 0,00</span></p>
                         <hr>
-                        <p><strong>Salário Líquido:</strong> <strong id="salarioLiquido">R$ 0,00</strong></p>
+                        <p><strong>Salário Líquido:</strong>
+                            <strong id="salarioLiquido">R$ 0,00</strong></p>
+                        <hr>
+                        <p><strong>Total com beneficios:</strong>
+                            <strong id="totalcomBeneficios">R$ 0,00</strong></p>
                     </div>
                 </div>
             </div>
@@ -157,6 +158,9 @@
             // Calcula o salário líquido final
             const salarioLiquido = salarioBruto - inss - irrf - descontoVT - descontoVA;
 
+            // Calcula o salário líquido + benefícios
+            const salarioTotal = salarioLiquido + valeTransporte + valeAlimentacao;
+
             // Exibe os resultados na tela, formatando-os como moeda
             document.getElementById('salarioBrutoInicial').textContent = `R$ ${salarioBruto.toFixed(2).replace('.', ',')}`;
             document.getElementById('descontoVT').textContent = `R$ ${descontoVT.toFixed(2).replace('.', ',')} (${((descontoVT / salarioBruto) * 100).toFixed(2).replace('.', ',')}%)`;
@@ -169,6 +173,7 @@
             document.getElementById('descontoINSS').textContent = `R$ ${inss.toFixed(2).replace('.', ',')}`;
             document.getElementById('descontoIRRF').textContent = `R$ ${irrf.toFixed(2).replace('.', ',')}`;
             document.getElementById('salarioLiquido').textContent = `R$ ${salarioLiquido.toFixed(2).replace('.', ',')}`;
+            document.getElementById('totalcomBeneficios').textContent = `R$ ${salarioTotal.toFixed(2).replace('.', ',')}`;
         });
 
         function calcularINSSPersonalizado(salarioBruto) {
