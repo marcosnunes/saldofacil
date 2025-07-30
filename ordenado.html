@@ -50,23 +50,22 @@
                         </div>
                         <div class="form-group">
                             <label for="valeTransporte">Vale-Transporte (R$):</label>
-                            <input type="text" id="valeTransporte" required
-                                placeholder="Digite o valor do Vale-Transporte" inputmode="decimal">
+                            <input type="text" id="valeTransporte" required placeholder="Digite o valor do VT"
+                                inputmode="decimal">
                         </div>
                         <div class="form-group">
                             <label for="valeAlimentacao">Vale-Alimentação (R$):</label>
-                            <input type="text" id="valeAlimentacao" required
-                                placeholder="Digite o valor do Vale-Alimentação" inputmode="decimal">
+                            <input type="text" id="valeAlimentacao" required placeholder="Digite o valor do VA"
+                                inputmode="decimal">
                         </div>
                         <div class="form-group">
                             <label for="dependentes">Número de Dependentes:</label>
-                            <input type="number" id="dependentes" required min="0"
-                                placeholder="Digite o número de Dependentes. 0 para nenhum">
+                            <input type="number" id="dependentes" required min="0" placeholder="Digite 0 para nenhum">
                         </div>
                         <div class="form-group">
                             <label for="outrasDeducoes">Outras Deduções (R$):</label>
-                            <input type="text" id="outrasDeducoes" required
-                                placeholder="Digite o valor de Outras Deduções. 0 para nenhuma" inputmode="decimal">
+                            <input type="text" id="outrasDeducoes" required placeholder="Digite 0 para nenhuma"
+                                inputmode="decimal">
                         </div>
                         <button type="submit">Calcular</button>
                     </form>
@@ -248,6 +247,30 @@
                 window.history.back();
             });
         });
+
+        // Funções para deslizamento de tela touch:
+        var touchstartX = 0;
+        var touchendX = 0;
+        var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+
+        document.addEventListener('touchstart', function (event) {
+            touchstartX = event.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', function (event) {
+            touchendX = event.changedTouches[0].screenX;
+            handleGesture();
+        });
+
+        function handleGesture() {
+            if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+                // Deslizamento para a esquerda
+                window.history.back(); // Redireciona para a página anterior
+            } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+                // Deslizamento para a direita
+                window.history.back(); // Redireciona para a página anterior 
+            }
+        }
 
     </script>
 
