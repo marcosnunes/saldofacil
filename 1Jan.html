@@ -121,12 +121,14 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-app.js';
     import { getDatabase, ref, set, onValue } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-database.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.1.0/firebase-auth.js';
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
     import firebaseConfig from './config.js';
 
     // Inicializa o Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const database = getDatabase(app);
+    const analytics = getAnalytics(app);
 
     // Variável para armazenar o usuário autenticado
     let user = null; // Declare user aqui
