@@ -74,7 +74,6 @@
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
     import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-analytics.js";
     import firebaseConfig from './config.js';
     import { displayYearInTitle } from './utils.js';
     displayYearInTitle();
@@ -85,7 +84,6 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const database = getDatabase(app);
-    const analytics = getAnalytics(app);
 
     let touchstartX = 0;
     let touchendX = 0;
