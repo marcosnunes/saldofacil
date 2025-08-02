@@ -353,8 +353,10 @@
           const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
           const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout;
 
-          // Use a função de download universal
-          downloadArquivo(dataUrl, `DadosMensais-${currentYear}.xlsx`);
+          // --- ALTERAÇÃO APLICADA AQUI ---
+          // Use a função de download universal com um nome de arquivo único
+          const timestamp = new Date().getTime();
+          downloadArquivo(dataUrl, `DadosMensais-${currentYear}-${timestamp}.xlsx`);
 
           console.log("Arquivo Excel gerado e encaminhado para download!");
         } else {
