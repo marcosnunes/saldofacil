@@ -397,29 +397,21 @@
     }
 
     function downloadArquivo(url, filename) {
-      const [header, base64] = url.split(',');
-      const contentType = header.match(/:(.*?);/)[1];
-
-      // Converter o base64 para um Blob
-      const blob = b64toBlob(base64, contentType);
-
-      // Criar uma URL temporária e limpa para o Blob
-      const blobUrl = URL.createObjectURL(blob);
-
-      // Verifica se está no ambiente Android
+      // Verifica se estamos no ambiente Android que tem a função nativa
       if (window.android && window.android.downloadFile) {
-        // Chama a função do Android para download
-        window.android.downloadFile(blobUrl, filename);
+        console.log("Ambiente Android detectado. Usando o método de download nativo com data URL.");
+        // Para Android, usamos o método nativo para download
+        window.android.downloadFile(url, filename);
       } else {
-        // Cria um link temporário para download
+        // Para outros ambientes (Web, iOS, etc.), usamos o método padrão de download
+        console.log("Ambiente Web (Desktop) detectado. Usando o método de download padrão.");
         const link = document.createElement("a");
-        link.href = blobUrl;
+        link.href = url;
         link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       }
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
     }
 
   </script>
