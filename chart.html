@@ -312,7 +312,7 @@
     }
 
 
-    async function gerarExcelMensal() {
+        async function gerarExcelMensal() {
       if (!user) { alert("Usuário não autenticado."); return; }
 
       console.log(`Iniciando geração do Excel Mensal para userId: ${user.uid}`);
@@ -349,14 +349,29 @@
 
       try {
         if (hasData) {
-          console.log("Gerando e salvando arquivo Excel...");
+          console.log("Gerando arquivo Excel...");
           const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
           const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout;
+          
+          console.log("Arquivo Excel gerado com sucesso!");
 
-          // Use a função de download universal
-          downloadArquivo(dataUrl, `DadosMensais-${currentYear}.xlsx`);
+          // Define o nome base do arquivo, incluindo o ano
+          const baseFilename = `DadosMensais-${currentYear}`;
+          
+          // Pega o contador de downloads para este arquivo base do localStorage. Se não existir, inicia em 0.
+          let downloadCount = localStorage.getItem(baseFilename);
+          let counter = downloadCount ? parseInt(downloadCount, 10) : 0;
+          
+          // Define o nome final do arquivo. Se o contador for maior que 0, adiciona _contador ao nome.
+          const finalFilename = counter > 0 ? `${baseFilename}_${counter}.xlsx` : `${baseFilename}.xlsx`;
+          
+          // Incrementa o contador e salva no localStorage para o próximo download
+          localStorage.setItem(baseFilename, (counter + 1).toString());
 
-          console.log("Arquivo Excel gerado e encaminhado para download!");
+          // Chama a função de download com o nome do arquivo incrementado
+          downloadArquivo(dataUrl, finalFilename);
+
+          console.log(`Arquivo Excel "${finalFilename}" encaminhado para download!`);
         } else {
           console.warn("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
           alert("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
