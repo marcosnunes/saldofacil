@@ -327,7 +327,7 @@
         console.log("Todos os dados do ano carregados:", yearData);
       } catch (error) {
         console.error("Erro ao carregar os dados do ano:", error);
-        return; // Aborta se falhar ao carregar os dados do ano
+        return;
       }
 
       for (const mes of meses) {
@@ -338,7 +338,7 @@
             const ws = XLSX.utils.aoa_to_sheet(data);
             XLSX.utils.book_append_sheet(wb, ws, mes);
             console.log(`Planilha ${mes} adicionada ao arquivo Excel.`);
-            hasData = true; // Marca que pelo menos um mês tem dados
+            hasData = true;
           } else {
             console.warn(`Dados não encontrados ou insuficientes para ${mes} ${currentYear}.`);
           }
@@ -353,12 +353,22 @@
           const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
           const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout;
 
-          // --- ALTERAÇÃO APLICADA AQUI ---
-          // Use a função de download universal com um nome de arquivo único
-          const timestamp = new Date().getTime();
-          downloadArquivo(dataUrl, `DadosMensais-${currentYear}-${timestamp}.xlsx`);
+          // --- NOVA LÓGICA PARA GERAR O NOME DO ARQUIVO ---
+          const d = new Date();
+          const year = d.getFullYear();
+          const month = ('0' + (d.getMonth() + 1)).slice(-2);
+          const day = ('0' + d.getDate()).slice(-2);
+          const hours = ('0' + d.getHours()).slice(-2);
+          const minutes = ('0' + d.getMinutes()).slice(-2);
+          const seconds = ('0' + d.getSeconds()).slice(-2);
+          const fileTimestamp = `${year}${month}${day}_${hours}${minutes}${seconds}`;
 
-          console.log("Arquivo Excel gerado e encaminhado para download!");
+          const filename = `DadosMensais-${currentYear}-${fileTimestamp}.xlsx`;
+          // Exemplo de nome de arquivo: DadosMensais-2025-20250802_213000.xlsx
+
+          downloadArquivo(dataUrl, filename);
+
+          console.log(`Arquivo Excel "${filename}" gerado e encaminhado para download!`);
         } else {
           console.warn("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
           alert("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
@@ -368,20 +378,48 @@
       }
     }
 
+    function b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+    }
+
     function downloadArquivo(url, filename) {
+      const [header, base64] = url.split(',');
+      const contentType = header.match(/:(.*?);/)[1];
+
+      // Converter o base64 para um Blob
+      const blob = b64toBlob(base64, contentType);
+
+      // Criar uma URL temporária e limpa para o Blob
+      const blobUrl = URL.createObjectURL(blob);
+
       // Verifica se está no ambiente Android
       if (window.android && window.android.downloadFile) {
-        // Chama o método nativo no Android
-        window.android.downloadFile(url, filename);
+        // Chama a função do Android para download
+        window.android.downloadFile(blobUrl, filename);
       } else {
-        // Cria um link para iniciar o download no navegador
+        // Cria um link temporário para download
         const link = document.createElement("a");
-        link.href = url;
+        link.href = blobUrl;
         link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
       }
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
     }
 
   </script>
