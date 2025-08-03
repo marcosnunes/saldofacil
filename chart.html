@@ -324,7 +324,6 @@
       let yearData = {};
       try {
         yearData = await loadDataFromFirebase(user.uid, currentYear);
-        console.log("Todos os dados do ano carregados:", yearData);
       } catch (error) {
         console.error("Erro ao carregar os dados do ano:", error);
         return;
@@ -337,8 +336,6 @@
             const ws = XLSX.utils.aoa_to_sheet(data);
             XLSX.utils.book_append_sheet(wb, ws, mes);
             hasData = true;
-          } else {
-            console.warn(`Dados não encontrados ou insuficientes para ${mes} ${currentYear}.`);
           }
         } catch (error) {
           console.error(`Erro ao processar dados para ${mes}:`, error);
@@ -363,19 +360,10 @@
           const filename = `DadosMensais-${currentYear}-${fileTimestamp}.xlsx`;
 
           console.log(`Nome do arquivo gerado: ${filename}`);
-          if (window.android && window.android.downloadFile) {
-            // Para Android, passamos APENAS a string base64, não a URL de dados completa.
-            console.log("Enviando dados base64 brutos para a função nativa do Android.");
-            downloadArquivo(wbout, filename); // Passa a string base64 diretamente
-          } else {
-            // Para navegadores, criamos uma URL de dados completa
-            const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + wbout;
-            downloadArquivo(dataUrl, filename);
-          }
+          downloadArquivo(wbout, filename);
 
           console.log(`Arquivo Excel "${filename}" gerado e encaminhado para download!`);
         } else {
-          console.warn("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
           alert("Nenhum dado encontrado para o ano. O arquivo Excel não será gerado.");
         }
       } catch (error) {
@@ -383,16 +371,17 @@
       }
     }
 
-
-
-    function downloadArquivo(data, filename) {
-      // Verifica se a função nativa do Android está disponível
+    function downloadArquivo(base64Data, filename) {
+      console.log("Iniciando download do arquivo Excel...");
       if (window.android && window.android.downloadFile) {
-        window.android.downloadFile(data, filename);
+        console.log("Chamando método nativo Android: downloadFile");
+        window.android.downloadFile(base64Data, filename);
       } else {
-        // Cria um link temporário para download
+        // Método de download padrão para navegadores
+        console.log("Usando método de download Web padrão.");
+        const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + base64Data;
         const link = document.createElement("a");
-        link.href = data;
+        link.href = dataUrl;
         link.download = filename;
         document.body.appendChild(link);
         link.click();
