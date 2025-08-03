@@ -311,7 +311,7 @@
       }
     }
 
-
+    // Função para gerar o arquivo Excel mensal
     async function gerarExcelMensal() {
       if (!user) { alert("Usuário não autenticado."); return; }
 
@@ -345,21 +345,12 @@
       try {
         if (hasData) {
           console.log("Gerando e salvando arquivo Excel...");
-          // Gera o arquivo Excel e obtém os dados brutos em formato base64
           const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
 
-          // Cria um nome de arquivo único com data e hora
-          const d = new Date();
-          const year = d.getFullYear();
-          const month = ('0' + (d.getMonth() + 1)).slice(-2);
-          const day = ('0' + d.getDate()).slice(-2);
-          const hours = ('0' + d.getHours()).slice(-2);
-          const minutes = ('0' + d.getMinutes()).slice(-2);
-          const seconds = ('0' + d.getSeconds()).slice(-2);
-          const fileTimestamp = `${year}${month}${day}_${hours}${minutes}${seconds}`;
-          const filename = `DadosMensais-${currentYear}-${fileTimestamp}.xlsx`;
+          console.log("Arquivo Excel gerado com sucesso!");
+          const filename = `Relatorio-Financeiro-${currentYear}.xlsx`;
 
-          console.log(`Nome do arquivo gerado: ${filename}`);
+          console.log(`Encaminhando arquivo para download: ${filename}`);
           downloadArquivo(wbout, filename);
 
           console.log(`Arquivo Excel "${filename}" gerado e encaminhado para download!`);
@@ -371,13 +362,12 @@
       }
     }
 
+    // Função para download do arquivo Excel
     function downloadArquivo(base64Data, filename) {
-      console.log("Iniciando download do arquivo Excel...");
       if (window.android && window.android.downloadFile) {
         console.log("Chamando método nativo Android: downloadFile");
         window.android.downloadFile(base64Data, filename);
       } else {
-        // Método de download padrão para navegadores
         console.log("Usando método de download Web padrão.");
         const dataUrl = "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," + base64Data;
         const link = document.createElement("a");
