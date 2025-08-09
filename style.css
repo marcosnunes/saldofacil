@@ -616,6 +616,11 @@
   #chat-messages {
     height: 400px;
   }
+
+  .card-title,
+  #trend-card {
+    display: none !important;
+  }
 }
 
 .message {

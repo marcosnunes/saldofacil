@@ -40,12 +40,21 @@
     <div class="container">
       <div class="card">
         <div class="card-content-chart">
+          <span class="card-title">Gráfico de Créditos e Débitos Mensais</span>
           <canvas id="creditDebitChart"></canvas>
         </div>
       </div>
       <div class="card">
         <div class="card-content-chart">
+          <span class="card-title">Gráfico de Evolução do Saldo Mensal</span>
           <canvas id="monthlyBalanceChart"></canvas>
+        </div>
+      </div>
+      <!-- Card do gráfico de tendência anual -->
+      <div class="card" id="trend-card">
+        <div class="card-content-chart">
+          <span class="card-title">Gráfico de Tendência dos Dados Anuais</span>
+          <canvas id="quadraticChart"></canvas>
         </div>
       </div>
       <div class="card" id="tutorial_gerar_excel">
@@ -96,6 +105,7 @@
     let user = null;
     let creditDebitChartInstance = null;
     let monthlyBalanceChartInstance = null;
+    let quadraticChartInstance = null;
 
     const gerarExcelButton = document.getElementById("gerarExcelButton");
 
@@ -162,7 +172,6 @@
     function createCreditDebitChart(yearData) {
       const creditDebitChartCanvas = document.getElementById("creditDebitChart").getContext("2d");
 
-      // Destroy existing chart instance if it exists
       if (creditDebitChartInstance) {
         creditDebitChartInstance.destroy();
       }
@@ -194,11 +203,9 @@
     function createMonthlyBalanceChart(yearData) {
       const monthlyBalanceChartCanvas = document.getElementById("monthlyBalanceChart").getContext("2d");
 
-      // Destroy existing chart instance if it exists
       if (monthlyBalanceChartInstance) {
         monthlyBalanceChartInstance.destroy();
       }
-
 
       const monthlyBalanceData = [];
 
@@ -221,9 +228,107 @@
       });
     }
 
+    // Função para criar o gráfico de tendência anual
+    function createQuadraticChart(yearData) {
+      const quadraticChartCanvas = document.getElementById("quadraticChart").getContext("2d");
+      if (quadraticChartInstance) {
+        quadraticChartInstance.destroy();
+      }
+
+      const x = [];
+      const y = [];
+      for (let i = 0; i < months.length; i++) {
+        const monthData = yearData[months[i]];
+        x.push(i); // Janeiro=0, Fevereiro=1, ...
+        y.push(monthData ? parseFloat(monthData.finalBalance) || 0 : 0);
+      }
+
+      // Ajuste polinomial quadrático via fórmula de regressão (mínimos quadrados)
+      function quadraticRegression(x, y) {
+        const n = x.length;
+        let sumX = 0, sumX2 = 0, sumX3 = 0, sumX4 = 0;
+        let sumY = 0, sumXY = 0, sumX2Y = 0;
+        for (let i = 0; i < n; i++) {
+          sumX += x[i];
+          sumX2 += x[i] * x[i];
+          sumX3 += x[i] * x[i] * x[i];
+          sumX4 += x[i] * x[i] * x[i] * x[i];
+          sumY += y[i];
+          sumXY += x[i] * y[i];
+          sumX2Y += x[i] * x[i] * y[i];
+        }
+        const A = [
+          [n, sumX, sumX2],
+          [sumX, sumX2, sumX3],
+          [sumX2, sumX3, sumX4]
+        ];
+        const B = [sumY, sumXY, sumX2Y];
+
+        function determinant(m) {
+          return m[0][0]*m[1][1]*m[2][2] + m[0][1]*m[1][2]*m[2][0] + m[0][2]*m[1][0]*m[2][1]
+               - m[0][2]*m[1][1]*m[2][0] - m[0][0]*m[1][2]*m[2][1] - m[0][1]*m[1][0]*m[2][2];
+        }
+        function replaceCol(m, colIdx, vec) {
+          return m.map((row, i) =>
+            row.map((val, j) => (j === colIdx ? vec[i] : val))
+          );
+        }
+        const detA = determinant(A);
+        const detA0 = determinant(replaceCol(A, 0, B));
+        const detA1 = determinant(replaceCol(A, 1, B));
+        const detA2 = determinant(replaceCol(A, 2, B));
+        const c = detA0/detA;
+        const b = detA1/detA;
+        const a = detA2/detA;
+        return {a, b, c};
+      }
+
+      const {a, b, c} = quadraticRegression(x, y);
+
+      // Gera pontos da curva quadrática
+      const curveY = x.map(xi => a*xi*xi + b*xi + c);
+
+      quadraticChartInstance = new Chart(quadraticChartCanvas, {
+        type: "line",
+        data: {
+          labels: monthsPtBr,
+          datasets: [
+            {
+              label: "Saldo Mensal",
+              data: y,
+              borderColor: "blue",
+              backgroundColor: "rgba(54,162,235,0.1)",
+              fill: false,
+              tension: 0.3
+            },
+            {
+              label: "Linha de Tendência",
+              data: curveY,
+              borderColor: "purple",
+              backgroundColor: "rgba(128,0,128,0.1)",
+              fill: false,
+              borderDash: [6,3],
+              pointRadius: 0,
+              tension: 0.0
+            }
+          ]
+        },
+        options: {
+          plugins: {
+            legend: { display: true }
+          },
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: 'Saldo' } },
+            x: { title: { display: true, text: 'Mês' } }
+          }
+        }
+      });
+    }
+
     function displayCharts(yearData) {
       createCreditDebitChart(yearData);
       createMonthlyBalanceChart(yearData);
+      createQuadraticChart(yearData); // Tendência anual
       resizeCharts();
     }
 
@@ -231,19 +336,19 @@
 
     if (auth.currentUser) { loadAndDisplayCharts(auth.currentUser.uid, currentYear); }
 
-    const creditDebitChart = document.getElementById("creditDebitChart").getContext("2d");
-    const monthlyBalanceChart = document.getElementById("monthlyBalanceChart").getContext("2d");
-
     function resizeCharts() {
       const creditDebitContainer = document.getElementById("creditDebitChart").parentElement;
       const monthlyBalanceContainer = document.getElementById("monthlyBalanceChart").parentElement;
+      const quadraticContainer = document.getElementById("quadraticChart").parentElement;
 
       if (window.innerWidth < 1100) {
         creditDebitContainer.style.height = "auto";
         monthlyBalanceContainer.style.height = "auto";
+        quadraticContainer.style.height = "auto";
       } else {
         creditDebitContainer.style.height = "";
         monthlyBalanceContainer.style.height = "";
+        quadraticContainer.style.height = "";
       }
     }
 
@@ -276,7 +381,7 @@
             const previousMonthIndex = monthsPtBr.indexOf(mes.toLowerCase()) - 1;
             const previousMonthName = months[previousMonthIndex];
             const previousMonthData = yearData[previousMonthName];
-            initialBalance = parseFloat(previousMonthData?.finalBalance || 0);  // Usando encadeamento opcional
+            initialBalance = parseFloat(previousMonthData?.finalBalance || 0);
           }
 
           data.push(["", "Saldo Inicial", "", "", initialBalance.toFixed(2)]);
@@ -311,7 +416,6 @@
       }
     }
 
-    // Função para gerar o arquivo Excel mensal
     async function gerarExcelMensal() {
       if (!user) { alert("Usuário não autenticado."); return; }
 
@@ -362,7 +466,6 @@
       }
     }
 
-    // Função para download do arquivo Excel
     function downloadArquivo(base64Data, filename) {
       if (window.android && window.android.downloadFile) {
         console.log("Chamando método nativo Android: downloadFile");
@@ -381,5 +484,4 @@
 
   </script>
 </body>
-
 </html>
