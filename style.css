@@ -617,7 +617,7 @@
     height: 400px;
   }
 
-  .card-title,
+  .card-title-chart,
   #trend-card {
     display: none !important;
   }
@@ -667,4 +667,5 @@ button {
 
 .resultado p {
   margin: 5px 0;
+
 }
