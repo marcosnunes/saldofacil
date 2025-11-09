@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/askAI.js": {
+      "runtime": "@vercel/node"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/askAI",
