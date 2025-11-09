@@ -59,7 +59,7 @@
     </div>
 
     <script type="module">
-        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+        // A importação do SDK foi REMOVIDA
         const urlParams = new URLSearchParams(window.location.search);
         const currentYear = urlParams.get("year");
 
@@ -70,9 +70,8 @@
                 "iareports.html - Parâmetro 'year' não encontrado na URL!"
             );
         }
-        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; // Chave para armazenar no localStorage
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
 
-        // Função para carregar os dados do Local Storage
         function loadDataFromLocalStorage() {
             try {
                 const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -89,46 +88,41 @@
                 return null;
             }
         }
+
         async function askAI(question, data) {
-            const apiKey = "AIzaSyDTX8U1_TfVOc2oMtc08Xxaz03x55sh8B0";
-            const apiUrl =
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" +
-                apiKey;
+            const apiUrl = "/api/askAI";
+
             const askButton = document.getElementById("askButton");
-            // Formate os dados e a pergunta em um prompt
-            const prompt = `Você é um assistente financeiro chamado Gemini. Com base nos seguintes dados de gastos:\n${JSON.stringify(
-                data
-            )}\nResponda à seguinte pergunta: ${question}`;
+
             try {
                 askButton.disabled = true;
                 askButton.textContent = "Carregando...";
+
                 const response = await fetch(apiUrl, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        contents: [
-                            {
-                                parts: [
-                                    {
-                                        text: prompt,
-                                    },
-                                ],
-                            },
-                        ],
+                        question: question,
+                        data: data,
                     }),
                 });
+
                 if (!response.ok) {
+                    const errorBody = await response.json();
+                    console.error("Erro na API (do seu servidor):", errorBody);
                     throw new Error(`Erro na requisição: ${response.status}`);
                 }
+
                 const result = await response.json();
-                const aiResponse = result.candidates[0].content.parts[0].text;
+                const aiResponse = result.response;
                 document.getElementById("reportArea").textContent = aiResponse;
+
             } catch (error) {
                 console.error("Erro ao comunicar com a IA:", error);
                 document.getElementById("reportArea").textContent =
-                    "Erro ao obter resposta da IA.";
+                    "Erro ao obter resposta da IA. Verifique o console para mais detalhes.";
             } finally {
                 askButton.disabled = false;
                 askButton.textContent = "Perguntar";
@@ -138,7 +132,7 @@
 
         document.getElementById("askButton").addEventListener("click", () => {
             const userQuestion = document.getElementById("userQuestion").value;
-            const data = loadDataFromLocalStorage(); // Carregue os dados do localStorage
+            const data = loadDataFromLocalStorage();
 
             if (!data) {
                 document.getElementById("reportArea").textContent =
@@ -146,11 +140,10 @@
                 return;
             }
 
-            askAI(userQuestion, data); // Envie a pergunta e os dados para a IA
+            askAI(userQuestion, data);
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            // Mensagem de saudação inicial
             document.getElementById("reportArea").textContent =
                 "Olá! Eu sou o Gemini, seu assistente financeiro. Como posso ajudar você hoje?";
         });
@@ -163,13 +156,13 @@
         document
             .getElementById("nextButton")
             .addEventListener("click", function () {
-                window.history.back();
+                window.history.forward();
             });
 
         // Funções para deslizamento de tela touch:
         var touchstartX = 0;
         var touchendX = 0;
-        var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+        var gestureZone = 50;
 
         document.addEventListener("touchstart", function (event) {
             touchstartX = event.changedTouches[0].screenX;
@@ -185,14 +178,12 @@
                 touchendX < touchstartX &&
                 Math.abs(touchendX - touchstartX) > gestureZone
             ) {
-                // Deslizamento para a esquerda
-                window.history.back(); // Redireciona para a página anterior
+                window.history.back();
             } else if (
                 touchendX > touchstartX &&
                 Math.abs(touchendX - touchstartX) > gestureZone
             ) {
-                // Deslizamento para a direita
-                window.history.back(); // Redireciona para a página anterior
+                window.history.forward();
             }
         }
     </script>
