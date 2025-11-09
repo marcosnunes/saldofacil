@@ -1,8 +1,9 @@
 {
-  "name": "saldofacil",
+  "name": "saldofacil-ia-app",
   "version": "1.0.0",
   "description": "Assistente IA financeiro",
+  "type": "module",
   "dependencies": {
-    "node-fetch": "^3.0.0"
+    "node-fetch": "^3.0.0" 
   }
 }
