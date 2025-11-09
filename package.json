@@ -1,0 +1,8 @@
+{
+  "name": "saldofacil",
+  "version": "1.0.0",
+  "description": "Assistente IA financeiro",
+  "dependencies": {
+    "node-fetch": "^3.0.0"
+  }
+}
