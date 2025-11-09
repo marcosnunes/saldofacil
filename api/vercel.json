@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "api/askAI.js": {
-      "runtime": "@vercel/node"
-    }
-  }
-}
