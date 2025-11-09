@@ -61,6 +61,14 @@
     <script type="module">
         const urlParams = new URLSearchParams(window.location.search);
         const currentYear = urlParams.get("year");
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
+        const reportArea = document.getElementById("reportArea");
+        const userQuestionInput = document.getElementById("userQuestion");
+        const askButton = document.getElementById("askButton");
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        const gestureZone = 50;
 
         console.log("iareports.html - Valor de currentYear:", currentYear);
 
@@ -69,7 +77,6 @@
                 "iareports.html - Parâmetro 'year' não encontrado na URL!"
             );
         }
-        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
 
         function loadDataFromLocalStorage() {
             try {
@@ -91,11 +98,10 @@
         async function askAI(question, data) {
             const apiUrl = "/api/askAI";
 
-            const askButton = document.getElementById("askButton");
-
             try {
                 askButton.disabled = true;
                 askButton.textContent = "Carregando...";
+                reportArea.textContent = "Aguardando resposta da IA...";
 
                 const response = await fetch(apiUrl, {
                     method: "POST",
@@ -116,26 +122,48 @@
 
                 const result = await response.json();
                 const aiResponse = result.response;
-                document.getElementById("reportArea").textContent = aiResponse;
+                reportArea.textContent = aiResponse;
+
+                userQuestionInput.value = "";
 
             } catch (error) {
                 console.error("Erro ao comunicar com a IA:", error);
-                document.getElementById("reportArea").textContent =
+                reportArea.textContent =
                     "Erro ao obter resposta da IA. Verifique o console para mais detalhes.";
             } finally {
                 askButton.disabled = false;
                 askButton.textContent = "Perguntar";
-                document.getElementById("userQuestion").value = "";
             }
         }
 
-        document.getElementById("askButton").addEventListener("click", () => {
-            const userQuestion = document.getElementById("userQuestion").value;
+        function handleGesture() {
+            if (
+                touchendX < touchstartX &&
+                Math.abs(touchendX - touchstartX) > gestureZone
+            ) {
+                window.history.forward();
+            }
+            else if (
+                touchendX > touchstartX &&
+                Math.abs(touchendX - touchstartX) > gestureZone
+            ) {
+                window.history.back();
+            }
+        }
+
+        askButton.addEventListener("click", () => {
+            const userQuestion = userQuestionInput.value;
             const data = loadDataFromLocalStorage();
 
             if (!data) {
-                document.getElementById("reportArea").textContent =
-                    "Nenhum dado encontrado.";
+                reportArea.textContent =
+                    "Nenhum dado de relatório encontrado. Não é possível perguntar à IA.";
+                return;
+            }
+
+            if (userQuestion.trim() === "") {
+                reportArea.textContent =
+                    "Por favor, digite sua pergunta antes de enviar.";
                 return;
             }
 
@@ -143,7 +171,7 @@
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("reportArea").textContent =
+            reportArea.textContent =
                 "Olá! Eu sou o Gemini, seu assistente financeiro. Como posso ajudar você hoje?";
         });
 
@@ -158,10 +186,6 @@
                 window.history.forward();
             });
 
-        var touchstartX = 0;
-        var touchendX = 0;
-        var gestureZone = 50;
-
         document.addEventListener("touchstart", function (event) {
             touchstartX = event.changedTouches[0].screenX;
         });
@@ -170,20 +194,6 @@
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         });
-
-        function handleGesture() {
-            if (
-                touchendX < touchstartX &&
-                Math.abs(touchendX - touchstartX) > gestureZone
-            ) {
-                window.history.back();
-            } else if (
-                touchendX > touchstartX &&
-                Math.abs(touchendX - touchstartX) > gestureZone
-            ) {
-                window.history.forward();
-            }
-        }
     </script>
 </body>
 
