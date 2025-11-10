@@ -58,7 +58,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script type="module">
-        import { GoogleGenerativeAI } from "https://unpkg.com/@google/generative-ai/dist/esm/index.mjs";
+        import { GoogleGenerativeAI } from "https://unpkg.com/@google/generative-ai/server/dist/index.mjs";
 
         const urlParams = new URLSearchParams(window.location.search);
         const currentYear = urlParams.get('year');
@@ -66,7 +66,7 @@
         const API_KEY = "AIzaSyBUfrCQy-Y0aEXSQHnnLeqHj9sRQ3LRkuY";
         const MODEL_NAME = "gemini-pro";
 
-        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; 
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
 
         const genAI = new GoogleGenerativeAI(API_KEY);
         const model = genAI.getGenerativeModel({ model: MODEL_NAME });
@@ -75,12 +75,12 @@
         const userQuestionInput = document.getElementById("userQuestion");
         const reportArea = document.getElementById("reportArea");
 
-         if (!currentYear) {
-             console.warn(
-                 "iareports.html - Parâmetro 'year' não encontrado na URL!"
-             );
-             reportArea.innerHTML = "<p>Erro: Ano não especificado na URL.</p>";
-         }
+        if (!currentYear) {
+            console.warn(
+                "iareports.html - Parâmetro 'year' não encontrado na URL!"
+            );
+            reportArea.innerHTML = "<p>Erro: Ano não especificado na URL.</p>";
+        }
 
         function loadDataFromLocalStorage() {
             try {
@@ -98,7 +98,7 @@
                 return null;
             }
         }
-        
+
         async function askGemini() {
             const question = userQuestionInput.value;
 
@@ -118,8 +118,8 @@
 
             try {
                 const dadosDoUsuario = loadDataFromLocalStorage();
-                
-                const contextoDosDados = dadosDoUsuario 
+
+                const contextoDosDados = dadosDoUsuario
                     ? JSON.stringify(dadosDoUsuario, null, 2)
                     : "Não há dados de gastos disponíveis.";
 
@@ -141,7 +141,7 @@
                 const result = await model.generateContent(prompt);
                 const response = await result.response;
                 const text = await response.text();
-                
+
                 const formattedText = text.replace(/\n/g, '<br>');
 
                 reportArea.innerHTML = formattedText;
@@ -170,9 +170,9 @@
                 window.history.back();
             }
         }
-        
+
         askButton.addEventListener("click", askGemini);
-        
+
         userQuestionInput.addEventListener("keypress", (event) => {
             if (event.key === "Enter") {
                 event.preventDefault();
