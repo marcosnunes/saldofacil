@@ -58,7 +58,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script type="module">
-        import { GoogleGenerativeAI } from "https://unpkg.com/@google/generative-ai/server/dist/index.mjs";
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
         const urlParams = new URLSearchParams(window.location.search);
         const currentYear = urlParams.get('year');
