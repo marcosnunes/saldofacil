@@ -3,7 +3,6 @@
 
 <head>
     <title>Relatórios IA</title>
-    <!-- Google Tag Manager -->
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -19,7 +18,6 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, "script", "dataLayer", "GTM-54RF6LLM");
     </script>
-    <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="google" content="translate" />
     <meta name="description" content="Calculadora de Investimentos" />
@@ -31,10 +29,8 @@
 </head>
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
             style="display: none; visibility: hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <div class="navigation">
         <div class="nav-wrapper">
             <button id="backButton" class="btn btn-default">Voltar</button>
@@ -45,7 +41,8 @@
     <div class="container">
         <div class="card">
             <div class="card-content">
-                <div id="reportArea"></div>
+                <div id="reportArea">
+                </div>
             </div>
         </div>
 
@@ -58,25 +55,32 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     <script type="module">
+        import { GoogleGenerativeAI } from "https://unpkg.com/@google/generative-ai/dist/esm/index.mjs";
+
         const urlParams = new URLSearchParams(window.location.search);
-        const currentYear = urlParams.get("year");
-        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
-        const reportArea = document.getElementById("reportArea");
-        const userQuestionInput = document.getElementById("userQuestion");
+        const currentYear = urlParams.get('year');
+
+        const API_KEY = "AIzaSyBUfrCQy-Y0aEXSQHnnLeqHj9sRQ3LRkuY";
+        const MODEL_NAME = "gemini-pro";
+
+        const LOCAL_STORAGE_KEY = `report_data_${currentYear}`; 
+
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
         const askButton = document.getElementById("askButton");
+        const userQuestionInput = document.getElementById("userQuestion");
+        const reportArea = document.getElementById("reportArea");
 
-        let touchstartX = 0;
-        let touchendX = 0;
-        const gestureZone = 50;
-
-        console.log("iareports.html - Valor de currentYear:", currentYear);
-
-        if (!currentYear) {
-            console.warn(
-                "iareports.html - Parâmetro 'year' não encontrado na URL!"
-            );
-        }
+         if (!currentYear) {
+             console.warn(
+                 "iareports.html - Parâmetro 'year' não encontrado na URL!"
+             );
+             reportArea.innerHTML = "<p>Erro: Ano não especificado na URL.</p>";
+         }
 
         function loadDataFromLocalStorage() {
             try {
@@ -86,7 +90,7 @@
                     console.log("Dados carregados do localStorage:", data);
                     return data;
                 } else {
-                    console.log("Nenhum dado encontrado no localStorage.");
+                    console.log(`Nenhum dado encontrado no localStorage para a chave: ${LOCAL_STORAGE_KEY}`);
                     return null;
                 }
             } catch (error) {
@@ -94,45 +98,61 @@
                 return null;
             }
         }
+        
+        async function askGemini() {
+            const question = userQuestionInput.value;
 
-        async function askAI(question, data) {
-            const apiUrl = "/api/askAI";
+            if (!question) {
+                reportArea.innerHTML = "<p>Por favor, digite uma pergunta.</p>";
+                return;
+            }
+
+            reportArea.innerHTML = `
+                <p style="text-align: center;">Pensando...</p>
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+            `;
+            askButton.disabled = true;
+            userQuestionInput.disabled = true;
 
             try {
-                askButton.disabled = true;
-                askButton.textContent = "Carregando...";
-                reportArea.textContent = "Aguardando resposta da IA...";
+                const dadosDoUsuario = loadDataFromLocalStorage();
+                
+                const contextoDosDados = dadosDoUsuario 
+                    ? JSON.stringify(dadosDoUsuario, null, 2)
+                    : "Não há dados de gastos disponíveis.";
 
-                const response = await fetch(apiUrl, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        question: question,
-                        data: data,
-                    }),
-                });
+                const prompt = `
+                    Você é um assistente financeiro. 
+                    Analise os seguintes dados do usuário (em formato JSON):
+                    
+                    --- Início dos Dados ---
+                    ${contextoDosDados}
+                    --- Fim dos Dados ---
+                    
+                    Com base APENAS nos dados fornecidos acima, 
+                    responda à seguinte pergunta do usuário:
+                    "${question}"
+                `;
 
-                if (!response.ok) {
-                    const errorBody = await response.json();
-                    console.error("Erro na API (do seu servidor):", errorBody);
-                    throw new Error(`Erro na requisição: ${response.status}`);
-                }
+                console.log("Enviando para a IA:", prompt);
 
-                const result = await response.json();
-                const aiResponse = result.response;
-                reportArea.textContent = aiResponse;
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                const text = await response.text();
+                
+                const formattedText = text.replace(/\n/g, '<br>');
 
-                userQuestionInput.value = "";
+                reportArea.innerHTML = formattedText;
 
             } catch (error) {
-                console.error("Erro ao comunicar com a IA:", error);
-                reportArea.textContent =
-                    "Erro ao obter resposta da IA. Verifique o console para mais detalhes.";
+                console.error("Erro ao chamar a API Gemini:", error);
+                reportArea.innerHTML = `<p style="color: red;">Desculpe, ocorreu um erro ao processar sua pergunta. Verifique o console para mais detalhes.</p>`;
             } finally {
                 askButton.disabled = false;
-                askButton.textContent = "Perguntar";
+                userQuestionInput.disabled = false;
+                userQuestionInput.value = "";
             }
         }
 
@@ -150,29 +170,21 @@
                 window.history.back();
             }
         }
-
-        askButton.addEventListener("click", () => {
-            const userQuestion = userQuestionInput.value;
-            const data = loadDataFromLocalStorage();
-
-            if (!data) {
-                reportArea.textContent =
-                    "Nenhum dado de relatório encontrado. Não é possível perguntar à IA.";
-                return;
+        
+        askButton.addEventListener("click", askGemini);
+        
+        userQuestionInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                askGemini();
             }
-
-            if (userQuestion.trim() === "") {
-                reportArea.textContent =
-                    "Por favor, digite sua pergunta antes de enviar.";
-                return;
-            }
-
-            askAI(userQuestion, data);
         });
 
         document.addEventListener("DOMContentLoaded", function () {
-            reportArea.textContent =
-                "Olá! Eu sou o Gemini, seu assistente financeiro. Como posso ajudar você hoje?";
+            if (currentYear) {
+                reportArea.textContent =
+                    "Olá! Eu sou o Gemini. Pergunte-me sobre seus gastos.";
+            }
         });
 
         document
@@ -186,6 +198,10 @@
                 window.history.forward();
             });
 
+        let touchstartX = 0;
+        let touchendX = 0;
+        const gestureZone = 50;
+
         document.addEventListener("touchstart", function (event) {
             touchstartX = event.changedTouches[0].screenX;
         });
@@ -194,6 +210,7 @@
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         });
+
     </script>
 </body>
 
