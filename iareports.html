@@ -60,11 +60,8 @@
     <script type="module">
         const urlParams = new URLSearchParams(window.location.search);
         const currentYear = urlParams.get('year');
-
         const API_URL = '/api/ask-gemini';
-
         const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
-
         const askButton = document.getElementById("askButton");
         const userQuestionInput = document.getElementById("userQuestion");
         const reportArea = document.getElementById("reportArea");
@@ -97,27 +94,31 @@
             const question = userQuestionInput.value.trim();
             if (!question) return;
 
+            const dadosDoUsuario = loadDataFromLocalStorage();
+
             askButton.disabled = true;
-            reportArea.textContent = "🤖 Pensando na sua resposta...";
+            userQuestionInput.disabled = true;
+            reportArea.innerHTML = `
+                <p style="text-align: center;">🤖 Pensando na sua resposta...</p>
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+            `;
 
             const decoder = new TextDecoder("utf-8");
 
             try {
-                const response = await fetch("/api/ask-gemini", {
-                    method: "POST",
+                const response = await fetch(API_URL, {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json",
+                        'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        question: question,
-                        dadosDoUsuario: dadosUsuario
-                    }),
+                    body: JSON.stringify({ question, dadosDoUsuario }),
                 });
 
                 if (response.ok) {
                     const reader = response.body.getReader();
                     reportArea.textContent = "";
-                    let finalResponseText = '';
 
                     while (true) {
                         const { done, value } = await reader.read();
@@ -125,28 +126,29 @@
                         if (done) {
                             break;
                         }
-                        const chunk = decoder.decode(value, { stream: true });
-                        reportArea.textContent += chunk;
-                        finalResponseText += chunk;
-                    }
-                    console.log("Resposta final do Gemini:", finalResponseText);
 
+                        const chunk = decoder.decode(value, { stream: true });
+                        reportArea.innerHTML += chunk.replace(/\n/g, '<br>');
+                        reportArea.scrollTop = reportArea.scrollHeight;
+                    }
                 }
 
                 else {
                     try {
                         const errorData = await response.json();
-                        reportArea.textContent = `Erro do Servidor: ${errorData.error}`;
+                        reportArea.innerHTML = `<p style="color: red;">Erro do Servidor: ${errorData.error}</p>`;
                     } catch (e) {
-                        reportArea.textContent = `Erro de Conexão ou Timeout: Status ${response.status} (${response.statusText}). Tente novamente.`;
+                        reportArea.innerHTML = `<p style="color: red;">Erro ao conectar: Status ${response.status} (${response.statusText}). Se for 504, o Timeout não foi resolvido (Verifique o Vercel).</p>`;
                     }
                 }
 
             } catch (error) {
                 console.error("Erro na requisição Fetch:", error);
-                reportArea.textContent = "Erro de rede: Não foi possível conectar ao servidor Vercel/Gemini.";
+                reportArea.innerHTML = `<p style="color: red;">Erro de rede: Não foi possível conectar ao servidor.</p>`;
             } finally {
                 askButton.disabled = false;
+                userQuestionInput.disabled = false;
+                userQuestionInput.value = "";
             }
         }
 

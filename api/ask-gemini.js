@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const API_KEY = process.env.GEMINI_API_KEY; 
-const MODEL_NAME = "gemini-2.5-pro"; 
+const MODEL_NAME = "gemini-2.5-pro";
 
 if (!API_KEY) {
   console.error("GEMINI_API_KEY não está configurada como Variável de Ambiente.");
