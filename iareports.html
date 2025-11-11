@@ -94,52 +94,59 @@
         }
 
         async function askGemini() {
-            const question = userQuestionInput.value;
+            const question = userQuestionInput.value.trim();
+            if (!question) return;
 
-            if (!question) {
-                reportArea.innerHTML = "<p>Por favor, digite uma pergunta.</p>";
-                return;
-            }
-
-            reportArea.innerHTML = `
-            <p style="text-align: center;">Pensando...</p>
-            <div class="progress">
-                <div class="indeterminate"></div>
-            </div>
-        `;
             askButton.disabled = true;
-            userQuestionInput.disabled = true;
+            reportArea.textContent = "🤖 Pensando na sua resposta...";
+
+            const decoder = new TextDecoder("utf-8");
 
             try {
-                const dadosDoUsuario = loadDataFromLocalStorage();
-
-                const response = await fetch(API_URL, {
-                    method: 'POST',
+                const response = await fetch("/api/ask-gemini", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ question, dadosDoUsuario }),
+                    body: JSON.stringify({
+                        question: question,
+                        dadosDoUsuario: dadosUsuario
+                    }),
                 });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `Erro HTTP: ${response.status}`);
+                if (response.ok) {
+                    const reader = response.body.getReader();
+                    reportArea.textContent = "";
+                    let finalResponseText = '';
+
+                    while (true) {
+                        const { done, value } = await reader.read();
+
+                        if (done) {
+                            break;
+                        }
+                        const chunk = decoder.decode(value, { stream: true });
+                        reportArea.textContent += chunk;
+                        finalResponseText += chunk;
+                    }
+                    console.log("Resposta final do Gemini:", finalResponseText);
+
                 }
 
-                const data = await response.json();
-                const text = data.text;
-
-                const formattedText = text.replace(/\n/g, '<br>');
-
-                reportArea.innerHTML = formattedText;
+                else {
+                    try {
+                        const errorData = await response.json();
+                        reportArea.textContent = `Erro do Servidor: ${errorData.error}`;
+                    } catch (e) {
+                        reportArea.textContent = `Erro de Conexão ou Timeout: Status ${response.status} (${response.statusText}). Tente novamente.`;
+                    }
+                }
 
             } catch (error) {
-                console.error("Erro ao processar a pergunta ou chamar a Serverless Function:", error);
-                reportArea.innerHTML = `<p style="color: red;">Desculpe, ocorreu um erro ao processar sua pergunta. Verifique o console para mais detalhes.</p>`;
+                console.error("Erro na requisição Fetch:", error);
+                reportArea.textContent = "Erro de rede: Não foi possível conectar ao servidor Vercel/Gemini.";
             } finally {
                 askButton.disabled = false;
-                userQuestionInput.disabled = false;
-                userQuestionInput.value = "";
             }
         }
 

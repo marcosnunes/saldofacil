@@ -1,9 +1,7 @@
-// Serverless Function (Vercel API Route)
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// A chave será carregada automaticamente da Variável de Ambiente configurada no Vercel
 const API_KEY = process.env.GEMINI_API_KEY; 
-const MODEL_NAME = "gemini-2.5-pro";
+const MODEL_NAME = "gemini-2.5-pro"; 
 
 if (!API_KEY) {
   console.error("GEMINI_API_KEY não está configurada como Variável de Ambiente.");
@@ -12,14 +10,12 @@ if (!API_KEY) {
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
-// Função que o Vercel executa ao receber a requisição
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método não permitido. Use POST.' });
   }
 
   try {
-    // Extrai a pergunta e os dados do corpo da requisição
     const { question, dadosDoUsuario } = req.body;
 
     if (!question) {
@@ -43,17 +39,23 @@ export default async function handler(req, res) {
         "${question}"
     `;
 
-    console.log("Enviando prompt para a IA (servidor):", prompt);
+    console.log("Enviando prompt para a IA (servidor) com Streaming. Modelo:", MODEL_NAME);
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Transfer-Encoding', 'chunked');
+    res.status(200);
 
-    // Retorna o texto gerado pela IA ao front-end
-    return res.status(200).json({ text: text });
+    const responseStream = await model.generateContentStream(prompt);
+
+    for await (const chunk of responseStream) {
+      res.write(chunk.text); 
+    }
+
+    res.end();
 
   } catch (error) {
     console.error("Erro ao chamar a API Gemini (servidor):", error);
-    return res.status(500).json({ error: 'Erro interno do servidor ao processar a pergunta.' });
+    
+    return res.status(500).json({ error: 'Erro interno do servidor ao processar a pergunta ou API indisponível.' });
   }
 }
