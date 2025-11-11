@@ -58,10 +58,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <script type="module">
+        import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
         const urlParams = new URLSearchParams(window.location.search);
         const currentYear = urlParams.get('year');
-        const API_URL = '/api/ask-gemini';
+
+        const API_KEY = "AIzaSyBUfrCQy-Y0aEXSQHnnLeqHj9sRQ3LRkuY";
+        const MODEL_NAME = "gemini-2.5-pro";
+
         const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
+
+        const genAI = new GoogleGenerativeAI(API_KEY);
+        const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
         const askButton = document.getElementById("askButton");
         const userQuestionInput = document.getElementById("userQuestion");
         const reportArea = document.getElementById("reportArea");
@@ -91,60 +100,55 @@
         }
 
         async function askGemini() {
-            const question = userQuestionInput.value.trim();
-            if (!question) return;
+            const question = userQuestionInput.value;
 
-            const dadosDoUsuario = loadDataFromLocalStorage();
+            if (!question) {
+                reportArea.innerHTML = "<p>Por favor, digite uma pergunta.</p>";
+                return;
+            }
 
-            askButton.disabled = true;
-            userQuestionInput.disabled = true;
             reportArea.innerHTML = `
-                <p style="text-align: center;">🤖 Pensando na sua resposta...</p>
+                <p style="text-align: center;">Pensando...</p>
                 <div class="progress">
                     <div class="indeterminate"></div>
                 </div>
             `;
-
-            const decoder = new TextDecoder("utf-8");
+            askButton.disabled = true;
+            userQuestionInput.disabled = true;
 
             try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ question, dadosDoUsuario }),
-                });
+                const dadosDoUsuario = loadDataFromLocalStorage();
 
-                if (response.ok) {
-                    const reader = response.body.getReader();
-                    reportArea.textContent = "";
+                const contextoDosDados = dadosDoUsuario
+                    ? JSON.stringify(dadosDoUsuario, null, 2)
+                    : "Não há dados de gastos disponíveis.";
 
-                    while (true) {
-                        const { done, value } = await reader.read();
+                const prompt = `
+                    Você é um assistente financeiro. 
+                    Analise os seguintes dados do usuário (em formato JSON):
+                    
+                    --- Início dos Dados ---
+                    ${contextoDosDados}
+                    --- Fim dos Dados ---
+                    
+                    Com base APENAS nos dados fornecidos acima, 
+                    responda à seguinte pergunta do usuário:
+                    "${question}"
+                `;
 
-                        if (done) {
-                            break;
-                        }
+                console.log("Enviando para a IA:", prompt);
 
-                        const chunk = decoder.decode(value, { stream: true });
-                        reportArea.innerHTML += chunk.replace(/\n/g, '<br>');
-                        reportArea.scrollTop = reportArea.scrollHeight;
-                    }
-                }
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                const text = await response.text();
 
-                else {
-                    try {
-                        const errorData = await response.json();
-                        reportArea.innerHTML = `<p style="color: red;">Erro do Servidor: ${errorData.error}</p>`;
-                    } catch (e) {
-                        reportArea.innerHTML = `<p style="color: red;">Erro ao conectar: Status ${response.status} (${response.statusText}). Se for 504, o Timeout não foi resolvido (Verifique o Vercel).</p>`;
-                    }
-                }
+                const formattedText = text.replace(/\n/g, '<br>');
+
+                reportArea.innerHTML = formattedText;
 
             } catch (error) {
-                console.error("Erro na requisição Fetch:", error);
-                reportArea.innerHTML = `<p style="color: red;">Erro de rede: Não foi possível conectar ao servidor.</p>`;
+                console.error("Erro ao chamar a API Gemini:", error);
+                reportArea.innerHTML = `<p style="color: red;">Desculpe, ocorreu um erro ao processar sua pergunta. Verifique o console para mais detalhes.</p>`;
             } finally {
                 askButton.disabled = false;
                 userQuestionInput.disabled = false;
