@@ -875,7 +875,7 @@
           const novembroData = {
             initialBalance: document.getElementById("NovInitialBalance").innerText,
           };
-          set(ref(database, 'users/' + user.uid + '/nov' + '-' + currentYear), novembroData)
+          set(ref(database, 'users/' + user.uid + '/november' + '-' + currentYear), novembroData)
             .then(() => {
               console.log("Dados do mês de novembro limpos com sucesso!");
               // Limpa os dados no array inputData
@@ -924,4 +924,5 @@
 
 
 </html>
+
 
