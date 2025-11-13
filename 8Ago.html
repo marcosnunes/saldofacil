@@ -298,9 +298,9 @@
       const userId = user.uid;
       const finalBalance = document.getElementById("totalAugust").textContent;
       set(ref(database, `users/${userId}/august/finalBalance`), finalBalance).then(() => {
-        console.log("Saldo final de julho salvo com sucesso!");
+        console.log("Saldo final de agosto salvo com sucesso!");
       }).catch((error) => {
-        console.error("Erro ao salvar o saldo final de julho:", error);
+        console.error("Erro ao salvar o saldo final de agosto:", error);
       });
     }
 
@@ -924,4 +924,5 @@
 
 
 </html>
+
 
