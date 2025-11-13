@@ -21,7 +21,7 @@ body {
 
 .user-greeting {
     font-weight: 100;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--color-primary);
     margin-bottom: 1.5rem !important;
     word-break: break-all; /* Garante que emails longos não quebrem o layout */
