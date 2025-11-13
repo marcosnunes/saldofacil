@@ -262,7 +262,7 @@ body {
   .nav-wrapper .brand-logo.center { width: 50%; font-size: 1.2rem !important; }
   .card .card-content { padding: 1rem; }
   .btn, button { height: 40px; padding: 0 18px; font-size: 0.8rem; }
-  #backButton, #nextButton{
+  #backButton, #nextButton, #pdfButton {
    display: none;
 }
 }
@@ -279,4 +279,5 @@ body {
 .select-wrapper .caret {
     right: 1rem; /* Espaçamento à direita */
     fill: var(--color-text-muted); /* Cor do ícone da seta */
+
 }
