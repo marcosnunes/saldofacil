@@ -91,7 +91,7 @@
           <div class="card">
             <div class="card-content">
               <span class="card-title">Saldo Inicial</span>
-              <div class="form-control" id="FebInitialBalance"
+              <div class="form-control" id="NovInitialBalance"
                 style="font-size: 1.5rem; text-align: center; padding: 1rem; color: var(--color-dark); font-weight: 500;">
                 0.00</div>
             </div>
@@ -101,14 +101,14 @@
             <div class="card-content">
               <span class="card-title">Resultados do Mês</span>
               <div class="results-list">
-                <p>Dízimo: <span id="febTithe" class="blue-text">0.00</span></p>
-                <p>Cartão de Crédito: <span id="febCreditCardBalance" class="orange-text">0.00</span></p>
+                <p>Dízimo: <span id="novTithe" class="blue-text">0.00</span></p>
+                <p>Cartão de Crédito: <span id="novCreditCardBalance" class="orange-text">0.00</span></p>
                 <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
                 <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
-                <p>Total Investimentos: <span id="febTotalInvestment" class="orange-text">0.00</span></p>
+                <p>Total Investimentos: <span id="novTotalInvestment" class="orange-text">0.00</span></p>
                 <p>Balanço: <span id="balance">0.00</span></p>
                 <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
-                <p style="font-size: 1.2rem !important; font-weight: bold;">Saldo Final: <span id="totalFeb"
+                <p style="font-size: 1.2rem !important; font-weight: bold;">Saldo Final: <span id="totalNov"
                     style="color: var(--color-primary);">0.00</span></p>
               </div>
               <button id="pdfButton" onclick="window.print()" class="btn" style="margin-top: 1.5rem;">Exportar para
@@ -921,5 +921,6 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
+
 
 </html>
