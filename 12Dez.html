@@ -871,7 +871,7 @@
           const dezembroData = {
             initialBalance: document.getElementById("DecInitialBalance").innerText,
           };
-          set(ref(database, 'users/' + user.uid + '/dec' + '-' + currentYear), dezembroData)
+          set(ref(database, 'users/' + user.uid + '/december' + '-' + currentYear), dezembroData)
             .then(() => {
               console.log("Dados do mês de dezembro limpos com sucesso!");
               // Limpa os dados no array inputData
@@ -920,4 +920,5 @@
 
 
 </html>
+
 
