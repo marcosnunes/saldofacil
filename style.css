@@ -1,671 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Paleta de Cores */
+  --color-primary: #5e72e4; /* Azul principal */
+  --color-secondary: #f4f5f7; /* Fundo principal */
+  --color-dark: #212529; /* Texto principal */
+  --color-light: #ffffff; /* Cor de cards */
+  --color-success: #2dce89; /* Verde */
+  --color-danger: #f5365c; /* Vermelho */
+  --color-warning: #fb6340; /* Laranja */
+  --color-info: #11cdef; /* Azul claro */
+  --color-text-muted: #8898aa; /* Cinza para textos secundários */
+
+  /* Tipografia */
+  --font-family-base: 'Poppins', sans-serif;
+  
+  /* Sombras */
+  --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* ==========================================================================
+   Base e Reset
+   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
-}
-
-/* Oculta o botões em telas menores */
-@media screen and (max-width: 768px) {
-
-  #pdfButton,
-  #backButton,
-  #nextButton {
-    display: none !important;
-  }
-
-  .nav-wrapper {
-    flex-direction: column;
-    align-items: center;
-    background-color: #007bff;
-    padding: 0px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .nav-wrapper .brand-logo {
-    font-size: 16px !important;
-    padding: 0;
-    margin-top: 26px;
-  }
-
-  .card-content p {
-    font-size: 12px !important;
-  }
-
-  .card-content h4 {
-    font-size: 20px !important;
-  }
-
-
-  .card {
-    padding: 3px;
-  }
-}
-
-/* Redefine as margens e outros estilos para a impressão */
-@media print {
-  * {
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-    background: transparent;
-  }
-
-  /* Oculta outros elementos desnecessários na impressão */
-  .btn,
-  #pdfButton,
-  #addButton,
-  #backButton,
-  .btn-edit,
-  .btn-delete,
-  #card-lancamento,
-  #chart,
-  #tutorial,
-  #currencyConverter,
-  .navigation,
-  .iframe-container,
-  #Registrar_Compra,
-  #importButton,
-  #tutorial_gerar_excel,
-  #initBalanceInfo {
-    display: none !important;
-  }
-
-  /* Ajusta a estilização dos cards para impressão */
-  .card {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-  }
-
-  .card-content {
-    font-size: 14px;
-  }
-
-  .container {
-    width: 100%;
-  }
-
-  .brand-logo {
-    text-align: center;
-  }
-}
-
-#home {
-  cursor: pointer;
-}
-
-.iframe-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  padding-top: 56.25%;
-}
-
-.iframe-container iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.navigation {
-  position: sticky;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-}
-
-
-
-.nav-wrapper .btn {
-  background-color: #ffffff;
-  color: #007bff;
-  border: 2px solid #007bff;
-  border-radius: 5px;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  line-height: 1.5;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-action {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.btn {
-  background-color: #ffffff;
-  /* Cor de fundo branca */
-  color: #007bff;
-  /* Cor do texto azul */
-  border: 2px solid #007bff;
-  /* Borda azul */
-  border-radius: 15px;
-  /* Bordas arredondadas */
-  padding: 5px 10px;
-  /* Espaçamento interno */
-  font-size: 14px;
-  /* Tamanho da fonte */
-  cursor: pointer;
-  /* Cursor em forma de mão */
-  text-align: center;
-  /* Centraliza o texto horizontalmente */
-  line-height: 1.5;
-  /* Alinha verticalmente o texto */
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-  /* Transições suaves */
-}
-
-.btn:hover {
-  background-color: #007bff;
-  /* Cor de fundo azul ao passar o mouse */
-  color: #ffffff;
-  /* Cor do texto branca ao passar o mouse */
-  border-color: #007bff;
-  /* Borda azul ao passar o mouse */
-}
-
-.nav-wrapper .btn:hover {
-  background-color: #007bff;
-  /* Cor de fundo azul ao passar o mouse */
-  color: #ffffff;
-  /* Cor do texto branca ao passar o mouse */
-  border-color: #007bff;
-  /* Borda azul ao passar o mouse */
-}
-
-.nav-wrapper .btn:focus {
-  outline: none;
-  /* Remove o contorno padrão ao focar no botão */
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
-  /* Sombra azul clara ao focar */
-}
-
-.brand-logo {
-  color: #ffffff;
-  /* Cor do texto da marca branca */
-  font-size: 1.5em;
-  /* Tamanho da fonte da marca */
-  font-weight: bold;
-  /* Texto em negrito */
-  text-align: center;
-  /* Centraliza o texto horizontalmente */
-}
-
-
-#backButton,
-#nextButton,
-#homeButton,
-#bot-button {
-  background-color: #258fff;
-  /* Cor de fundo azul */
-  color: white;
-  /* Cor do texto branca */
-  border-radius: 15px;
-  /* Bordas arredondadas */
-  padding: 5px 10px;
-  /* Espaçamento interno */
-  font-size: 14px;
-  /* Tamanho da fonte */
-  cursor: pointer;
-  /* Cursor em forma de mão */
-  text-align: center;
-  /* Centraliza o texto horizontalmente */
-  line-height: 1.5;
-  /* Alinha verticalmente o texto */
-  display: inline-flex;
-  /* Faz com que o botão seja tratado como um contêiner flexível */
-  align-items: center;
-  /* Alinha o texto verticalmente no centro */
-  justify-content: center;
-  /* Alinha o texto horizontalmente no centro */
-  border: none;
-  /* Remove a borda padrão */
-  transition: background-color 0.3s;
-  /* Transição suave para a cor de fundo */
-  margin: 5px;
-}
-
-#addButton,
-#pdfButton,
-#importButton {
-  background-color: #258fff;
-  /* Cor de fundo azul */
-  color: white;
-  /* Cor do texto branca */
-  border-radius: 15px;
-  /* Bordas arredondadas */
-  padding: 15px 5px;
-  /* Espaçamento interno */
-  font-size: 12px;
-  /* Tamanho da fonte */
-  cursor: pointer;
-  /* Cursor em forma de mão */
-  text-align: center;
-  /* Centraliza o texto horizontalmente */
-  line-height: 1.5;
-  /* Alinha verticalmente o texto */
-  display: inline-flex;
-  /* Faz com que o botão seja tratado como um contêiner flexível */
-  align-items: center;
-  /* Alinha o texto verticalmente no centro */
-  justify-content: center;
-  /* Alinha o texto horizontalmente no centro */
-  border: none;
-  /* Remove a borda padrão */
-  transition: background-color 0.3s;
-  /* Transição suave para a cor de fundo */
-}
-
-
-
-#pdfButton:hover,
-#backButton:hover,
-#nextButton:hover,
-#homeButton:hover,
-#importButton:hover,
-#bot-button:hover {
-  background-color: #0056b3;
-}
-
-.btn-edit {
-  background-color: #258fff;
-  /* Cor de fundo azul */
-  color: white;
-  /* Cor do texto branca */
-  border-radius: 5px;
-  /* Bordas arredondadas */
-  padding: 5px 10px;
-  /* Espaçamento interno */
-  font-size: 16px;
-  /* Tamanho da fonte */
-  cursor: pointer;
-  /* Cursor em forma de mão */
-  text-align: center;
-  /* Centraliza o texto horizontalmente */
-  line-height: 1.5;
-  /* Alinha verticalmente o texto */
-  display: inline-flex;
-  /* Faz com que o botão seja tratado como um contêiner flexível */
-  align-items: center;
-  /* Alinha o texto verticalmente no centro */
-  justify-content: center;
-  /* Alinha o texto horizontalmente no centro */
-  border: none;
-  /* Remove a borda padrão */
-  transition: background-color 0.3s;
-  /* Transição suave para a cor de fundo */
-  margin: 5px;
-}
-
-.btn-edit:hover {
-  background-color: #0056b3;
-}
-
-.btn-delete {
-  background-color: #e040409d;
-  color: white;
-  border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  line-height: 1.5;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  transition: background-color 0.3s;
-  margin: 5px;
-}
-
-.btn-delete:hover {
-  background-color: #e04040f3;
-  /* Cor de fundo azul mais escuro ao passar o mouse */
-}
-
-#clearMonthButton {
-  background-color: #e040409d;
-  /* Cor de fundo azul */
-  color: white;
-  /* Cor do texto branca */
-  border-radius: 15px;
-  /* Bordas arredondadas */
-  padding: 5px 10px;
-  /* Espaçamento interno */
-  font-size: 14px;
-  /* Tamanho da fonte */
-  cursor: pointer;
-  /* Cursor em forma de mão */
-  text-align: center;
-  /* Centraliza o texto horizontalmente */
-  line-height: 1.5;
-  /* Alinha verticalmente o texto */
-  display: inline-flex;
-  /* Faz com que o botão seja tratado como um contêiner flexível */
-  align-items: center;
-  /* Alinha o texto verticalmente no centro */
-  justify-content: center;
-  /* Alinha o texto horizontalmente no centro */
-  border: none;
-  /* Remove a borda padrão */
-  transition: background-color 0.3s;
-  /* Transição suave para a cor de fundo */
-  margin: 5px;
-}
-
-#clearMonthButton:hover {
-  background-color: #e04040f3;
-}
-
-.card-display {
-  margin-top: 20px;
-}
-
-.card {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
-  /* Adiciona margem entre os cards */
-}
-
-.input-field {
-  margin-bottom: 20px;
-}
-
-/* Estilo para valores de crédito em verde claro */
-.green-text {
-  color: #00aa00;
-  /* Ou a cor de verde desejada */
-}
-
-/* Estilo para valores de débito em laranja */
-.orange-text {
-  color: #ff6600;
-  /* Ou a cor de laranja desejada */
-}
-
-/* Remova a linha de sublinhado do input */
-.input-field input[type="number"]:focus:not([readonly]),
-.input-field input[type="text"]:focus:not([readonly]) {
-  border-bottom: none !important;
-  box-shadow: none !important;
-}
-
-.purchase-list-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.add-container {
-  display: flex;
-  align-items: center;
-}
-
-/* Adiciona um layout de grid ao card de resultados anuais */
-/* Estilo base para a exibição dos cards */
-.card-balance-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 10px;
-}
-
-/* Ajustes específicos para telas maiores ou iguais a 768px */
-@media screen and (min-width: 768px) {
-  .card-balance-content {
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(3, auto);
-  }
-
-  .nav-wrapper {
-    background-color: #007bff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    padding: 10px 0px 5px 0px;
-    justify-content: space-between;
-  }
-
-  .nav-wrapper .brand-logo {
-    font-size: 32px !important;
-    padding: 0;
-  }
-}
-
-
-
-.card-balance-content .card-content {
-  background-color: #f5f5f5;
-  /* Cor de fundo clara para destacar */
-  border: 1px solid #ddd;
-  /* Borda leve para separar os itens */
-  border-radius: 5px;
-  /* Cantos arredondados */
-  padding: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  /* Sombra sutil */
-  text-align: center;
-  /* Alinhamento centralizado */
-}
-
-.card-content p {
-  font-size: 1.2em;
-  /* Tamanho maior do texto para destacar */
-  margin: 10px 0;
-}
-
-.card-content span.card-title {
-  display: block;
-  font-weight: bold;
-  /* Destaca o título */
-  margin-bottom: 5px;
-}
-
-/* Ajustes adicionais para a navegação */
-.nav-wrapper .btn {
-  margin: 0 5px;
-  /* Margem horizontal entre os botões */
-}
-
-/* Estilo para o container de lançamentos anuais */
-#launchDataContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  /* Espaço entre grupos de itens */
-  padding: 10px;
-}
-
-/* Estilo para cada grupo de descrição e total */
-.launch-group {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  /* Espaço menor entre descrição e total */
-}
-
-/* Estilo para a descrição */
-.launch-group .description {
-  font-size: 1em;
-  /*font-weight: bold;*/
-  color: #333;
-  /* Cor do texto escura para contraste */
-}
-
-/* Estilo para o total */
-.launch-group .total {
-  font-size: 0.9em;
-  color: #007bff;
-  /* Cor azul para destaque */
-}
-
-.auth-form {
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Estilo adicional para o campo de senha, se necessário */
-#password {
-  padding: 5px 0;
-  /* Ajusta o padding para o campo de senha */
-  margin-top: 20px;
-}
-
-/* Corrige o comportamento do placeholder para campos de senha */
-.input-field input[type="password"]::placeholder {
-  color: transparent;
-  /* Faz com que o placeholder fique invisível para campos de senha, para usar a label */
-}
-
-.container-auth {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
-.auth-form {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 400px;
-  width: 100%;
-}
-
-/* Estilo para o campo de email, igualando ao campo de senha */
-#email {
-  padding: 5px 0;
-  /* Ajusta o padding para o campo de email */
-  margin-top: 20px;
-  /* Espaçamento superior para o campo de email */
-}
-
-/* Corrige o comportamento do placeholder para campos de email */
-.input-field input[type="email"]::placeholder {
-  color: transparent;
-  /* Faz com que o placeholder fique invisível para campos de email, para usar a label */
-}
-
-.auth-form h5 {
-  margin-bottom: 1rem;
-}
-
-.auth-form .btn {
-  margin-top: 1rem;
-}
-
-.auth-form .center {
-  text-align: center;
-}
-
-.card-content-chart {
-  padding: 0%;
-}
-
-/* Estilos das mensagens */
-.user-message {
-  color: #333;
-  background-color: #e9e9e9;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-}
-
-.bot-message {
-  color: #fff;
-  background-color: #44a7f8;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-}
-
-.loginButtons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.add-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Estilos da página de chat */
-#chat-messages {
-  height: 350px;
-  overflow-y: auto;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 10px;
-}
-
-@media screen and (max-width: 600px) {
-  #chat-messages {
-    height: 400px;
-  }
-
-  .card-title-chart,
-  #trend-card {
-    display: none !important;
-  }
-}
-
-.message {
-  margin-bottom: 5px;
-}
-
-.user-message {
-  text-align: right;
-}
-
-.bot-message {
-  text-align: left;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input[type="number"] {
-  width: 100%;
-  padding: 8px;
   box-sizing: border-box;
 }
 
-button {
-  padding: 10px 15px;
-  background-color: #007bff;
-  color: white;
+html {
+  scroll-behavior: smooth;
+  font-size: 16px; /* Define a fonte base para unidades rem */
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-secondary);
+  color: var(--color-dark);
+}
+
+/* ==========================================================================
+   Componentes (Navegação, Cards, Botões, Formulários)
+   ========================================================================== */
+
+/* --- Barra de Navegação --- */
+.navigation {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: var(--color-primary);
+  box-shadow: var(--shadow-medium);
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  height: 64px;
+}
+
+.nav-wrapper .brand-logo.center {
+  color: var(--color-light);
+  font-weight: 600;
+  font-size: 1.4rem !important;
+  /* Centralização com flexbox */
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 60%; /* Evita que o título seja empurrado pelos botões */
+  text-align: center;
+}
+
+/* --- Cards --- */
+.card {
+  background-color: var(--color-light);
+  border-radius: 15px;
   border: none;
-  border-radius: 5px;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 2rem;
+  overflow: hidden; /* Garante que os inputs não ultrapassem as bordas arredondadas */
+}
+
+.card .card-content {
+  padding: 1.5rem;
+}
+
+.card .card-title {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 1.75rem;
+  font-size: 1.2rem;
+}
+
+/* --- Botões --- */
+.btn, button {
+  background-color: var(--color-primary);
+  color: var(--color-light);
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  text-transform: none; /* Materialize override */
+  box-shadow: var(--shadow-soft);
+  transition: all 0.2s ease-in-out;
   cursor: pointer;
+  /* Centralização vertical do texto e ícone */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 24px;
 }
 
-.resultado {
-  margin-top: 20px;
-  border-top: 1px solid #eee;
-  padding-top: 20px;
+.btn:hover, button:hover {
+  background-color: #4a5cc5; /* Tom mais escuro */
+  box-shadow: var(--shadow-medium);
+  transform: translateY(-2px);
 }
 
-.resultado p {
-  margin: 5px 0;
+.btn.red, .btn-delete, #clearMonthButton {
+  background-color: var(--color-danger);
+  padding: 14px;
+}
+.btn.red:hover, .btn-delete:hover, #clearMonthButton:hover {
+  background-color: #d82b4d;
+}
 
+#backButton, #nextButton, #homeButton {
+   background-color: #4a5cc5;
+   box-shadow: none;
+   color: var(--color-light);
+}
+#backButton:hover, #nextButton:hover, #homeButton:hover {
+  background-color: #828dd1;
+  transform: none;
+}
+
+/* --- Campos de Formulário (Inputs) --- */
+.input-field {
+    position: relative;
+    margin-top: 2rem; /* Aumenta o espaço para a label flutuar */
+    margin-bottom: 2rem;
+    margin-right: 2rem;
+}
+
+.input-field input, 
+.input-field select {
+  background-color: #f0f2f5;
+  border: 1px solid #e0e6ed !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  padding: 0 1rem 0 calc(1rem + 24px + 10px) !important; /* Padding à esquerda para o ícone */
+  height: 3.2rem !important; 
+  color: var(--color-dark) !important;
+  width: 80% !important;
+  box-sizing: border-box;
+}
+/* Input sem ícone */
+.input-field input:not([type]),
+.input-field input[type=text]:not(.browser-default),
+.input-field input[type=password]:not(.browser-default),
+.input-field input[type=email]:not(.browser-default),
+.input-field input[type=url]:not(.browser-default),
+.input-field input[type=time]:not(.browser-default),
+.input-field input[type=date]:not(.browser-default),
+.input-field input[type=datetime]:not(.browser-default),
+.input-field input[type=datetime-local]:not(.browser-default),
+.input-field input[type=tel]:not(.browser-default),
+.input-field input[type=number]:not(.browser-default),
+.input-field input[type=search]:not(.browser-default) {
+    padding: 0 1rem !important; /* Padding normal se não tiver ícone */
+}
+.input-field input:focus, .input-field select:focus {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 3px rgba(94, 114, 228, 0.25) !important;
+}
+
+/* Correção da sobreposição dos Labels */
+.input-field label {
+  color: var(--color-text-muted) !important;
+  left: 0.75rem;
+  top: 10%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: all 0.2s ease-out;
+  background: transparent;
+  padding: 0;
+  font-size: 12px;
+}
+.input-field .prefix ~ label {
+    left: 3.2rem; /* Espaço para o ícone */
+}
+
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label,
+.input-field textarea:focus + label,
+.input-field textarea:valid + label,
+.input-field .select-wrapper + label {
+    font-size: 0.8rem !important;
+    transform: translateY(-160%) !important; /* Move a label para cima */
+    color: var(--color-primary) !important;
+    background-color: var(--color-light); /* Fundo para não cortar a borda do input */
+    padding: 0 4px;
+    left: 0.75rem; /* Ajuste fino da posição */
+}
+/* Reposiciona a label se houver um prefixo */
+.input-field .prefix ~ input:focus + label,
+.input-field .prefix ~ input:not(:placeholder-shown) + label {
+    left: 0.75rem; /* Traz a label de volta para a posição correta ao focar */
+}
+
+
+.input-field .prefix {
+  color: var(--color-text-muted);
+  font-size: 1.8rem;
+  top: 0.7rem; 
+  transition: color 0.3s;
+}
+
+.input-field input:focus ~ .prefix,
+.input-field .prefix.active {
+  color: var(--color-primary) !important;
+}
+
+[type="checkbox"]+span:not(.lever) { color: var(--color-dark); }
+[type="checkbox"]:checked+span:not(.lever):before { border-right: 2px solid var(--color-primary); border-bottom: 2px solid var(--color-primary); }
+
+/* Outros Estilos e Responsividade */
+.green-text { color: var(--color-success) !important; }
+.orange-text { color: var(--color-warning) !important; }
+.blue-text { color: var(--color-info) !important; }
+
+.monthly-layout, .data-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 992px) {
+  .monthly-layout, .data-layout { grid-template-columns: 2fr 1fr; }
+}
+
+.transaction-card { background-color: var(--color-light); border-radius: 15px; padding: 1rem; margin-bottom: 1rem; box-shadow: var(--shadow-soft); }
+.transaction-header, .transaction-body { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.transaction-header { padding-bottom: 0.5rem; border-bottom: 1px solid #e0e0e0; }
+.transaction-amount.credit { color: var(--color-success); }
+.transaction-amount.debit { color: var(--color-danger); }
+
+.results-list p { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid #eee; }
+.results-list p:last-child { border-bottom: none; }
+.results-list span { font-weight: 600; }
+
+.auth-container { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+.auth-card { max-width: 450px; width: 100%; }
+.auth-footer { text-align: center; margin-top: 2rem; }
+
+#chatLog, #reportArea, #chat-messages { height: 400px; overflow-y: auto; padding: 1rem; background-color: #f9fafb; border: 1px solid #e0e6ed; border-radius: 15px; margin-bottom: 1.5rem; }
+.user-message { background-color: var(--color-primary); color: var(--color-light); margin-left: auto; border-bottom-right-radius: 5px; }
+.bot-message { background-color: #e9ecef; color: var(--color-dark); margin-right: auto; border-bottom-left-radius: 5px; }
+
+@media screen and (max-width: 600px) {
+  html { font-size: 15px; }
+  .nav-wrapper .brand-logo.center { width: 50%; font-size: 1.2rem !important; }
+  .card .card-content { padding: 1rem; }
+  .btn, button { height: 40px; padding: 0 18px; font-size: 0.8rem; }
+  #backButton, #nextButton {
+   display: none;
+}
+}
+
+@media print {
+  body { background-color: #fff; }
+  .navigation, .btn, button, #card-lancamento, .card-action, .transaction-actions { display: none !important; }
+  .card { box-shadow: none; border: 1px solid #ccc; }
+}
+
+.select-wrapper .caret {
+    right: 1rem; /* Espaçamento à direita */
+    fill: var(--color-text-muted); /* Cor do ícone da seta */
 }

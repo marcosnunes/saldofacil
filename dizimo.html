@@ -28,6 +28,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
   <div class="navigation">
     <div class="nav-wrapper">
       <button id="backButton" class="btn btn-default">Voltar</button>
@@ -35,182 +36,161 @@
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+
+  <div class="main-content">
     <div class="container">
+
       <div class="card">
-        <div class="card-content">
-          <p>Nesta página você tem um relatório
-            dos seus dízimos. O total deste ano para os seus dízimos foi de <b><span id="yearTithe">0.00</span></b>.
-            Lembre-se de efetuar um lançamento de débito nas páginas dos meses para que a sua oferta seja
-            computada no seu orçamento. Aqui os valores dos dízimos são apenas exibidos, não entram nos
-            lançamentos mensais.</p>
+        <div class="card-content" style="text-align: center;">
+          <span class="card-title">Total Anual de Dízimo</span>
+          <p style="font-size: 2.5rem; font-weight: 700; color: var(--color-primary);" id="yearTithe">R$ 0.00</p>
+          <p class="grey-text" style="margin-top: 1rem;">
+            Lembre-se de lançar a saída (débito) correspondente em cada mês para que seu saldo reflita a doação.
+          </p>
         </div>
       </div>
-      <div class="balance-value" id="balanceValue">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">Totais mensais</span>
-            <div class="card-balance-content">
-              <div class="card-content">
-                <span class="card-title">Jan</span>
-                <p><span id="januaryTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Fev</span>
-                <p><span id="februaryTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Mar</span>
-                <p><span id="marchTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Abr</span>
-                <p><span id="aprilTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Mai</span>
-                <p><span id="mayTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Jun</span>
-                <p><span id="juneTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Jul</span>
-                <p><span id="julyTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Ago</span>
-                <p><span id="augustTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Set</span>
-                <p><span id="septemberTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Out</span>
-                <p><span id="octoberTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Nov</span>
-                <p><span id="novemberTithe">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Dez</span>
-                <p><span id="decemberTithe">0.00</span></p>
-              </div>
-            </div>
+
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Valores Mensais</span>
+          <div class="value-grid">
+            <div class="value-item"><span class="value-title">Janeiro</span><span class="value-amount"
+                id="januaryTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Fevereiro</span><span class="value-amount"
+                id="februaryTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Março</span><span class="value-amount"
+                id="marchTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Abril</span><span class="value-amount"
+                id="aprilTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Maio</span><span class="value-amount"
+                id="mayTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Junho</span><span class="value-amount"
+                id="juneTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Julho</span><span class="value-amount"
+                id="julyTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Agosto</span><span class="value-amount"
+                id="augustTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Setembro</span><span class="value-amount"
+                id="septemberTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Outubro</span><span class="value-amount"
+                id="octoberTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Novembro</span><span class="value-amount"
+                id="novemberTithe">0.00</span></div>
+            <div class="value-item"><span class="value-title">Dezembro</span><span class="value-amount"
+                id="decemberTithe">0.00</span></div>
           </div>
         </div>
       </div>
+
     </div>
+  </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script type="module">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script type="module">
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const currentYear = urlParams.get('year');
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentYear = urlParams.get('year');
 
-      import { displayYearInTitle } from './utils.js';
-      displayYearInTitle();
+    import { displayYearInTitle } from './utils.js';
+    displayYearInTitle();
 
-      // Importa os módulos necessários do Firebase
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-      import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
-      import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-      import firebaseConfig from './config.js';
+    // Importa os módulos necessários do Firebase
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+    import firebaseConfig from './config.js';
 
-      // Inicializa o Firebase
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const database = getDatabase(app);
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
 
-      // Verificação do estado de autenticação
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          // Usuário autenticado, carregar os dados
-          loadDataFromDatabase(user.uid);
-        } else {
-          // Usuário não autenticado, redirecionar para a página de login
-          window.location.href = "login.html";
-        }
-      });
-
-      function loadDataFromDatabase(userId) {
-        // Referência aos dados do usuário no Firebase
-        const userRef = ref(database, 'users/' + userId);
-
-        // Listener para carregar os dados do dízimo de cada mês
-        onValue(userRef, (snapshot) => {
-          const userData = snapshot.val();
-
-          // Atualiza os elementos HTML com os valores do dízimo
-          document.getElementById("januaryTithe").textContent = (userData['january-' + currentYear] && userData['january-' + currentYear].tithe) ? userData['january-' + currentYear].tithe : "0.00";
-          document.getElementById("februaryTithe").textContent = (userData['february-' + currentYear] && userData['february-' + currentYear].tithe) ? userData['february-' + currentYear].tithe : "0.00";
-          document.getElementById("marchTithe").textContent = (userData['march-' + currentYear] && userData['march-' + currentYear].tithe) ? userData['march-' + currentYear].tithe : "0.00";
-          document.getElementById("aprilTithe").textContent = (userData['april-' + currentYear] && userData['april-' + currentYear].tithe) ? userData['april-' + currentYear].tithe : "0.00";
-          document.getElementById("mayTithe").textContent = (userData['may-' + currentYear] && userData['may-' + currentYear].tithe) ? userData['may-' + currentYear].tithe : "0.00";
-          document.getElementById("juneTithe").textContent = (userData['june-' + currentYear] && userData['june-' + currentYear].tithe) ? userData['june-' + currentYear].tithe : "0.00";
-          document.getElementById("julyTithe").textContent = (userData['july-' + currentYear] && userData['july-' + currentYear].tithe) ? userData['july-' + currentYear].tithe : "0.00";
-          document.getElementById("augustTithe").textContent = (userData['august-' + currentYear] && userData['august-' + currentYear].tithe) ? userData['august-' + currentYear].tithe : "0.00";
-          document.getElementById("septemberTithe").textContent = (userData['september-' + currentYear] && userData['september-' + currentYear].tithe) ? userData['september-' + currentYear].tithe : "0.00";
-          document.getElementById("octoberTithe").textContent = (userData['october-' + currentYear] && userData['october-' + currentYear].tithe) ? userData['october-' + currentYear].tithe : "0.00";
-          document.getElementById("novemberTithe").textContent = (userData['november-' + currentYear] && userData['november-' + currentYear].tithe) ? userData['november-' + currentYear].tithe : "0.00";
-          document.getElementById("decemberTithe").textContent = (userData['december-' + currentYear] && userData['december-' + currentYear].tithe) ? userData['december-' + currentYear].tithe : "0.00";
-
-          // Calcula a soma dos dízimos do ano
-          const yearTithe = parseFloat(document.getElementById("januaryTithe").textContent) +
-            parseFloat(document.getElementById("februaryTithe").textContent) +
-            parseFloat(document.getElementById("marchTithe").textContent) +
-            parseFloat(document.getElementById("aprilTithe").textContent) +
-            parseFloat(document.getElementById("mayTithe").textContent) +
-            parseFloat(document.getElementById("juneTithe").textContent) +
-            parseFloat(document.getElementById("julyTithe").textContent) +
-            parseFloat(document.getElementById("augustTithe").textContent) +
-            parseFloat(document.getElementById("septemberTithe").textContent) +
-            parseFloat(document.getElementById("octoberTithe").textContent) +
-            parseFloat(document.getElementById("novemberTithe").textContent) +
-            parseFloat(document.getElementById("decemberTithe").textContent);
-
-          // Atualiza o elemento HTML com a soma dos dízimos do ano
-          document.getElementById("yearTithe").textContent = yearTithe.toFixed(2);
-        });
+    // Verificação do estado de autenticação
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Usuário autenticado, carregar os dados
+        loadDataFromDatabase(user.uid);
+      } else {
+        // Usuário não autenticado, redirecionar para a página de login
+        window.location.href = "login.html";
       }
+    });
 
-      document.addEventListener('DOMContentLoaded', function () {
-        document.getElementById('backButton').addEventListener('click', function () {
-          window.history.back();
-        });
-        document.getElementById('nextButton').addEventListener('click', function () {
-          window.history.back();
-        });
+    function loadDataFromDatabase(userId) {
+      // Referência aos dados do usuário no Firebase
+      const userRef = ref(database, 'users/' + userId);
+
+      // Listener para carregar os dados do dízimo de cada mês
+      onValue(userRef, (snapshot) => {
+        const userData = snapshot.val();
+
+        // Atualiza os elementos HTML com os valores do dízimo
+        document.getElementById("januaryTithe").textContent = (userData['january-' + currentYear] && userData['january-' + currentYear].tithe) ? userData['january-' + currentYear].tithe : "0.00";
+        document.getElementById("februaryTithe").textContent = (userData['february-' + currentYear] && userData['february-' + currentYear].tithe) ? userData['february-' + currentYear].tithe : "0.00";
+        document.getElementById("marchTithe").textContent = (userData['march-' + currentYear] && userData['march-' + currentYear].tithe) ? userData['march-' + currentYear].tithe : "0.00";
+        document.getElementById("aprilTithe").textContent = (userData['april-' + currentYear] && userData['april-' + currentYear].tithe) ? userData['april-' + currentYear].tithe : "0.00";
+        document.getElementById("mayTithe").textContent = (userData['may-' + currentYear] && userData['may-' + currentYear].tithe) ? userData['may-' + currentYear].tithe : "0.00";
+        document.getElementById("juneTithe").textContent = (userData['june-' + currentYear] && userData['june-' + currentYear].tithe) ? userData['june-' + currentYear].tithe : "0.00";
+        document.getElementById("julyTithe").textContent = (userData['july-' + currentYear] && userData['july-' + currentYear].tithe) ? userData['july-' + currentYear].tithe : "0.00";
+        document.getElementById("augustTithe").textContent = (userData['august-' + currentYear] && userData['august-' + currentYear].tithe) ? userData['august-' + currentYear].tithe : "0.00";
+        document.getElementById("septemberTithe").textContent = (userData['september-' + currentYear] && userData['september-' + currentYear].tithe) ? userData['september-' + currentYear].tithe : "0.00";
+        document.getElementById("octoberTithe").textContent = (userData['october-' + currentYear] && userData['october-' + currentYear].tithe) ? userData['october-' + currentYear].tithe : "0.00";
+        document.getElementById("novemberTithe").textContent = (userData['november-' + currentYear] && userData['november-' + currentYear].tithe) ? userData['november-' + currentYear].tithe : "0.00";
+        document.getElementById("decemberTithe").textContent = (userData['december-' + currentYear] && userData['december-' + currentYear].tithe) ? userData['december-' + currentYear].tithe : "0.00";
+
+        // Calcula a soma dos dízimos do ano
+        const yearTithe = parseFloat(document.getElementById("januaryTithe").textContent) +
+          parseFloat(document.getElementById("februaryTithe").textContent) +
+          parseFloat(document.getElementById("marchTithe").textContent) +
+          parseFloat(document.getElementById("aprilTithe").textContent) +
+          parseFloat(document.getElementById("mayTithe").textContent) +
+          parseFloat(document.getElementById("juneTithe").textContent) +
+          parseFloat(document.getElementById("julyTithe").textContent) +
+          parseFloat(document.getElementById("augustTithe").textContent) +
+          parseFloat(document.getElementById("septemberTithe").textContent) +
+          parseFloat(document.getElementById("octoberTithe").textContent) +
+          parseFloat(document.getElementById("novemberTithe").textContent) +
+          parseFloat(document.getElementById("decemberTithe").textContent);
+
+        // Atualiza o elemento HTML com a soma dos dízimos do ano
+        document.getElementById("yearTithe").textContent = yearTithe.toFixed(2);
       });
+    }
 
-      // Funções para deslizamento de tela touch:
-      var touchstartX = 0;
-      var touchendX = 0;
-      var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
-
-      document.addEventListener('touchstart', function (event) {
-        touchstartX = event.changedTouches[0].screenX;
+    document.addEventListener('DOMContentLoaded', function () {
+      document.getElementById('backButton').addEventListener('click', function () {
+        window.history.back();
       });
-
-      document.addEventListener('touchend', function (event) {
-        touchendX = event.changedTouches[0].screenX;
-        handleGesture();
+      document.getElementById('nextButton').addEventListener('click', function () {
+        window.history.back();
       });
+    });
 
-      function handleGesture() {
-        if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
-          // Deslizamento para a esquerda
-          window.history.back(); // Redireciona para a página anterior
-        } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
-          // Deslizamento para a direita
-          window.history.back(); // Redireciona para a página anterior
-        }
+    // Funções para deslizamento de tela touch:
+    var touchstartX = 0;
+    var touchendX = 0;
+    var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+
+    document.addEventListener('touchstart', function (event) {
+      touchstartX = event.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', function (event) {
+      touchendX = event.changedTouches[0].screenX;
+      handleGesture();
+    });
+
+    function handleGesture() {
+      if (touchendX < touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+        // Deslizamento para a esquerda
+        window.history.back(); // Redireciona para a página anterior
+      } else if (touchendX > touchstartX && Math.abs(touchendX - touchstartX) > gestureZone) {
+        // Deslizamento para a direita
+        window.history.back(); // Redireciona para a página anterior
       }
+    }
 
-    </script>
+  </script>
 </body>
 
 </html>

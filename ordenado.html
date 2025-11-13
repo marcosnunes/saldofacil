@@ -5,20 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora de Salário Líquido</title>
-    <!-- Google Tag Manager -->
-    <script>(function (w, d, s, l, i) {
-            w[l] = w[l] || []; w[l].push({
-                'gtm.start':
-                    new Date().getTime(), event: 'gtm.js'
-            }); var f = d.getElementsByTagName(s)[0],
-                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
-    <!-- End Google Tag Manager (noscript) -->
-    <meta charset="UTF-8">
-    <meta name="google" content="translate">
-    <meta name="description" content="Sua Calculadora Financeira Prática">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -26,10 +12,6 @@
 </head>
 
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
     <div class="navigation">
         <div class="nav-wrapper">
             <button id="backButton" class="btn btn-default">Voltar</button>
@@ -37,53 +19,60 @@
             <button id="nextButton" class="btn btn-default">Próximo</button>
         </div>
     </div>
-    <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="main-content">
         <div class="container">
             <div class="card">
                 <div class="card-content">
-                    <h4>Simulador de Salário Líquido</h4>
+                    <span class="card-title">Simulador de Salário Líquido</span>
                     <form id="formCalculadora">
-                        <div class="form-group">
-                            <label for="salarioBruto">Salário Bruto (R$):</label>
-                            <input type="text" id="salarioBruto" required placeholder="Digite o valor do Salário Bruto" inputmode="decimal">
+                        <div class="input-field">
+                            <i class="material-icons prefix">attach_money</i>
+                            <input type="text" id="salarioBruto" required placeholder="Ex: 3500,00" inputmode="decimal">
+                            <label for="salarioBruto">Salário Bruto (R$)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="valeTransporte">Vale-Transporte (R$):</label>
-                            <input type="text" id="valeTransporte" required placeholder="Digite o valor do VT" inputmode="decimal">
+                        <div class="input-field">
+                            <i class="material-icons prefix">directions_bus</i>
+                            <input type="text" id="valeTransporte" required placeholder="Ex: 180,50"
+                                inputmode="decimal">
+                            <label for="valeTransporte">Benefício de Vale-Transporte (R$)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="valeAlimentacao">Vale-Alimentação (R$):</label>
-                            <input type="text" id="valeAlimentacao" required placeholder="Digite o valor do VA" inputmode="decimal">
+                        <div class="input-field">
+                            <i class="material-icons prefix">restaurant</i>
+                            <input type="text" id="valeAlimentacao" required placeholder="Ex: 450,00"
+                                inputmode="decimal">
+                            <label for="valeAlimentacao">Benefício de Vale-Alimentação (R$)</label>
                         </div>
-                        <div class="form-group">
-                            <label for="dependentes">Número de Dependentes:</label>
+                        <div class="input-field">
+                            <i class="material-icons prefix">people</i>
                             <input type="number" id="dependentes" required min="0" placeholder="Digite 0 para nenhum">
+                            <label for="dependentes">Número de Dependentes</label>
                         </div>
-                        <div class="form-group">
-                            <label for="outrasDeducoes">Outras Deduções (R$):</label>
-                            <input type="text" id="outrasDeducoes" required placeholder="Digite 0 para nenhuma" inputmode="decimal">
+                        <div class="input-field">
+                            <i class="material-icons prefix">money_off</i>
+                            <input type="text" id="outrasDeducoes" required placeholder="Ex: 50,00" inputmode="decimal">
+                            <label for="outrasDeducoes">Outros Descontos (R$)</label>
                         </div>
-                        <button type="submit">Calcular</button>
+                        <button type="submit" class="btn">Calcular Salário Líquido</button>
                     </form>
+                </div>
+            </div>
 
-                    <div class="resultado">
-                        <h4>Resultados:</h4>
-                        <p style="font-size: 22px;"><strong>Salário Bruto:</strong>
-                            <strong id="salarioBrutoInicial">R$ 0,00</strong></p>
-                        <p>Desconto INSS: <span id="descontoINSS">R$ 0,00</span></p>
-                        <p>Desconto IRRF: <span id="descontoIRRF">R$ 0,00</span></p>
-                        <hr>
-                        <p><strong>Base p/ desconto do VT e VA:</strong>
-                            <strong id="salarioBaseCalculo">R$ 0,00</strong>
-                        </p><br>
-                        <p>Desconto do VT: <span id="descontoVT">R$ 0,00</span></p>
-                        <p>Desconto do VA: <span id="descontoVA">R$ 0,00</span></p>
-                        <hr>
-                        <p><strong>Salário Líquido:</strong>
-                            <strong id="salarioLiquido">R$ 0,00</strong></p>
-                        <hr>
-                        <p><strong>Total com beneficios:</strong>
-                            <strong id="totalcomBeneficios">R$ 0,00</strong></p>
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">Demonstrativo</span>
+                    <div class="results-list">
+                        <p><strong>(+) Salário Bruto:</strong> <strong id="salarioBrutoInicial" class="green-text">R$
+                                0,00</strong></p>
+                        <p>(-) Desconto INSS: <span id="descontoINSS" class="orange-text">R$ 0,00</span></p>
+                        <p>(-) Desconto IRRF: <span id="descontoIRRF" class="orange-text">R$ 0,00</span></p>
+                        <p>(-) Desconto VT: <span id="descontoVT" class="orange-text">R$ 0,00</span></p>
+                        <p>(-) Desconto VA: <span id="descontoVA" class="orange-text">R$ 0,00</span></p>
+                        <hr style="border-top: 1px solid #eee; margin: 1rem 0;">
+                        <p style="font-size: 1.2rem;"><strong>(=) Salário Líquido:</strong> <strong id="salarioLiquido"
+                                style="color: var(--color-primary);">R$ 0,00</strong></p>
+                        <hr style="border-top: 1px solid #eee; margin: 1rem 0;">
+                        <p style="font-size: 1.2rem;"><strong>Total a Receber (Líquido + Benefícios):</strong> <strong
+                                id="totalcomBeneficios" style="color: var(--color-success);">R$ 0,00</strong></p>
                     </div>
                 </div>
             </div>

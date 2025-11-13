@@ -2,20 +2,8 @@
 <html lang="pt-BR">
 
 <head>
-  <title>Chat</title>
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
-  <!-- End Google Tag Manager -->
+  <title>Chat ao Vivo</title>
   <meta charset="UTF-8" />
-  <meta name="google" content="translate">
-  <meta name="description" content="Sua Calculadora Financeira Prática" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -24,36 +12,32 @@
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
   <div class="navigation">
     <div class="nav-wrapper">
       <button id="backButton" class="btn btn-default">Voltar</button>
-      <span class="brand-logo center">Chat</span>
+      <span class="brand-logo center">Chat ao Vivo</span>
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+  <div class="main-content">
     <div class="container">
-      <div class="card" id="aviso-tela">
+      <div class="card">
         <div class="card-content">
           <div id="chat-messages"></div>
-          <form id="chatForm">
-            <input type="hidden" id="userEmail" name="userEmail">
-            <div class="input-field">
-              <input type="text" id="messageInput" name="messageInput" required>
-              <label for="messageInput">Digite sua mensagem</label>
+          <form id="chatForm" style="display:flex; align-items: center; gap: 1rem;">
+            <div class="input-field" style="flex-grow: 1; margin: 0;">
+              <i class="material-icons prefix">message</i>
+              <input type="hidden" id="userEmail" name="userEmail">
+              <input type="text" id="messageInput" name="messageInput" required placeholder="Digite sua mensagem...">
             </div>
-            <button class="btn waves-effect waves-light" type="submit">Enviar
-              <i class="material-icons right">send</i>
-            </button>
+            <button class="btn waves-effect waves-light" type="submit"><i class="material-icons">send</i></button>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
   <script type="module">
     import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';

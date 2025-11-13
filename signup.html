@@ -2,49 +2,40 @@
 <html lang="pt-BR">
 
 <head>
-  <title>Cadastro</title>
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
-  <!-- End Google Tag Manager -->
+  <title>Cadastro - Saldo Fácil</title>
   <meta charset="UTF-8">
-  <meta name="google" content="translate">
-  <meta name="description" content="Calculadora de Investimentos">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <div class="container-auth">
-    <div class="auth-form">
-      <h5 class="center">Cadastro</h5>
-      <div class="input-field">
-        <input type="email" id="email" placeholder=" " required>
-        <label for="email">Email</label>
+  <div class="auth-container">
+    <div class="card auth-card">
+      <div class="card-content">
+        <span class="card-title">Criar Conta</span>
+        <div class="input-field">
+          <i class="material-icons prefix">email</i>
+          <input type="email" id="email" required>
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field">
+          <i class="material-icons prefix">lock</i>
+          <input type="password" id="password" required>
+          <label for="password">Senha (mínimo 6 caracteres)</label>
+        </div>
+        <button onclick="signup()" class="btn">Cadastrar</button>
+        <div class="auth-footer">
+          <p>Já tem uma conta? <a href="login.html">Faça o login</a></p>
+          <p style="margin-top: 1rem;"><a href="privacy.html">Política de Privacidade</a></p>
+        </div>
+        <p id="error-message" class="red-text center-align"></p>
       </div>
-      <div class="input-field">
-        <input type="password" id="password" placeholder=" " required>
-        <label for="password">Senha</label>
-      </div>
-      <button onclick="signup()" class="btn">Cadastrar</button>
-      <br><br>
-      <p class="center">Já tem uma conta? <a href="login.html">Login</a></p>
-      <p class="center"><a href="privacy.html">Política de Privacidade</a></p>
-      <p id="error-message" class="red-text center"></p>
     </div>
   </div>
+
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
     import { getAuth, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';

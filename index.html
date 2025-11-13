@@ -3,7 +3,7 @@
 
 <head>
   <title>Saldo Fácil</title>
-  <!-- Google Tag Manager -->
+  <!-- Google Tag Manager e outros metadados... -->
   <script>(function (w, d, s, l, i) {
       w[l] = w[l] || []; w[l].push({
         'gtm.start':
@@ -12,51 +12,13 @@
         j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
-  <!-- End Google Tag Manager -->
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-64RG615HVR"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-64RG615HVR');
-  </script>
-
   <meta charset="UTF-8">
-  <meta name="google-adsense-account" content="ca-pub-2490151457200906">
-  <meta name="description" content="Com este app você consegue prever o seu saldo futuro adicionando seus débitos e créditos 
-    recorrentes. Faça login em outros dispositivos e recupere os seus dados. Agora com IA para analisar 
-    seus lançamentos.">
-  <meta name="keywords" content="saldo fácil aplicativo, saldo fácil playstore, saldo fácil app, cálculo capital de giro, 
-    previsão de saldo, finanças pessoais, orçamento doméstico, controle financeiro, cartão de crédito, 
-    dízimos, relatório financeiro, gráficos, assistente virtual, assistente financeiro, inteligência artificial, 
-    IA, autossuficiência financeira, autossuficiência, planejamento financeiro, planejamento orçamentário, 
-    dinheiro, economia, poupança, investimentos, capital de giro, capital de giro líquido, 
-    capital de giro próprio, capital de giro negativo, capital de giro positivo, capital de giro operacional, 
-    capital de giro mínimo, capital de giro máximo, capital de giro permanente, capital de giro temporário, 
-    capital de giro bruto, capital de giro líquido operacional, capital de giro líquido financeiro, 
-    capital de giro líquido contábil, capital de giro líquido negativo, capital de giro líquido positivo, 
-    capital de giro líquido mínimo, capital de giro líquido máximo, capital de giro líquido permanente, 
-    capital de giro líquido temporário, capital de giro líquido bruto, capital de giro líquido, 
-    capital de giro líquido operacional, capital de giro líquido financeiro, capital de giro líquido contábil, 
-    capital de giro líquido negativo, capital de giro líquido positivo, capital de giro líquido mínimo, 
-    capital de giro líquido máximo, capital de giro líquido permanente, capital de giro líquido temporário, 
-    capital de giro líquido bruto, previsão financeira, previsão de saldo, aplicativo finanças, 
-    aplicativo finanças pessoais, aplicativo controle financeiro, aplicativo orçamento doméstico, 
-    aplicativo cartão de crédito, aplicativo dízimos, aplicativo relatório financeiro, aplicativo gráficos, 
-    aplicativo assistente virtual, aplicativo assistente financeiro, aplicativo inteligência artificial, 
-    aplicativo IA, aplicativo autossuficiência financeira, aplicativo autossuficiência, 
-    aplicativo planejamento financeiro, aplicativo planejamento orçamentário, aplicativo dinheiro, 
-    aplicativo economia, aplicativo poupança, aplicativo investimentos, aplicativo capital de giro">
-  <meta name="google" content="translate">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="index, follow">
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="style-index.css">
-  <meta name="google-site-verification" content="VjsBf_8XWGoyRTuHKtEiM3m5bGM6syMrW06K-XRxNYU" />
 </head>
 
 <body>
@@ -64,132 +26,86 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
   <div class="navigation">
     <div class="nav-wrapper">
       <span class="brand-logo center">Saldo Fácil</span>
     </div>
   </div>
-  <div class="user-container">
-    <div id="user-name" class="user-name"></div> <!-- Adicionando a exibição do nome do usuário -->
-    <button onclick="logout()" class="btn red btn-logout">Logout</button>
-    <button onclick="deleteAccount()" class="btn red btn-logout">Excluir Conta</button>
-    <label for="yearSelector" style="display: flex; margin-top: 20px;justify-content: center;">Selecione o ano:</label>
-    <div class="input-field" style="display: flex; justify-content: center;">
-      <select id="yearSelector"
-        style="width: 100px;height: 40px;border: 1px solid #bdbdbd;background: #ffffff;background-blend-mode: normal;">
-        <!-- As opções de ano serão adicionadas aqui pelo JavaScript -->
-      </select>
-    </div>
-  </div>
-  <div class="main-content" style="margin-top: 60px; margin-bottom: 60px;">
+
+  <div class="main-content">
     <div class="container">
-      <div class="row">
-        <div class="col s12">
-          <div class="card-columns">
-            <!-- Cards de navegação -->
-            <div class="card" id="card1">
-              <div class="card-content"><span class="card-title">Janeiro</span></div>
+      <!-- Card do Usuário -->
+      <div class="card user-card">
+        <div class="card-content">
+          <h5 id="user-name" class="user-greeting"></h5>
+          <div class="user-actions">
+            <div class="input-field year-selector-wrapper">
+              <label for="yearSelector">Ano de Referência</label>
+              <select id="yearSelector"></select>
             </div>
-            <div class="card" id="card2">
-              <div class="card-content"><span class="card-title">Fevereiro</span></div>
-            </div>
-            <div class="card" id="card3">
-              <div class="card-content"><span class="card-title">Março</span></div>
-            </div>
-            <div class="card" id="card4">
-              <div class="card-content"><span class="card-title">Abril</span></div>
-            </div>
-            <div class="card" id="card5">
-              <div class="card-content"><span class="card-title">Maio</span></div>
-            </div>
-            <div class="card" id="card6">
-              <div class="card-content"><span class="card-title">Junho</span></div>
-            </div>
-            <div class="card" id="card7">
-              <div class="card-content"><span class="card-title">Julho</span></div>
-            </div>
-            <div class="card" id="card8">
-              <div class="card-content"><span class="card-title">Agosto</span></div>
-            </div>
-            <div class="card" id="card9">
-              <div class="card-content"><span class="card-title">Setembro</span></div>
-            </div>
-            <div class="card" id="card10">
-              <div class="card-content"><span class="card-title">Outubro</span></div>
-            </div>
-            <div class="card" id="card11">
-              <div class="card-content"><span class="card-title">Novembro</span></div>
-            </div>
-            <div class="card" id="card12">
-              <div class="card-content"><span class="card-title">Dezembro</span></div>
-            </div>
-            <div class="card" id="card13">
-              <div class="card-content" style="text-align: center;"><span class="card-title">Cartão de crédito</span>
-              </div>
-            </div>
-            <div class="card" id="card14">
-              <div class="card-content" style="text-align: center;"><span class="card-title">Perguntas Frequêntes</span>
-              </div>
-            </div>
-            <div class="card" id="card15">
-              <div class="card-content"><span class="card-title">Privacidade</span></div>
-            </div>
-            <div class="card" id="card16">
-              <div class="card-content"><span class="card-title">Ferramentas</span></div>
-            </div>
-            <div class="card" id="card17">
-              <div class="card-content"><span class="card-title">Dízimos</span></div>
-            </div>
-            <div class="card" id="card18">
-              <div class="card-content"><span class="card-title">Relatório</span></div>
-            </div>
-            <div class="card" id="card19">
-              <div class="card-content"><span class="card-title">Gráficos</span></div>
-            </div>
-            <div class="card" id="card22">
-              <div class="card-content"><span class="card-title">Investimentos</span></div>
-            </div>
-            <div class="card" id="card20">
-              <div class="card-content"><a id="askAiButton" class="card-title">Assistente</a></div>
-            </div>
-            <div class="card" id="card21">
-              <div class="card-content"><a id="chatButton" class="card-title">Chat ao vivo</a></div>
-            </div>
-            <div class="card" id="card23">
-              <div class="card-content" style="text-align: center;"><span class="card-title">Salário líquido</span>
-              </div>
-            </div>
-            <div class="card" id="limparDadosCard">
-              <div class="card-content"><span class="card-title">Recomeçar</span></div>
+            <div class="user-buttons">
+              <button onclick="logout()" class="btn-user-action">
+                <i class="material-icons">exit_to_app</i> Logout
+              </button>
+              <button onclick="deleteAccount()" class="btn-user-action red">
+                <i class="material-icons">delete_forever</i> Excluir Conta
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Seção de Controle Mensal -->
+      <h4 class="section-title">Controle Mensal</h4>
+      <div class="dashboard-grid">
+        <div class="card nav-card" id="card1"><div class="card-content"><i class="material-icons">looks_one</i><span class="card-title">Janeiro</span></div></div>
+        <div class="card nav-card" id="card2"><div class="card-content"><i class="material-icons">looks_two</i><span class="card-title">Fevereiro</span></div></div>
+        <div class="card nav-card" id="card3"><div class="card-content"><i class="material-icons">looks_3</i><span class="card-title">Março</span></div></div>
+        <div class="card nav-card" id="card4"><div class="card-content"><i class="material-icons">looks_4</i><span class="card-title">Abril</span></div></div>
+        <div class="card nav-card" id="card5"><div class="card-content"><i class="material-icons">looks_5</i><span class="card-title">Maio</span></div></div>
+        <div class="card nav-card" id="card6"><div class="card-content"><i class="material-icons">looks_6</i><span class="card-title">Junho</span></div></div>
+        <div class="card nav-card" id="card7"><div class="card-content"><i class="material-icons">filter_7</i><span class="card-title">Julho</span></div></div>
+        <div class="card nav-card" id="card8"><div class="card-content"><i class="material-icons">filter_8</i><span class="card-title">Agosto</span></div></div>
+        <div class="card nav-card" id="card9"><div class="card-content"><i class="material-icons">filter_9</i><span class="card-title">Setembro</span></div></div>
+        <div class="card nav-card" id="card10"><div class="card-content"><i class="material-icons">filter_9_plus</i><span class="card-title">Outubro</span></div></div>
+        <div class="card nav-card" id="card11"><div class="card-content"><i class="material-icons">exposure_plus_1</i><span class="card-title">Novembro</span></div></div>
+        <div class="card nav-card" id="card12"><div class="card-content"><i class="material-icons">exposure_plus_2</i><span class="card-title">Dezembro</span></div></div>
+      </div>
+      
+      <!-- Seção de Ferramentas e Relatórios -->
+      <h4 class="section-title">Ferramentas e Relatórios</h4>
+      <div class="dashboard-grid">
+        <div class="card nav-card" id="card13"><div class="card-content"><i class="material-icons">credit_card</i><span class="card-title">Cartão de Crédito</span></div></div>
+        <div class="card nav-card" id="card22"><div class="card-content"><i class="material-icons">trending_up</i><span class="card-title">Investimentos</span></div></div>
+        <div class="card nav-card" id="card17"><div class="card-content"><i class="material-icons">favorite</i><span class="card-title">Dízimos</span></div></div>
+        <div class="card nav-card" id="card18"><div class="card-content"><i class="material-icons">assessment</i><span class="card-title">Relatório Anual</span></div></div>
+        <div class="card nav-card" id="card19"><div class="card-content"><i class="material-icons">bar_chart</i><span class="card-title">Gráficos</span></div></div>
+        <div class="card nav-card" id="card20"><div class="card-content"><i class="material-icons">psychology</i><span class="card-title">Assistente IA</span></div></div>
+        <div class="card nav-card" id="card16"><div class="card-content"><i class="material-icons">construction</i><span class="card-title">Ferramentas</span></div></div>
+        <div class="card nav-card" id="card23"><div class="card-content"><i class="material-icons">calculate</i><span class="card-title">Salário Líquido</span></div></div>
+        <div class="card nav-card" id="card14"><div class="card-content"><i class="material-icons">help_outline</i><span class="card-title">FAQ</span></div></div>
+        <div class="card nav-card" id="card15"><div class="card-content"><i class="material-icons">privacy_tip</i><span class="card-title">Privacidade</span></div></div>
+        <div class="card nav-card" id="card21"><div class="card-content"><i class="material-icons">chat</i><span class="card-title">Chat ao Vivo</span></div></div>
+        <div class="card nav-card" id="limparDadosCard"><div class="card-content"><i class="material-icons">autorenew</i><span class="card-title">Recomeçar</span></div></div>
+      </div>
     </div>
   </div>
+
   <footer class="page-footer">
     <div class="container">
-      <div class="row">
-        <div class="row">
-          <div class="col s12">
-            <p class="custom-flow-text">
-              "O sucesso é a soma de pequenos esforços repetidos diariamente"
-              Robert Collier, escritor e autor de "The Secret of the Ages"
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="divider"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col s12 center-align">
-          <p class="grey-text text-lighten-4">Ferramenta livre de cálculo de capital de giro © 2024 Saldo Fácil.
-            Todos os direitos reservados.</p>
-        </div>
-      </div>
+      <p class="custom-flow-text">
+        "O sucesso é a soma de pequenos esforços repetidos diariamente" - Robert Collier
+      </p>
+      <div class="divider"></div>
+      <p class="grey-text text-lighten-4">
+        © 2024 Saldo Fácil. Todos os direitos reservados.
+      </p>
     </div>
   </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
   <script type="module">
     // Importa os módulos necessários do Firebase
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
@@ -202,165 +118,115 @@
     const auth = getAuth(app);
     const database = getDatabase(app);
 
-    // Variável para o ano atual
-    let currentYear;
-
-    // Verificação do estado de autenticação e exibição do nome do usuário
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const displayName = user.displayName || user.email;
-        document.getElementById('user-name').textContent = `Bem-vindo, ${displayName}!`;
-        setupYearSelector(); // Adiciona os anos no select
-      } else {
-        window.location.href = "login.html"; // Redireciona para a página de login se não estiver autenticado
-      }
-    });
-
+    // Função para navegar para a página correta com o ano SELECIONADO
+    function navigateTo(page) {
+        const year = localStorage.getItem('selectedYear') || new Date().getFullYear();
+        if (page) {
+            window.location.href = `${page}?year=${year}`;
+        }
+    }
+    
     // Gera as opções de ano e seleciona o ano salvo no localStorage
     function setupYearSelector() {
       const yearSelector = document.getElementById("yearSelector");
       const startYear = 2020;
       const endYear = 2030;
+      
       let savedYear = localStorage.getItem('selectedYear');
+      const currentYear = savedYear ? parseInt(savedYear) : new Date().getFullYear();
 
-      // Gera as opções de ano
+      yearSelector.innerHTML = ''; 
+      
       for (let year = startYear; year <= endYear; year++) {
         const option = document.createElement("option");
         option.value = year;
         option.text = year;
         yearSelector.add(option);
       }
-
-      // Seleciona o ano salvo no localStorage, se existir, senão pega o ano atual
-      currentYear = savedYear ? parseInt(savedYear) : new Date().getFullYear();
+      
       yearSelector.value = currentYear;
+      M.FormSelect.init(yearSelector); // Inicializa o componente Materialize
 
-      console.log("setupYearSelector - Valor de currentYear:", currentYear); // Adicione este console.log
-
-      // Salva o ano selecionado no localStorage quando ele for alterado pelo usuário
       yearSelector.addEventListener('change', function () {
-        currentYear = parseInt(this.value); // Atualiza a variável global
         localStorage.setItem('selectedYear', this.value);
       });
-
     }
 
     // Função de logout
     window.logout = function () {
       signOut(auth).then(() => {
-        window.location.href = "login.html"; // Redireciona para a página de login após logout
-      }).catch((error) => {
-        console.error("Erro ao fazer logout: ", error);
-      });
+        window.location.href = "login.html";
+      }).catch((error) => console.error("Erro ao fazer logout: ", error));
     };
 
     // Função de excluir conta
     window.deleteAccount = function () {
-      window.location.href = "delete_account.html"; // Redireciona para a página de exclusão de conta
+      window.location.href = "delete_account.html";
     };
 
-
-
-    // Função para limpar os dados do Firebase Realtime Database e localStorage
+    // Função para limpar todos os dados do usuário
     function limparDados() {
-      // Confirmação do usuário antes de limpar os dados
-      if (confirm("Tem certeza que deseja limpar todos os seus dados? Esta ação é irreversível.")) {
-        // Limpar localStorage
-        localStorage.clear();
-
-        // Obter o userId do localStorage ou da autenticação
-        const userId = localStorage.getItem('userId') || (auth.currentUser ? auth.currentUser.uid : null);
-
-        // Verificar se o userId está disponível
+      if (confirm("Tem certeza que deseja limpar TODOS os dados de TODOS os anos? Esta ação é irreversível.")) {
+        const userId = auth.currentUser ? auth.currentUser.uid : null;
         if (userId) {
-          // Referência para os dados do cartão de crédito
-          const creditCardDataRef = ref(database, 'creditCardData/' + userId);
-
-          // Referência para os dados de cada mês
-          const januaryRef = ref(database, 'users/' + userId + '/january');
-          const februaryRef = ref(database, 'users/' + userId + '/february');
-          const marchRef = ref(database, 'users/' + userId + '/march');
-          const aprilRef = ref(database, 'users/' + userId + '/april');
-          const mayRef = ref(database, 'users/' + userId + '/may');
-          const juneRef = ref(database, 'users/' + userId + '/june');
-          const julyRef = ref(database, 'users/' + userId + '/july');
-          const augustRef = ref(database, 'users/' + userId + '/august');
-          const septemberRef = ref(database, 'users/' + userId + '/september');
-          const octoberRef = ref(database, 'users/' + userId + '/october');
-          const novemberRef = ref(database, 'users/' + userId + '/november');
-          const decemberRef = ref(database, 'users/' + userId + '/december');
-
-          // Referência para o nó raiz de creditCardBalances
-          const creditCardBalancesRef = ref(database, 'creditCardBalances/' + userId);
-
-          // Referência para os dados do usuário
-          const userRef = ref(database, 'users/' + userId);
-
-          // Remover os dados do Firebase Realtime Database
+          const userRootRef = ref(database, 'users/' + userId);
+          const creditCardRootRef = ref(database, 'creditCardData/' + userId);
+          const creditCardBalancesRootRef = ref(database, 'creditCardBalances/' + userId);
+          const investimentsRootRef = ref(database, 'investimentsData/' + userId);
+          
           Promise.all([
-            remove(creditCardDataRef),
-            remove(januaryRef),
-            remove(februaryRef),
-            remove(marchRef),
-            remove(aprilRef),
-            remove(mayRef),
-            remove(juneRef),
-            remove(julyRef),
-            remove(augustRef),
-            remove(septemberRef),
-            remove(octoberRef),
-            remove(novemberRef),
-            remove(decemberRef),
-            remove(creditCardBalancesRef), // Remove todos os dados dentro de creditCardBalances
-            remove(userRef)
-          ])
-            .then(() => {
-              console.log("Todos os dados do usuário apagados do Firebase.");
-              alert("Os dados foram apagados do Firebase e localStorage."); // Mensagem de confirmação
-            })
-            .catch((error) => {
-              console.error("Erro ao apagar dados do Firebase: ", error);
-            });
+            remove(userRootRef),
+            remove(creditCardRootRef),
+            remove(creditCardBalancesRootRef),
+            remove(investimentsRootRef)
+          ]).then(() => {
+            alert("Todos os seus dados foram apagados permanentemente.");
+            localStorage.clear();
+          }).catch((error) => console.error("Erro ao apagar dados do Firebase: ", error));
         } else {
-          alert("Usuário não autenticado. Não é possível limpar dados do Firebase.");
+          alert("Usuário não autenticado.");
         }
       }
     }
-
-    // Adiciona eventos de clique aos cards após o DOM ser carregado
+    
+    // Event listener principal
     document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("limparDadosCard").addEventListener("click", limparDados);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const displayName = user.displayName || user.email;
+                document.getElementById('user-name').textContent = `Olá, ${displayName}!`;
+                setupYearSelector(); // Chama a configuração do seletor
+            } else {
+                window.location.href = "login.html";
+            }
+        });
 
-      document.getElementById("card1").addEventListener("click", () => window.location.href = `1Jan.html?year=${currentYear}`);
-      document.getElementById("card2").addEventListener("click", () => window.location.href = `2Fev.html?year=${currentYear}`);
-      document.getElementById("card3").addEventListener("click", () => window.location.href = `3Mar.html?year=${currentYear}`);
-      document.getElementById("card4").addEventListener("click", () => window.location.href = `4Abr.html?year=${currentYear}`);
-      document.getElementById("card5").addEventListener("click", () => window.location.href = `5Mai.html?year=${currentYear}`);
-      document.getElementById("card6").addEventListener("click", () => window.location.href = `6Jun.html?year=${currentYear}`);
-      document.getElementById("card7").addEventListener("click", () => window.location.href = `7Jul.html?year=${currentYear}`);
-      document.getElementById("card8").addEventListener("click", () => window.location.href = `8Ago.html?year=${currentYear}`);
-      document.getElementById("card9").addEventListener("click", () => window.location.href = `9Set.html?year=${currentYear}`);
-      document.getElementById("card10").addEventListener("click", () => window.location.href = `10Out.html?year=${currentYear}`);
-      document.getElementById("card11").addEventListener("click", () => window.location.href = `11Nov.html?year=${currentYear}`);
-      document.getElementById("card12").addEventListener("click", () => window.location.href = `12Dez.html?year=${currentYear}`);
-      document.getElementById("card13").addEventListener("click", () => window.location.href = `cartao_de_credito.html?year=${currentYear}`);
-      document.getElementById("card14").addEventListener("click", () => window.location.href = "perguntas_frequentes.html");
-      document.getElementById("card15").addEventListener("click", () => window.location.href = "privacy.html");
-      document.getElementById("card16").addEventListener("click", () => window.location.href = "ferramentas.html");
-      document.getElementById("card17").addEventListener("click", () => window.location.href = `dizimo.html?year=${currentYear}`);
-      document.getElementById("card18").addEventListener("click", () => window.location.href = `relatorio.html?year=${currentYear}`);
-      document.getElementById("card19").addEventListener("click", () => window.location.href = `chart.html?year=${currentYear}`);
-      document.getElementById("card20").addEventListener("click", () => window.location.href = `aichat.html?year=${currentYear}`);
-      document.getElementById("card21").addEventListener("click", () => window.location.href = `chat.html`);
-      document.getElementById("card22").addEventListener("click", () => window.location.href = `investimentos.html?year=${currentYear}`);
-      document.getElementById("card23").addEventListener("click", () => window.location.href = `ordenado.html`);
-    });
+        // Adiciona os event listeners aos cards
+        document.getElementById("limparDadosCard").addEventListener("click", limparDados);
+        
+        const cardMappings = {
+            "card1": "1Jan.html", "card2": "2Fev.html", "card3": "3Mar.html",
+            "card4": "4Abr.html", "card5": "5Mai.html", "card6": "6Jun.html",
+            "card7": "7Jul.html", "card8": "8Ago.html", "card9": "9Set.html",
+            "card10": "10Out.html", "card11": "11Nov.html", "card12": "12Dez.html",
+            "card13": "cartao_de_credito.html", "card17": "dizimo.html",
+            "card18": "relatorio.html", "card19": "chart.html",
+            "card20": "aichat.html", "card22": "investimentos.html"
+        };
+        
+        for (const [id, page] of Object.entries(cardMappings)) {
+            document.getElementById(id).addEventListener("click", () => navigateTo(page));
+        }
 
-    yearSelector.addEventListener('change', function () {
-      currentYear = parseInt(this.value); // Atualiza a variável global
-      localStorage.setItem('selectedYear', this.value); // Salva o ano atual no localStorage
+        // Links estáticos
+        document.getElementById("card14").addEventListener("click", () => window.location.href = "perguntas_frequentes.html");
+        document.getElementById("card15").addEventListener("click", () => window.location.href = "privacy.html");
+        document.getElementById("card16").addEventListener("click", () => window.location.href = "ferramentas.html");
+        document.getElementById("card21").addEventListener("click", () => window.location.href = "chat.html");
+        document.getElementById("card23").addEventListener("click", () => window.location.href = "ordenado.html");
     });
   </script>
 </body>
-
 </html>
+
+  

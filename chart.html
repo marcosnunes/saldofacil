@@ -29,6 +29,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
   <div class="navigation">
     <div class="nav-wrapper">
       <button id="backButton" class="btn btn-default">Voltar</button>
@@ -36,49 +37,45 @@
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+
+  <div class="main-content">
     <div class="container">
       <div class="card">
-        <div class="card-content-chart">
-          <span class="card-title-chart">Gráfico de Créditos e Débitos Mensais</span>
-          <canvas id="creditDebitChart"></canvas>
+        <div class="card-content">
+          <span class="card-title">Créditos vs. Débitos Mensais</span>
+          <canvas id="creditDebitChart" style="max-height: 400px;"></canvas>
         </div>
       </div>
       <div class="card">
-        <div class="card-content-chart">
-          <span class="card-title-chart">Gráfico de Evolução do Saldo Mensal</span>
-          <canvas id="monthlyBalanceChart"></canvas>
-        </div>
-      </div>
-      <!-- Card do gráfico de tendência anual -->
-      <div class="card" id="trend-card">
-        <div class="card-content-chart">
-          <span class="card-title-chart">Gráfico de Tendência dos Dados Anuais</span>
-          <canvas id="quadraticChart"></canvas>
-        </div>
-      </div>
-      <div class="card" id="tutorial_gerar_excel">
         <div class="card-content">
-          <span class="card-title">Gerar Arquivo Excel Anual</span>
-          <p>Clique no botão abaixo para gerar um arquivo Excel com planilhas para cada mês do ano, utilizando os dados
-            salvos.</p><br>
-          <p>Os dados serão exportados em formato de planilha, com as seguintes colunas:</p>
-          <ul>
-            <li>DIA: Dia do mês</li>
-            <li>DESCRIÇÃO: Descrição da transação</li>
-            <li>CRÉDITO + : Valor creditado</li>
-            <li>DÉBITO - : Valor debitado</li>
-            <li>SALDO DO DIA: Saldo acumulado até o dia</li>
-          </ul><br>
-          <p>Os dados serão exportados para um arquivo Excel com planilhas separadas para cada mês do ano.</p><br>
-          <button id="gerarExcelButton" class="btn btn-default" disabled>Gerar Excel Mensal</button><br><br>
-          <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+          <span class="card-title">Evolução do Saldo Final Mensal</span>
+          <canvas id="monthlyBalanceChart" style="max-height: 400px;"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Linha de Tendência Anual</span>
+          <canvas id="quadraticChart" style="max-height: 400px;"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title">Exportar Dados</span>
+          <p style="margin-bottom: 1.5rem;">Gere um arquivo Excel com planilhas detalhadas para cada mês do ano ou
+            exporte a visualização atual da página para PDF.</p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button id="gerarExcelButton" class="btn" disabled style="background-color: var(--color-success);"><i
+                class="material-icons left">grid_on</i>Gerar Excel</button>
+            <button id="pdfButton" onclick="window.print()" class="btn"><i
+                class="material-icons left">picture_as_pdf</i>Exportar para PDF</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
     import { getDatabase, ref, onValue, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
@@ -265,8 +262,8 @@
         const B = [sumY, sumXY, sumX2Y];
 
         function determinant(m) {
-          return m[0][0]*m[1][1]*m[2][2] + m[0][1]*m[1][2]*m[2][0] + m[0][2]*m[1][0]*m[2][1]
-               - m[0][2]*m[1][1]*m[2][0] - m[0][0]*m[1][2]*m[2][1] - m[0][1]*m[1][0]*m[2][2];
+          return m[0][0] * m[1][1] * m[2][2] + m[0][1] * m[1][2] * m[2][0] + m[0][2] * m[1][0] * m[2][1]
+            - m[0][2] * m[1][1] * m[2][0] - m[0][0] * m[1][2] * m[2][1] - m[0][1] * m[1][0] * m[2][2];
         }
         function replaceCol(m, colIdx, vec) {
           return m.map((row, i) =>
@@ -277,16 +274,16 @@
         const detA0 = determinant(replaceCol(A, 0, B));
         const detA1 = determinant(replaceCol(A, 1, B));
         const detA2 = determinant(replaceCol(A, 2, B));
-        const c = detA0/detA;
-        const b = detA1/detA;
-        const a = detA2/detA;
-        return {a, b, c};
+        const c = detA0 / detA;
+        const b = detA1 / detA;
+        const a = detA2 / detA;
+        return { a, b, c };
       }
 
-      const {a, b, c} = quadraticRegression(x, y);
+      const { a, b, c } = quadraticRegression(x, y);
 
       // Gera pontos da curva quadrática
-      const curveY = x.map(xi => a*xi*xi + b*xi + c);
+      const curveY = x.map(xi => a * xi * xi + b * xi + c);
 
       quadraticChartInstance = new Chart(quadraticChartCanvas, {
         type: "line",
@@ -307,7 +304,7 @@
               borderColor: "purple",
               backgroundColor: "rgba(128,0,128,0.1)",
               fill: false,
-              borderDash: [6,3],
+              borderDash: [6, 3],
               pointRadius: 0,
               tension: 0.0
             }

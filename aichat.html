@@ -2,20 +2,9 @@
 <html>
 
 <head>
-  <title>Chatbot financeiro</title>
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
-  <!-- End Google Tag Manager -->
+  <title>Assistente Financeiro IA</title>
+  <!-- Metatags e links CSS -->
   <meta charset="UTF-8">
-  <meta name="google" content="translate">
-  <meta name="description" content="Sua calculadora financeira prática">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -24,29 +13,24 @@
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
   <div class="navigation">
     <div class="nav-wrapper">
       <button id="backButton" class="btn btn-default">Voltar</button>
-      <span class="brand-logo center">Assistente</span>
+      <span class="brand-logo center">Assistente IA</span>
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+
+  <div class="main-content">
     <div class="container">
       <div class="card">
         <div class="card-content">
           <div id="chatLog"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-content">
-          <input type="text" id="userInput" placeholder="Faça sua pergunta">
-          <button id="bot-button" class="btn btn-default">Enviar</button>
+          <div class="input-field" style="display:flex; align-items: center; gap: 1rem;">
+            <i class="material-icons prefix">chat</i>
+            <input type="text" id="userInput" placeholder="Pergunte sobre suas finanças...">
+            <button id="bot-button" class="btn"><i class="material-icons">send</i></button>
+          </div>
         </div>
       </div>
     </div>

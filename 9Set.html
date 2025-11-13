@@ -35,68 +35,86 @@
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+  <div class="main-content">
     <div class="container">
-      <button id="homeButton" class="btn btn-default">Inicio</button>
-      <button id="clearMonthButton" class="btn btn-default">Limpar Mês</button>
-      <div class="card">
-        <div class="card-content" id="initBalance">
-          <span class="card-title">Saldo inicial de setembro</span>
-          <div class="form-control" id="SepInitialBalance">0.00</div>
-        </div>
-      </div>
-      <div class="card" id="card-lancamento">
-        <div class="card-content">
-          <span class="card-title">Fazer lançamento</span>
-          <div class="input-field">
-            <input type="text" class="description form-control" id="sepDescription" placeholder="Descrição">
-            <label for="sepDescription">Descrição</label>
-          </div>
-          <div class="input-field">
-            <input type="number" class="debit form-control" id="sepDebit" placeholder="Débito">
-            <label for="sepDebit">Débito</label>
-          </div>
-          <div class="input-field">
-            <div style="display: flex; align-items: center;">
-              <div style="width: 100%">
-                <label for="sepCredit">Crédito</label>
-                <input type="number" class="credit form-control" id="sepCredit" placeholder="Crédito">
+      <button id="homeButton" class="btn btn-default" style="margin-bottom: 1rem;">Início</button>
+      <button id="clearMonthButton" class="btn btn-default" style="margin-bottom: 1rem;">Limpar mês</button>
+      <div class="monthly-layout">
+
+        <!-- Coluna Principal (Formulário e Lançamentos) -->
+        <div class="main-column">
+          <div class="card" id="card-lancamento">
+            <div class="card-content">
+              <span class="card-title">Fazer lançamento</span>
+              <div class="input-field">
+                <i class="material-icons prefix">description</i>
+                <input type="text" class="description form-control" id="sepDescription" placeholder="Descrição">
+                <label for="sepDescription">Descrição</label>
               </div>
-              <div>
+              <div class="input-field">
+                <i class="material-icons prefix">arrow_downward</i>
+                <input type="number" class="debit form-control" id="sepDebit" placeholder="Débito">
+                <label for="sepDebit">Débito</label>
+              </div>
+              <div class="input-field">
+                <i class="material-icons prefix">arrow_upward</i>
+                <input type="number" class="credit form-control" id="sepCredit" placeholder="Crédito">
+                <label for="sepCredit">Crédito</label>
+              </div>
+              <div style="padding-left: 3rem; margin-bottom: 1.5rem;">
                 <label>
                   <input type="checkbox" id="titheCheckbox">
-                  <span>Dízimo</span>
+                  <span>É dízimo?</span>
                 </label>
               </div>
+              <div class="input-field">
+                <i class="material-icons prefix">calendar_today</i>
+                <input type="number" class="day form-control" id="sepDay" placeholder="Dia">
+                <label for="sepDay">Dia</label>
+              </div>
+              <div class="add-container">
+                <button id="addButton" class="btn">Adicionar</button>
+                <button id="importButton" class="btn" style="background-color: var(--color-success);">Importar
+                  Extrato</button>
+              </div>
+              <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
             </div>
           </div>
-          <div class="input-field">
-            <input type="number" class="day form-control" id="sepDay" placeholder="Dia">
-            <label for="sepDay">Dia</label>
-          </div>
-          <div class="add-container">
-            <button id="addButton" class="btn btn-default">Adicionar</button>
-            <span style="margin-right: 20px;"></span>
-            <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
-            <button id="importButton" class="btn btn-default">Importar Extrato</button>
+
+          <div id="dataCards">
+            <!-- Os cards de dados adicionados aparecerão aqui -->
           </div>
         </div>
-      </div>
-      <div id="dataCards">
-        <!-- Os cards de dados adicionados aparecerão aqui -->
-      </div>
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Resultados</span>
-          <p>Dízimo: <span id="sepTithe" class="blue-text">0.00</span></p>
-          <p>Cartão de Crédito: <span id="sepCreditCardBalance" class="orange-text">0.00</span></p>
-          <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
-          <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
-          <p>Total Investimentos: <span id="sepTotalInvestment" class="orange-text">0.00</span></p>
-          <p>Saldo Final: <span id="totalSeptember">0.00</span></p>
-          <p>Balanço: <span id="balance"></span></p>
-          <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
-          <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
+
+        <!-- Coluna Lateral (Saldos e Resultados) -->
+        <div class="sidebar-column">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Saldo Inicial</span>
+              <div class="form-control" id="FebInitialBalance"
+                style="font-size: 1.5rem; text-align: center; padding: 1rem; color: var(--color-dark); font-weight: 500;">
+                0.00</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Resultados do Mês</span>
+              <div class="results-list">
+                <p>Dízimo: <span id="febTithe" class="blue-text">0.00</span></p>
+                <p>Cartão de Crédito: <span id="febCreditCardBalance" class="orange-text">0.00</span></p>
+                <p>Total Crédito: <span id="totalCredit" class="green-text">0.00</span></p>
+                <p>Total Débito: <span id="totalDebit" class="orange-text">0.00</span></p>
+                <p>Total Investimentos: <span id="febTotalInvestment" class="orange-text">0.00</span></p>
+                <p>Balanço: <span id="balance">0.00</span></p>
+                <p>Débito ÷ Crédito: <span id="totalPorcentagem">0.00%</span></p>
+                <p style="font-size: 1.2rem !important; font-weight: bold;">Saldo Final: <span id="totalFeb"
+                    style="color: var(--color-primary);">0.00</span></p>
+              </div>
+              <button id="pdfButton" onclick="window.print()" class="btn" style="margin-top: 1.5rem;">Exportar para
+                PDF</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -583,74 +601,37 @@
     }
 
     function createDataCard(dataItem, runningBalance) {
-      var card = document.createElement("div");
-      card.className = "card";
-      card.setAttribute("data-id", dataItem.id); // Adicionar o ID do card como um atributo data-id
+      const card = document.createElement("div");
+      card.className = "transaction-card";
+      card.setAttribute("data-id", dataItem.id);
 
-      var cardContent = document.createElement("div");
-      cardContent.className = "card-content";
+      const isCredit = parseFloat(dataItem.credit) > 0;
+      const amount = isCredit ? parseFloat(dataItem.credit) : parseFloat(dataItem.debit);
+      const amountClass = isCredit ? 'credit' : 'debit';
+      const amountSign = isCredit ? '+' : '-';
 
-      // Adicionar os campos de dados ao card
-      console.log("dataItem:", dataItem);
-      if (dataItem.description.trim() !== "") {
-        var description = document.createElement("p");
-        description.textContent = "Descrição: " + dataItem.description;
-        cardContent.appendChild(description);
-      }
-      if (dataItem.day.trim() !== "") {
-        var day = document.createElement("p");
-        day.textContent = "Dia: " + dataItem.day;
-        cardContent.appendChild(day);
-      }
-      // Verifique se dataItem.debit é uma string antes de usar trim()
-      if (typeof dataItem.debit === 'string' && dataItem.debit.trim() !== "") {
-        var debit = document.createElement("p");
-        debit.textContent = "Débito: " + dataItem.debit;
-        cardContent.appendChild(debit);
-      } else if (typeof dataItem.debit === 'number' && dataItem.debit !== 0) {
-        var debit = document.createElement("p");
-        debit.textContent = "Débito: " + dataItem.debit;
-        cardContent.appendChild(debit);
-      } else {
-        // dataItem.debit é undefined ou 0, não exiba o valor do débito
-      }
-      // Verifique o tipo de dataItem.credit e aplique trim() se necessário
-      if (typeof dataItem.credit === 'string' && dataItem.credit.trim() !== "") {
-        var credit = document.createElement("p");
-        credit.textContent = "Crédito: " + dataItem.credit;
-        cardContent.appendChild(credit);
-      } else if (typeof dataItem.credit === 'number' && dataItem.credit !== 0) {
-        var credit = document.createElement("p");
-        credit.textContent = "Crédito: " + dataItem.credit;
-        cardContent.appendChild(credit);
-      } else {
-        // dataItem.credit é undefined ou 0, não exiba o valor do crédito
-      }
+      card.innerHTML = `
+            <div class="transaction-header">
+                <span class="transaction-description">${dataItem.description}</span>
+                <span class="transaction-day">Dia: ${dataItem.day}</span>
+            </div>
+            <div class="transaction-body">
+                <span class="transaction-amount ${amountClass}">${amountSign} R$ ${amount.toFixed(2)}</span>
+                <div class="transaction-balance">
+                    <span class="transaction-balance-label">Saldo do Dia</span>
+                    <span class="transaction-balance-value">R$ ${runningBalance.toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="transaction-actions">
+                <button class="btn-flat waves-effect" onclick="editData('${dataItem.id}')">Editar</button>
+                <button class="btn-flat waves-effect red-text" onclick="deleteData('${dataItem.id}')">Excluir</button>
+            </div>
+        `;
 
-      // Adicionar o saldo do dia
-      var dayBalance = document.createElement("p");
-      dayBalance.textContent = "Saldo do Dia: " + runningBalance.toFixed(2);
-      cardContent.appendChild(dayBalance);
+      // Atribui as funções ao escopo global para que o onclick funcione
+      window.editData = editData;
+      window.deleteData = deleteData;
 
-      // Adicionar botão de edição
-      var editButton = document.createElement("button");
-      editButton.textContent = "Editar";
-      editButton.className = "btn-edit";
-      editButton.onclick = function () {
-        editData(dataItem.id); // Chama a função de edição
-      };
-      cardContent.appendChild(editButton);
-
-      // Adicionar botão de exclusão
-      var deleteButton = document.createElement("button");
-      deleteButton.textContent = "Excluir";
-      deleteButton.className = "btn-delete";
-      deleteButton.onclick = function () {
-        deleteData(dataItem.id); // Chama a função de exclusão
-      };
-      cardContent.appendChild(deleteButton);
-
-      card.appendChild(cardContent);
       return card;
     }
 

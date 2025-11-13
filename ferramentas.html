@@ -15,7 +15,7 @@
   <!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="google" content="translate" />
-  <meta name="description" content="Calculadora de Investimentos" />
+  <meta name="description" content="Calculadora de Investimentos, Conversor de Moedas e mais" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="favicon.ico" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
@@ -28,6 +28,7 @@
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
       style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
+
   <div class="navigation">
     <div class="nav-wrapper">
       <button id="backButton" class="btn btn-default">Voltar</button>
@@ -35,398 +36,182 @@
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+
+  <div class="main-content">
     <div class="container">
+
+      <!-- Calculadora de Investimentos -->
       <div class="card">
         <div class="card-content">
-          <h3 class="card-title">Calculadora de Investimentos</h3>
+          <span class="card-title">Calculadora de Juros Compostos</span>
           <div class="input-field">
-            <input type="number" class="initial-amount" id="initialAmount" placeholder="Montante inicial" />
-            <label for="initialAmount">Montante Inicial</label>
+            <i class="material-icons prefix">attach_money</i>
+            <input type="number" id="initialAmount" placeholder="Ex: 1000">
+            <label for="initialAmount">Montante Inicial (R$)</label>
           </div>
           <div class="input-field">
-            <input type="number" class="monthly-contribution" id="monthlyContribution"
-              placeholder="Contribuição mensal" />
-            <label for="monthlyContribution">Contribuição Mensal</label>
+            <i class="material-icons prefix">savings</i>
+            <input type="number" id="monthlyContribution" placeholder="Ex: 200">
+            <label for="monthlyContribution">Aporte Mensal (R$)</label>
           </div>
           <div class="input-field">
-            <input type="number" class="annual-interest-rate" id="annualInterestRate"
-              placeholder="Taxa de Juros Anual (%)" />
+            <i class="material-icons prefix">trending_up</i>
+            <input type="number" id="annualInterestRate" placeholder="Ex: 10">
             <label for="annualInterestRate">Taxa de Juros Anual (%)</label>
           </div>
           <div class="input-field">
-            <input type="number" class="investment-duration" id="investmentDuration" placeholder="(meses)" />
-            <label for="investmentDuration">Duração do Investimento</label>
+            <i class="material-icons prefix">timer</i>
+            <input type="number" id="investmentDuration" placeholder="Ex: 120">
+            <label for="investmentDuration">Período (meses)</label>
           </div>
-          <button id="calculateButton" class="btn-edit">Calcular</button>
-          <div class="result">
-            <h5 class="card-title">Resultado:</h5>
-            <p>
-              Total acumulado após
-              <span id="investmentDurationResult">0</span> meses:
-              <span id="investmentResult">0.00</span>
-            </p>
+          <button id="calculateButton" class="btn">Calcular</button>
+          
+          <div class="result" style="margin-top: 2rem;">
+            <h5>Resultado do Investimento:</h5>
+            <p>Total acumulado: <strong id="investmentResult" style="font-size: 1.5rem; color: var(--color-primary);">R$ 0.00</strong></p>
           </div>
-          <div class="references">
-            <h3 class="card-title">Valores de referência diários:</h3>
-            <p>Tx Poupança: <span id="poupancaValue">Carregando...</span></p>
-            <p>Tx selic: <span id="cdiValue">Carregando...</span></p>
+
+          <div class="references" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+            <h6>Valores de referência:</h6>
+            <p>Taxa Poupança (última): <strong id="poupancaValue">Carregando...</strong></p>
+            <p>Taxa Selic (última): <strong id="cdiValue">Carregando...</strong></p>
           </div>
         </div>
       </div>
+      
+      <!-- Conversor de Moeda -->
       <div class="card">
         <div class="card-content">
-          <h3 class="card-title">Converter moeda</h3>
-          <div class="input-field">
-            <input type="number" class="initial-amount" id="initialAmountCurrency" placeholder="Digite" />
-          </div>
-          <div>
-            <label>de</label>
-            <select id="initialAmountSelectionCurrency">
-              <option value="BRL">Real (R$)</option>
-              <option value="EUR">Euro (€)</option>
-              <option value="USD">Dólar ($)</option>
-              <option value="GBP">Libra Esterlina (£)</option>
-            </select>
-          </div>
-          <div>
-            <label>para</label>
-            <select id="convertedAmountSelectionCurrency">
-              <option value="BRL">Real (R$)</option>
-              <option value="EUR">Euro (€)</option>
-              <option value="USD">Dólar ($)</option>
-              <option value="GBP">Libra Esterlina (£)</option>
-            </select>
-          </div>
-          <div class="result">
-            <h3 class="card-title">Resultado:</h3>
-            <p>
-              <span id="initialAmountSelected">R$ 0.00</span> representam
-              <span id="convertedAmountResult">R$ 0.00</span>
-            </p>
-          </div>
+            <span class="card-title">Conversor de Moedas</span>
+            <div class="input-field">
+                <i class="material-icons prefix">paid</i>
+                <input type="number" id="initialAmountCurrency" placeholder="Ex: 100">
+                <label for="initialAmountCurrency">Valor a Converter</label>
+            </div>
+            <div class="input-field">
+                <select id="initialAmountSelectionCurrency">
+                    <option value="BRL" selected>Real Brasileiro (BRL)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                    <option value="USD">Dólar Americano (USD)</option>
+                    <option value="GBP">Libra Esterlina (GBP)</option>
+                </select>
+                <label>De:</label>
+            </div>
+            <div class="input-field">
+                <select id="convertedAmountSelectionCurrency">
+                    <option value="BRL">Real Brasileiro (BRL)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                    <option value="USD" selected>Dólar Americano (USD)</option>
+                    <option value="GBP">Libra Esterlina (GBP)</option>
+                </select>
+                <label>Para:</label>
+            </div>
+            <div class="result" style="margin-top: 2rem;">
+                <h5>Resultado da Conversão:</h5>
+                <p><strong id="convertedAmountResult" style="font-size: 1.5rem; color: var(--color-primary);">R$ 0.00</strong></p>
+            </div>
         </div>
       </div>
-      <div class="card">
-        <div class="card-content">
-          <h3 class="card-title">Calculadora de IRRF, Férias e 13º</h3>
 
-          <label for="salarioBruto">Salário Bruto:</label>
-          <input type="number" id="salarioBruto" /><br /><br />
-
-          <label for="dataAdmissao">Data de Admissão:</label>
-          <input type="date" id="dataAdmissao" /><br /><br />
-
-          <button class="btn-edit" onclick="calcular()">Calcular</button><br /><br />
-
-          <div id="resultados"></div>
-        </div>
-      </div>
     </div>
   </div>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      var elems = document.querySelectorAll("select");
-      M.FormSelect.init(elems);
+        var elems = document.querySelectorAll("select");
+        M.FormSelect.init(elems);
 
-      document
-        .getElementById("backButton")
-        .addEventListener("click", function () {
-          window.history.back();
-        });
-      document
-        .getElementById("nextButton")
-        .addEventListener("click", function () {
-          window.history.back();
-        });
+        document.getElementById("backButton").addEventListener("click", () => window.history.back());
+        document.getElementById("nextButton").addEventListener("click", () => window.history.back());
+        document.getElementById("calculateButton").addEventListener("click", calculateInvestment);
 
-      // Add event listener to the "Calcular" button
-      document
-        .getElementById("calculateButton")
-        .addEventListener("click", calculateInvestment);
-
-      // Adiciona um evento de mudança ao selecionar a moeda inicial
-      document
-        .getElementById("initialAmountSelectionCurrency")
-        .addEventListener("change", function () {
-          var selectedCurrency = document.getElementById(
-            "initialAmountSelectionCurrency"
-          ).value;
-          document.getElementById("initialAmountSelected").textContent =
-            selectedCurrency +
-            " " +
-            parseFloat(
-              document.getElementById("initialAmountCurrency").value || 0
-            ).toFixed(2);
-          convertCurrency(); // Chama a função para converter a moeda ao mudar a seleção
-        });
-
-      // Adiciona um evento de mudança ao selecionar a moeda inicial
-      document
-        .getElementById("initialAmountSelectionCurrency")
-        .addEventListener("change", convertCurrency);
-
-      // Adiciona um evento de mudança ao selecionar a moeda de destino
-      document
-        .getElementById("convertedAmountSelectionCurrency")
-        .addEventListener("change", convertCurrency);
-
-      function calculateInvestment() {
-        var initialAmount = parseFloat(
-          document.getElementById("initialAmount").value
-        );
-        var monthlyContribution = parseFloat(
-          document.getElementById("monthlyContribution").value
-        );
-        var annualInterestRate = parseFloat(
-          document.getElementById("annualInterestRate").value
-        );
-        var investmentDuration = parseInt(
-          document.getElementById("investmentDuration").value
-        );
-        // Validar os campos de entrada
-        if (
-          isNaN(initialAmount) ||
-          isNaN(monthlyContribution) ||
-          isNaN(annualInterestRate) ||
-          isNaN(investmentDuration)
-        ) {
-          alert("Por favor, preencha todos os campos corretamente.");
-          return;
-        }
-        var monthlyInterestRate = annualInterestRate / 100 / 12;
-        var totalInvestment = initialAmount;
-        for (var i = 1; i <= investmentDuration; i++) {
-          totalInvestment += monthlyContribution;
-          totalInvestment += totalInvestment * monthlyInterestRate;
-        }
-        document.getElementById("investmentDurationResult").textContent =
-          investmentDuration;
-        document.getElementById("investmentResult").textContent =
-          "R$ " + totalInvestment.toFixed(2);
-      }
-
-      // Função para buscar os valores da API e atualizar o span
-      function fetchCurrentValue() {
-        // URL da API para os valores da poupança e do CDI
-        var apiUrlPoupanca =
-          "https://api.bcb.gov.br/dados/serie/bcdata.sgs.4390/dados?formato=json";
-        var apiUrlCDI =
-          "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/10?formato=json";
-        // Realiza a busca dos valores da poupança
-        fetch(apiUrlPoupanca)
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            var latestValue = data[data.length - 1].valor;
-            document.getElementById("poupancaValue").textContent =
-              latestValue + "%";
-          });
-        // Realiza a busca dos valores do CDI
-        fetch(apiUrlCDI)
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            var latestValue = data[data.length - 1].valor;
-            document.getElementById("cdiValue").textContent =
-              latestValue + "%";
-          });
-      }
-      // Chama a função de busca ao carregar a página
-      fetchCurrentValue();
+        const currencyInputs = ['initialAmountCurrency', 'initialAmountSelectionCurrency', 'convertedAmountSelectionCurrency'];
+        currencyInputs.forEach(id => document.getElementById(id).addEventListener('change', convertCurrency));
+        
+        fetchCurrentValue();
     });
+
+    function calculateInvestment() {
+        const initialAmount = parseFloat(document.getElementById("initialAmount").value) || 0;
+        const monthlyContribution = parseFloat(document.getElementById("monthlyContribution").value) || 0;
+        const annualInterestRate = parseFloat(document.getElementById("annualInterestRate").value) || 0;
+        const investmentDuration = parseInt(document.getElementById("investmentDuration").value) || 0;
+
+        if (annualInterestRate <= 0 || investmentDuration <= 0) {
+            alert("Por favor, preencha a taxa de juros e o período do investimento.");
+            return;
+        }
+
+        const monthlyInterestRate = annualInterestRate / 100 / 12;
+        let totalInvestment = initialAmount;
+        for (let i = 0; i < investmentDuration; i++) {
+            totalInvestment *= (1 + monthlyInterestRate);
+            totalInvestment += monthlyContribution;
+        }
+        
+        // Remove a última contribuição mensal, pois o rendimento já foi aplicado sobre ela
+        totalInvestment -= monthlyContribution;
+        
+        document.getElementById("investmentResult").textContent = "R$ " + totalInvestment.toFixed(2).replace('.', ',');
+    }
+
+    function fetchCurrentValue() {
+        const apiUrlPoupanca = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.4390/dados/ultimos/1?formato=json";
+        const apiUrlSelic = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.11/dados/ultimos/1?formato=json";
+
+        fetch(apiUrlPoupanca)
+            .then(response => response.json())
+            .then(data => {
+                const latestValue = data[0].valor;
+                document.getElementById("poupancaValue").textContent = latestValue + "% a.m.";
+            }).catch(err => console.error("Erro ao buscar poupança:", err));
+
+        fetch(apiUrlSelic)
+            .then(response => response.json())
+            .then(data => {
+                const latestValue = data[0].valor;
+                document.getElementById("cdiValue").textContent = latestValue + "% a.d.";
+            }).catch(err => console.error("Erro ao buscar Selic:", err));
+    }
 
     function convertCurrency() {
-      var initialAmount = parseFloat(
-        document.getElementById("initialAmountCurrency").value
-      );
-      if (isNaN(initialAmount)) {
-        alert("Por favor, insira um valor válido para a conversão.");
-        return;
-      }
+        const initialAmount = parseFloat(document.getElementById("initialAmountCurrency").value) || 0;
+        if (initialAmount === 0) {
+            document.getElementById("convertedAmountResult").textContent = formatCurrency(0, document.getElementById("convertedAmountSelectionCurrency").value);
+            return;
+        }
+        
+        const fromCurrency = document.getElementById("initialAmountSelectionCurrency").value;
+        const toCurrency = document.getElementById("convertedAmountSelectionCurrency").value;
 
-      var fromCurrency = document.getElementById(
-        "initialAmountSelectionCurrency"
-      ).value;
-      var toCurrency = document.getElementById(
-        "convertedAmountSelectionCurrency"
-      ).value;
-
-      // Faz a solicitação HTTP para a API de câmbio
-      fetch("https://open.er-api.com/v6/latest/" + fromCurrency)
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (data) {
-          // Obtém a taxa de conversão para a moeda de destino
-          var exchangeRate = data.rates[toCurrency];
-
-          // Calcula o valor convertido
-          var convertedAmount = initialAmount * exchangeRate;
-
-          // Exibe o resultado
-          document.getElementById("initialAmountSelected").textContent =
-            fromCurrency + " " + initialAmount.toFixed(2);
-          document.getElementById("convertedAmountResult").textContent =
-            toCurrency + " " + convertedAmount.toFixed(2);
-        })
-        .catch(function (error) {
-          console.error("Erro ao converter moeda:", error);
-          alert(
-            "Erro ao converter moeda. Por favor, tente novamente mais tarde."
-          );
-        });
+        fetch(`https://open.er-api.com/v6/latest/${fromCurrency}`)
+            .then(response => response.json())
+            .then(data => {
+                const exchangeRate = data.rates[toCurrency];
+                const convertedAmount = initialAmount * exchangeRate;
+                document.getElementById("convertedAmountResult").textContent = formatCurrency(convertedAmount, toCurrency);
+            })
+            .catch(error => {
+                console.error("Erro ao converter moeda:", error);
+                alert("Não foi possível obter as taxas de câmbio. Tente novamente mais tarde.");
+            });
     }
 
-    function calcular() {
-      const salarioBruto = parseFloat(
-        document.getElementById("salarioBruto").value
-      );
-      const dataAdmissao = new Date(
-        document.getElementById("dataAdmissao").value
-      );
-      const dataReferencia = new Date(new Date().getFullYear(), 11, 31);
-
-      if (isNaN(salarioBruto) || isNaN(dataAdmissao.getTime())) {
-        alert("Por favor, preencha todos os campos.");
-        return;
-      }
-
-      const mesesTrabalhados = calcularMesesTrabalhados(
-        dataAdmissao,
-        dataReferencia
-      );
-      const deducoesTotais = 564.8; // Valor total das deduções
-      const irrfMensal = calcularIRRF(salarioBruto, deducoesTotais);
-      const feriasBruto = calcularFerias(salarioBruto); // Sempre 12 meses
-      const decimoTerceiroBruto = calcularDecimoTerceiro(
-        salarioBruto,
-        mesesTrabalhados
-      );
-      const inssFerias = calcularINSS(feriasBruto);
-      const inssDecimoTerceiro = calcularINSS(decimoTerceiroBruto);
-      const irrfFerias = calcularIRRF(feriasBruto, inssFerias);
-      const irrfDecimoTerceiro = calcularIRRF(
-        decimoTerceiroBruto,
-        inssDecimoTerceiro
-      );
-      const feriasLiquido = feriasBruto - inssFerias - irrfFerias;
-      const decimoTerceiroLiquido =
-        decimoTerceiroBruto - inssDecimoTerceiro - irrfDecimoTerceiro;
-
-      const dataFerias = new Date(
-        dataAdmissao.getFullYear(),
-        dataAdmissao.getMonth() + 12,
-        dataAdmissao.getDate()
-      );
-      const mesFerias = dataFerias.toLocaleString("default", {
-        month: "long",
-      });
-
-      const resultadosDiv = document.getElementById("resultados");
-      resultadosDiv.innerHTML = `
-    <h5>Resultados</h5>
-    <p>IRRF Mensal: R$ ${irrfMensal.toFixed(2)}</p>
-    <p>Férias a Receber em ${mesFerias}: R$ ${feriasLiquido.toFixed(2)}</p>
-    <p>IRRF sobre Férias: R$ ${irrfFerias.toFixed(2)}</p>
-    <p>13º Salário a Receber: R$ ${decimoTerceiroLiquido.toFixed(2)}</p>
-    <p>IRRF sobre 13º Salário: R$ ${irrfDecimoTerceiro.toFixed(2)}</p>
-  `;
+    function formatCurrency(amount, currency) {
+        const options = { style: 'currency', currency: currency, minimumFractionDigits: 2, maximumFractionDigits: 2 };
+        return new Intl.NumberFormat('pt-BR', options).format(amount);
     }
-
-    function calcularMesesTrabalhados(dataAdmissao, dataReferencia) {
-      let meses =
-        (dataReferencia.getFullYear() - dataAdmissao.getFullYear()) * 12;
-      meses -= dataAdmissao.getMonth();
-      meses += dataReferencia.getMonth() + 1;
-      return meses <= 0 ? 0 : meses;
-    }
-
-    function calcularIRRF(salario, deducoes) {
-      let baseDeCalculo = salario - deducoes;
-      let aliquota, deducaoIRRF;
-
-      // Tabela IRRF 2025 (Oficial)
-      if (baseDeCalculo <= 2259.2) {
-        return 0; // Isento
-      } else if (baseDeCalculo <= 2826.65) {
-        aliquota = 0.075;
-        deducaoIRRF = 169.44;
-      } else if (baseDeCalculo <= 3751.05) {
-        aliquota = 0.15;
-        deducaoIRRF = 381.44;
-      } else if (baseDeCalculo <= 4664.68) {
-        aliquota = 0.225;
-        deducaoIRRF = 662.77;
-      } else {
-        aliquota = 0.275;
-        deducaoIRRF = 896.0;
-      }
-
-      let imposto = baseDeCalculo * aliquota - deducaoIRRF;
-      return imposto;
-    }
-
-    function calcularFerias(salarioBruto) {
-      return salarioBruto + salarioBruto / 3; // Sempre 12 meses
-    }
-
-    function calcularDecimoTerceiro(salarioBruto, mesesTrabalhados) {
-      return (salarioBruto / 12) * mesesTrabalhados;
-    }
-
-    function calcularINSS(salarioBruto) {
-      // Cálculo do INSS (exemplo simplificado)
-      if (salarioBruto <= 1320.0) {
-        return salarioBruto * 0.075;
-      } else if (salarioBruto <= 2571.29) {
-        return salarioBruto * 0.09;
-      } else if (salarioBruto <= 3856.94) {
-        return salarioBruto * 0.12;
-      } else if (salarioBruto <= 7507.49) {
-        return salarioBruto * 0.14;
-      } else {
-        return 7507.49 * 0.14; // Teto do INSS
-      }
-    }
-
-    // Funções para deslizamento de tela touch:
+    
     var touchstartX = 0;
     var touchendX = 0;
-    var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+    var gestureZone = 50; 
 
-    document.addEventListener("touchstart", function (event) {
-      touchstartX = event.changedTouches[0].screenX;
+    document.addEventListener("touchstart", (event) => touchstartX = event.changedTouches[0].screenX);
+    document.addEventListener("touchend", (event) => {
+        touchendX = event.changedTouches[0].screenX;
+        if (Math.abs(touchendX - touchstartX) > gestureZone) window.history.back();
     });
-
-    document.addEventListener("touchend", function (event) {
-      touchendX = event.changedTouches[0].screenX;
-      handleGesture();
-    });
-
-    function handleGesture() {
-      if (
-        touchendX < touchstartX &&
-        Math.abs(touchendX - touchstartX) > gestureZone
-      ) {
-        // Deslizamento para a esquerda
-        window.history.back(); // Redireciona para a página anterior
-      } else if (
-        touchendX > touchstartX &&
-        Math.abs(touchendX - touchstartX) > gestureZone
-      ) {
-        // Deslizamento para a direita
-        window.history.back(); // Redireciona para a página anterior
-      }
-    }
-
-    function redirectToIndex() {
-      window.location.href = "index.html";
-    }
   </script>
 </body>
-
 </html>

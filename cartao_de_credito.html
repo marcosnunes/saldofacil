@@ -31,547 +31,542 @@
   <div class="navigation">
     <div class="nav-wrapper">
       <button id="backButton" class="btn btn-default">Voltar</button>
-      <span class="brand-logo center">Cartão</span>
+      <span class="brand-logo center">Cartão de Crédito</span>
       <button id="nextButton" class="btn btn-default">Próximo</button>
     </div>
   </div>
-  <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+  <div class="main-content">
     <div class="container">
-      <div class="balance-value" id="balanceValue">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">Valores das faturas</span>
-            <div class="card-balance-content">
-              <div class="card-content">
-                <span class="card-title">Jan</span>
-                <p><span id="januaryCreditCardBalance">0.00</span></p>
+      <div class="data-layout">
+
+        <!-- Coluna Principal -->
+        <div class="main-column">
+          <div id="Registrar_Compra" class="card">
+            <div class="card-content">
+              <span class="card-title">Registrar Nova Compra</span>
+              <div class="input-field">
+                <i class="material-icons prefix">shopping_cart</i>
+                <input type="text" id="description" placeholder="Ex: Compra online">
+                <label for="description">Descrição</label>
               </div>
-              <div class="card-content">
-                <span class="card-title">Fev</span>
-                <p><span id="februaryCreditCardBalance">0.00</span></p>
+              <div class="input-field">
+                <i class="material-icons prefix">payment</i>
+                <input type="number" id="multiplicator" placeholder="Ex: 12">
+                <label for="multiplicator">Nº de Parcelas</label>
               </div>
-              <div class="card-content">
-                <span class="card-title">Mar</span>
-                <p><span id="marchCreditCardBalance">0.00</span></p>
+              <div class="input-field">
+                <i class="material-icons prefix">attach_money</i>
+                <input type="number" id="billingValue" placeholder="Ex: 1200.00">
+                <label for="billingValue">Valor Total da Compra (R$)</label>
               </div>
-              <div class="card-content">
-                <span class="card-title">Abr</span>
-                <p><span id="aprilCreditCardBalance">0.00</span></p>
+              <div class="input-field">
+                <i class="material-icons prefix">date_range</i>
+                <select id="month">
+                  <option value="" disabled selected>Mês da primeira parcela</option>
+                  <option value="January">Janeiro</option>
+                  <option value="February">Fevereiro</option>
+                  <option value="March">Março</option>
+                  <option value="April">Abril</option>
+                  <option value="May">Maio</option>
+                  <option value="June">Junho</option>
+                  <option value="July">Julho</option>
+                  <option value="August">Agosto</option>
+                  <option value="September">Setembro</option>
+                  <option value="October">Outubro</option>
+                  <option value="November">Novembro</option>
+                  <option value="December">Dezembro</option>
+                </select>
+                <label>Mês da Compra</label>
               </div>
-              <div class="card-content">
-                <span class="card-title">Mai</span>
-                <p><span id="mayCreditCardBalance">0.00</span></p>
+              <button id="addButton" class="btn">Adicionar</button>
+              <button id="importButton" class="btn"
+                style="background-color: var(--color-success); margin-left: 1rem;">Importar Fatura</button>
+              <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
+            </div>
+          </div>
+
+          <div id="groupedCardContainer">
+            <!-- Cards das compras agrupadas entram aqui -->
+          </div>
+        </div>
+
+        <!-- Coluna Lateral -->
+        <div class="sidebar-column">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Faturas Mensais</span>
+              <div class="value-grid" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));">
+                <div class="value-item"><span class="value-title">Jan</span><span class="value-amount orange-text"
+                    id="januaryCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Fev</span><span class="value-amount orange-text"
+                    id="februaryCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Mar</span><span class="value-amount orange-text"
+                    id="marchCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Abr</span><span class="value-amount orange-text"
+                    id="aprilCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Mai</span><span class="value-amount orange-text"
+                    id="mayCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Jun</span><span class="value-amount orange-text"
+                    id="juneCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Jul</span><span class="value-amount orange-text"
+                    id="julyCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Ago</span><span class="value-amount orange-text"
+                    id="augustCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Set</span><span class="value-amount orange-text"
+                    id="septemberCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Out</span><span class="value-amount orange-text"
+                    id="octoberCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Nov</span><span class="value-amount orange-text"
+                    id="novemberCreditCardBalance">0.00</span></div>
+                <div class="value-item"><span class="value-title">Dez</span><span class="value-amount orange-text"
+                    id="decemberCreditCardBalance">0.00</span></div>
               </div>
-              <div class="card-content">
-                <span class="card-title">Jun</span>
-                <p><span id="juneCreditCardBalance">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Jul</span>
-                <p><span id="julyCreditCardBalance">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Ago</span>
-                <p><span id="augustCreditCardBalance">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Set</span>
-                <p><span id="septemberCreditCardBalance">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Out</span>
-                <p><span id="octoberCreditCardBalance">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Nov</span>
-                <p><span id="novemberCreditCardBalance">0.00</span></p>
-              </div>
-              <div class="card-content">
-                <span class="card-title">Dez</span>
-                <p><span id="decemberCreditCardBalance">0.00</span></p>
-              </div>
-              <button id="pdfButton" onclick="window.print()" class="btn btn-default">Exportar para PDF</button>
-              <a id="askAiButton" class="btn btn-default">Perguntar à IA</a>
+              <button id="pdfButton" onclick="window.print()" class="btn" style="margin-top: 1.5rem;">Exportar
+                PDF</button>
             </div>
           </div>
         </div>
-        <div id="Registrar_Compra" class="card">
-          <div class="card-content">
-            <span class="card-title">Registrar compra</span>
-            <div class="input-field">
-              <select class="month-select form-control" id="month">
-                <option value="" disabled selected>Mês da compra</option>
-                <option value="January">Janeiro</option>
-                <option value="February">Fevereiro</option>
-                <option value="March">Março</option>
-                <option value="April">Abril</option>
-                <option value="May">Maio</option>
-                <option value="June">Junho</option>
-                <option value="July">Julho</option>
-                <option value="August">Agosto</option>
-                <option value="September">Setembro</option>
-                <option value="October">Outubro</option>
-                <option value="November">Novembro</option>
-                <option value="December">Dezembro</option>
-              </select>
-            </div>
-            <div class="input-field">
-              <input type="text" class="description form-control" id="description" placeholder="Descrição">
-              <label for="description">Descrição</label>
-            </div>
-            <div class="input-field">
-              <input type="number" class="multiplicator form-control" id="multiplicator" placeholder="Qtd de parcelas">
-              <label for="multiplicator">Qtd de parcelas</label>
-            </div>
-            <div class="input-field">
-              <input type="number" class="value form-control" id="billingValue" placeholder="Valor da Compra">
-              <label for="billingValue">Valor da Compra</label>
-            </div>
-            <button id="addButton" class="btn btn-default">Adicionar</button>
-            <input type="file" id="ofxFile" accept=".ofx" style="display: none;">
-            <button id="importButton" class="btn btn-default">Importar Fatura</button>
-          </div>
-        </div>
-        <div id="groupedCardContainer"></div>
+
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-    <script type="module">
+  <script type="module">
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const currentYear = urlParams.get('year');
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentYear = urlParams.get('year');
 
-      import { displayYearInTitle } from './utils.js';
-      displayYearInTitle();
+    import { displayYearInTitle } from './utils.js';
+    displayYearInTitle();
 
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-      import { getDatabase, ref, set, onValue, remove, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
-      import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
-      import firebaseConfig from './config.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+    import { getDatabase, ref, set, onValue, remove, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js';
+    import firebaseConfig from './config.js';
 
-      const app = initializeApp(firebaseConfig);
-      const auth = getAuth(app);
-      const database = getDatabase(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const database = getDatabase(app);
 
-      let data = [];
-      let allTimeData = {};
+    let data = [];
+    let allTimeData = {};
 
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          loadDataFromDatabase(user.uid);
-        } else {
-          window.location.href = "login.html";
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loadDataFromDatabase(user.uid);
+      } else {
+        window.location.href = "login.html";
+      }
+    });
+
+    const months = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+
+    const monthsPT = [
+      "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+      "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
+    ];
+
+    // <-- 2. FUNÇÃO DE CARREGAMENTO GLOBAL DE DADOS
+    function loadDataFromDatabase(userId) {
+      // Carrega TODOS os dados do usuário, de todos os anos.
+      const allDataRef = ref(database, `creditCardData/${userId}`);
+
+      onValue(allDataRef, (snapshot) => {
+        allTimeData = snapshot.val() || {}; // Atualiza nossa variável global com tudo
+
+        // Agora, filtramos os dados apenas para o ano atual para exibição na tela
+        const yearData = allTimeData[currentYear] || {};
+        data = Object.keys(yearData).map(key => ({ ...yearData[key], id: key }));
+
+        console.log(`Todos os dados carregados. Exibindo ${data.length} itens para o ano de ${currentYear}.`);
+
+        // As funções de atualização da interface não mudam, elas continuam usando a variável 'data' filtrada.
+        updateGroupedCardContainer();
+        updateCardBalances();
+      });
+    }
+
+    function uuidv4() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    function addItemToDatabase(userId, item, year) {
+      const itemId = uuidv4();
+      const itemRef = ref(database, `creditCardData/${userId}/${year}/${itemId}`);
+      const itemToSave = { ...item, id: itemId };
+
+      // Retornamos a promessa para que possamos usar Promise.all
+      return set(itemRef, itemToSave)
+        .then(() => {
+          console.log(`Item "${item.description}" adicionado com sucesso ao ano ${year}.`);
+        })
+        .catch((error) => {
+          console.error("Erro ao adicionar item:", error);
+        });
+    }
+
+    function addItem() {
+      const userId = auth.currentUser.uid;
+      const month = document.getElementById('month').value;
+      const description = document.getElementById('description').value;
+      const multiplicator = parseInt(document.getElementById('multiplicator').value);
+      const billingValue = parseFloat(document.getElementById('billingValue').value);
+      let baseYear = parseInt(currentYear) || new Date().getFullYear();
+
+      if (!month || !description || isNaN(multiplicator) || isNaN(billingValue) || multiplicator <= 0 || billingValue <= 0) {
+        alert("Por favor, preencha todos os campos corretamente com valores válidos.");
+        return;
+      }
+
+      const valuePerMonth = billingValue / multiplicator;
+      let currentMonthIndex = months.indexOf(month);
+      let yearForInstallment = baseYear;
+
+      for (let i = 0; i < multiplicator; i++) {
+        const monthName = monthsPT[currentMonthIndex];
+        const item = {
+          month: `${monthName} ${yearForInstallment}`,
+          description: `${description} - Parcela ${i + 1}/${multiplicator}`,
+          value: valuePerMonth
+        };
+        addItemToDatabase(userId, item, yearForInstallment);
+
+        currentMonthIndex++;
+        if (currentMonthIndex >= 12) {
+          currentMonthIndex = 0;
+          yearForInstallment++;
+        }
+      }
+
+      document.getElementById('month').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('multiplicator').value = '';
+      document.getElementById('billingValue').value = '';
+      M.FormSelect.init(document.querySelectorAll('select'), {});
+    }
+
+    function updateCardBalances() {
+      let yearToDisplay = parseInt(currentYear) || new Date().getFullYear();
+      const monthsAbbreviation = [
+        { id: 'januaryCreditCardBalance', month: 'Janeiro' },
+        { id: 'februaryCreditCardBalance', month: 'Fevereiro' },
+        { id: 'marchCreditCardBalance', month: 'Março' },
+        { id: 'aprilCreditCardBalance', month: 'Abril' },
+        { id: 'mayCreditCardBalance', month: 'Maio' },
+        { id: 'juneCreditCardBalance', month: 'Junho' },
+        { id: 'julyCreditCardBalance', month: 'Julho' },
+        { id: 'augustCreditCardBalance', month: 'Agosto' },
+        { id: 'septemberCreditCardBalance', month: 'Setembro' },
+        { id: 'octoberCreditCardBalance', month: 'Outubro' },
+        { id: 'novemberCreditCardBalance', month: 'Novembro' },
+        { id: 'decemberCreditCardBalance', month: 'Dezembro' }
+      ];
+
+      monthsAbbreviation.forEach(({ id, month }) => {
+        const element = document.getElementById(id);
+        if (element) {
+          const filteredData = data.filter(item => {
+            const [itemMonth, itemYear] = item.month.split(' ');
+            return itemMonth === month && parseInt(itemYear) === yearToDisplay;
+          });
+          const totalValue = filteredData.reduce((acc, item) => acc + item.value, 0);
+          element.textContent = totalValue.toFixed(2);
         }
       });
 
-      const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+      const userId = auth.currentUser.uid;
+      updateBalancesInDatabase(userId, yearToDisplay);
+    }
+
+    function updateBalancesInDatabase(userId, year) {
+      const balanceElements = [
+        { id: 'januaryCreditCardBalance' },
+        { id: 'februaryCreditCardBalance' },
+        { id: 'marchCreditCardBalance' },
+        { id: 'aprilCreditCardBalance' },
+        { id: 'mayCreditCardBalance' },
+        { id: 'juneCreditCardBalance' },
+        { id: 'julyCreditCardBalance' },
+        { id: 'augustCreditCardBalance' },
+        { id: 'septemberCreditCardBalance' },
+        { id: 'octoberCreditCardBalance' },
+        { id: 'novemberCreditCardBalance' },
+        { id: 'decemberCreditCardBalance' }
       ];
 
+      balanceElements.forEach(({ id }) => {
+        const element = document.getElementById(id);
+        if (element) {
+          const value = parseFloat(element.textContent) || 0;
+          const monthRef = ref(database, `creditCardBalances/${userId}/${year}/${id}`);
+          set(monthRef, value).catch((error) => {
+            console.error(`Erro ao atualizar ${id} no banco de dados:`, error);
+          });
+        }
+      });
+    }
+
+    function updateGroupedCardContainer() {
+      let yearToDisplay = parseInt(currentYear) || new Date().getFullYear();
+      const container = document.getElementById('groupedCardContainer');
+      container.innerHTML = '';
+
+      const groupedData = data.reduce((acc, item) => {
+        const [itemMonth, itemYear] = item.month.split(' ');
+        if (parseInt(itemYear) === yearToDisplay) {
+          const baseDescription = item.description.split(' (')[0].split(' - Parcela')[0];
+          if (!acc[baseDescription]) {
+            acc[baseDescription] = [];
+          }
+          acc[baseDescription].push(item);
+        }
+        return acc;
+      }, {});
+
+      Object.keys(groupedData).sort().forEach(description => {
+        const items = groupedData[description];
+        items.sort((a, b) => {
+          const [monthA] = a.month.split(' ');
+          const [monthB] = b.month.split(' ');
+          return monthsPT.indexOf(monthA) - monthsPT.indexOf(monthB);
+        });
+
+        const card = document.createElement('div');
+        card.className = 'card';
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+
+        const title = document.createElement('span');
+        title.className = 'card-title';
+        title.textContent = description;
+        cardContent.appendChild(title);
+
+        items.forEach(item => {
+          const paragraph = document.createElement('p');
+          paragraph.textContent = `${item.description}: R$ ${item.value.toFixed(2)}`;
+          cardContent.appendChild(paragraph);
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'btn-delete';
+        deleteButton.textContent = 'Excluir Compra';
+        deleteButton.addEventListener('click', () => deleteCard(description, items));
+        cardContent.appendChild(deleteButton);
+
+        card.appendChild(cardContent);
+        container.appendChild(card);
+      });
+    }
+
+    function deleteCard(description, itemsToDelete) {
+      if (!confirm(`Tem certeza que deseja excluir todos os lançamentos de "${description}"?`)) {
+        return;
+      }
+
+      const userId = auth.currentUser.uid;
+      const deletePromises = itemsToDelete.map(item => {
+        const [, itemYear] = item.month.split(' ');
+        const itemRef = ref(database, `creditCardData/${userId}/${itemYear}/${item.id}`);
+        return remove(itemRef);
+      });
+
+      Promise.all(deletePromises)
+        .then(() => {
+          console.log(`Todos os itens de "${description}" foram excluídos.`);
+        })
+        .catch(error => {
+          console.error("Erro ao excluir itens do Firebase:", error);
+          alert("Ocorreu um erro ao excluir a compra.");
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var elems = document.querySelectorAll('select');
+      M.FormSelect.init(elems, {});
+      document.getElementById('addButton').addEventListener('click', addItem);
+      document.getElementById('backButton').addEventListener('click', () => window.history.back());
+      document.getElementById('nextButton').addEventListener('click', () => window.history.back());
+      document.getElementById('askAiButton').href = `iareports.html?year=${currentYear}`;
+    });
+
+    document.getElementById("importButton").addEventListener('click', function () {
+      document.getElementById("ofxFile").click();
+    });
+
+    // <-- 3. FUNÇÃO DE IMPORTAÇÃO COM CHAVE COMPOSTA
+    document.getElementById("ofxFile").addEventListener('change', async function (event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const fileReader = new FileReader();
+      fileReader.onload = async function (e) {
+        const ofxData = e.target.result;
+        const userId = auth.currentUser.uid;
+
+        try {
+          const parsedTransactions = parseOFX(ofxData);
+
+          if (parsedTransactions.length === 0) {
+            alert("Nenhuma despesa de débito encontrada no arquivo OFX ou o arquivo é inválido.");
+            return;
+          }
+
+          const existingCompositeKeys = new Set();
+          for (const year in allTimeData) {
+            for (const itemId in allTimeData[year]) {
+              const item = allTimeData[year][itemId];
+              if (item && item.fitid && item.description) {
+                const compositeKey = item.fitid + item.description;
+                existingCompositeKeys.add(compositeKey);
+              }
+            }
+          }
+          console.log(`Verificando duplicatas contra ${existingCompositeKeys.size} chaves compostas de todo o histórico.`);
+
+          let newItemsCount = 0;
+          const promises = [];
+
+          for (const transaction of parsedTransactions) {
+            const newCompositeKey = transaction.fitid + transaction.description;
+
+            if (!existingCompositeKeys.has(newCompositeKey)) {
+              const newItem = {
+                month: `${transaction.month} ${transaction.year}`,
+                description: transaction.description,
+                value: transaction.value,
+                fitid: transaction.fitid
+              };
+              promises.push(addItemToDatabase(userId, newItem, transaction.year));
+              newItemsCount++;
+            } else {
+              console.log(`Ignorando chave composta duplicada: ${newCompositeKey}`);
+            }
+          }
+
+          if (promises.length > 0) {
+            await Promise.all(promises);
+          }
+
+          if (newItemsCount > 0) {
+            alert(`${newItemsCount} nova(s) despesa(s) importada(s) com sucesso!`);
+          } else {
+            alert("Nenhuma despesa nova para importar. As transações já existem.");
+          }
+
+        } catch (error) {
+          console.error("Erro ao processar arquivo OFX:", error);
+          alert("Erro ao processar arquivo OFX. Verifique se o formato é válido.");
+        }
+      };
+      fileReader.readAsText(file);
+      event.target.value = '';
+    });
+
+
+    function parseOFX(ofxData) {
+      console.log("================ INICIANDO PARSE DO ARQUIVO OFX ================");
+      const transactions = [];
       const monthsPT = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
       ];
 
-      // <-- 2. FUNÇÃO DE CARREGAMENTO GLOBAL DE DADOS
-      function loadDataFromDatabase(userId) {
-        // Carrega TODOS os dados do usuário, de todos os anos.
-        const allDataRef = ref(database, `creditCardData/${userId}`);
-
-        onValue(allDataRef, (snapshot) => {
-          allTimeData = snapshot.val() || {}; // Atualiza nossa variável global com tudo
-
-          // Agora, filtramos os dados apenas para o ano atual para exibição na tela
-          const yearData = allTimeData[currentYear] || {};
-          data = Object.keys(yearData).map(key => ({ ...yearData[key], id: key }));
-
-          console.log(`Todos os dados carregados. Exibindo ${data.length} itens para o ano de ${currentYear}.`);
-
-          // As funções de atualização da interface não mudam, elas continuam usando a variável 'data' filtrada.
-          updateGroupedCardContainer();
-          updateCardBalances();
-        });
-      }
-
-      function uuidv4() {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-          const r = Math.random() * 16 | 0;
-          const v = c === 'x' ? r : (r & 0x3 | 0x8);
-          return v.toString(16);
-        });
-      }
-
-      function addItemToDatabase(userId, item, year) {
-        const itemId = uuidv4();
-        const itemRef = ref(database, `creditCardData/${userId}/${year}/${itemId}`);
-        const itemToSave = { ...item, id: itemId };
-
-        // Retornamos a promessa para que possamos usar Promise.all
-        return set(itemRef, itemToSave)
-          .then(() => {
-            console.log(`Item "${item.description}" adicionado com sucesso ao ano ${year}.`);
-          })
-          .catch((error) => {
-            console.error("Erro ao adicionar item:", error);
-          });
-      }
-
-      function addItem() {
-        const userId = auth.currentUser.uid;
-        const month = document.getElementById('month').value;
-        const description = document.getElementById('description').value;
-        const multiplicator = parseInt(document.getElementById('multiplicator').value);
-        const billingValue = parseFloat(document.getElementById('billingValue').value);
-        let baseYear = parseInt(currentYear) || new Date().getFullYear();
-
-        if (!month || !description || isNaN(multiplicator) || isNaN(billingValue) || multiplicator <= 0 || billingValue <= 0) {
-          alert("Por favor, preencha todos os campos corretamente com valores válidos.");
-          return;
-        }
-
-        const valuePerMonth = billingValue / multiplicator;
-        let currentMonthIndex = months.indexOf(month);
-        let yearForInstallment = baseYear;
-
-        for (let i = 0; i < multiplicator; i++) {
-          const monthName = monthsPT[currentMonthIndex];
-          const item = {
-            month: `${monthName} ${yearForInstallment}`,
-            description: `${description} - Parcela ${i + 1}/${multiplicator}`,
-            value: valuePerMonth
-          };
-          addItemToDatabase(userId, item, yearForInstallment);
-
-          currentMonthIndex++;
-          if (currentMonthIndex >= 12) {
-            currentMonthIndex = 0;
-            yearForInstallment++;
-          }
-        }
-
-        document.getElementById('month').value = '';
-        document.getElementById('description').value = '';
-        document.getElementById('multiplicator').value = '';
-        document.getElementById('billingValue').value = '';
-        M.FormSelect.init(document.querySelectorAll('select'), {});
-      }
-
-      function updateCardBalances() {
-        let yearToDisplay = parseInt(currentYear) || new Date().getFullYear();
-        const monthsAbbreviation = [
-          { id: 'januaryCreditCardBalance', month: 'Janeiro' },
-          { id: 'februaryCreditCardBalance', month: 'Fevereiro' },
-          { id: 'marchCreditCardBalance', month: 'Março' },
-          { id: 'aprilCreditCardBalance', month: 'Abril' },
-          { id: 'mayCreditCardBalance', month: 'Maio' },
-          { id: 'juneCreditCardBalance', month: 'Junho' },
-          { id: 'julyCreditCardBalance', month: 'Julho' },
-          { id: 'augustCreditCardBalance', month: 'Agosto' },
-          { id: 'septemberCreditCardBalance', month: 'Setembro' },
-          { id: 'octoberCreditCardBalance', month: 'Outubro' },
-          { id: 'novemberCreditCardBalance', month: 'Novembro' },
-          { id: 'decemberCreditCardBalance', month: 'Dezembro' }
-        ];
-
-        monthsAbbreviation.forEach(({ id, month }) => {
-          const element = document.getElementById(id);
-          if (element) {
-            const filteredData = data.filter(item => {
-              const [itemMonth, itemYear] = item.month.split(' ');
-              return itemMonth === month && parseInt(itemYear) === yearToDisplay;
-            });
-            const totalValue = filteredData.reduce((acc, item) => acc + item.value, 0);
-            element.textContent = totalValue.toFixed(2);
-          }
-        });
-
-        const userId = auth.currentUser.uid;
-        updateBalancesInDatabase(userId, yearToDisplay);
-      }
-
-      function updateBalancesInDatabase(userId, year) {
-        const balanceElements = [
-          { id: 'januaryCreditCardBalance' },
-          { id: 'februaryCreditCardBalance' },
-          { id: 'marchCreditCardBalance' },
-          { id: 'aprilCreditCardBalance' },
-          { id: 'mayCreditCardBalance' },
-          { id: 'juneCreditCardBalance' },
-          { id: 'julyCreditCardBalance' },
-          { id: 'augustCreditCardBalance' },
-          { id: 'septemberCreditCardBalance' },
-          { id: 'octoberCreditCardBalance' },
-          { id: 'novemberCreditCardBalance' },
-          { id: 'decemberCreditCardBalance' }
-        ];
-
-        balanceElements.forEach(({ id }) => {
-          const element = document.getElementById(id);
-          if (element) {
-            const value = parseFloat(element.textContent) || 0;
-            const monthRef = ref(database, `creditCardBalances/${userId}/${year}/${id}`);
-            set(monthRef, value).catch((error) => {
-              console.error(`Erro ao atualizar ${id} no banco de dados:`, error);
-            });
-          }
-        });
-      }
-
-      function updateGroupedCardContainer() {
-        let yearToDisplay = parseInt(currentYear) || new Date().getFullYear();
-        const container = document.getElementById('groupedCardContainer');
-        container.innerHTML = '';
-
-        const groupedData = data.reduce((acc, item) => {
-          const [itemMonth, itemYear] = item.month.split(' ');
-          if (parseInt(itemYear) === yearToDisplay) {
-            const baseDescription = item.description.split(' (')[0].split(' - Parcela')[0];
-            if (!acc[baseDescription]) {
-              acc[baseDescription] = [];
-            }
-            acc[baseDescription].push(item);
-          }
-          return acc;
-        }, {});
-
-        Object.keys(groupedData).sort().forEach(description => {
-          const items = groupedData[description];
-          items.sort((a, b) => {
-            const [monthA] = a.month.split(' ');
-            const [monthB] = b.month.split(' ');
-            return monthsPT.indexOf(monthA) - monthsPT.indexOf(monthB);
-          });
-
-          const card = document.createElement('div');
-          card.className = 'card';
-          const cardContent = document.createElement('div');
-          cardContent.className = 'card-content';
-
-          const title = document.createElement('span');
-          title.className = 'card-title';
-          title.textContent = description;
-          cardContent.appendChild(title);
-
-          items.forEach(item => {
-            const paragraph = document.createElement('p');
-            paragraph.textContent = `${item.description}: R$ ${item.value.toFixed(2)}`;
-            cardContent.appendChild(paragraph);
-          });
-
-          const deleteButton = document.createElement('button');
-          deleteButton.className = 'btn-delete';
-          deleteButton.textContent = 'Excluir Compra';
-          deleteButton.addEventListener('click', () => deleteCard(description, items));
-          cardContent.appendChild(deleteButton);
-
-          card.appendChild(cardContent);
-          container.appendChild(card);
-        });
-      }
-
-      function deleteCard(description, itemsToDelete) {
-        if (!confirm(`Tem certeza que deseja excluir todos os lançamentos de "${description}"?`)) {
-          return;
-        }
-
-        const userId = auth.currentUser.uid;
-        const deletePromises = itemsToDelete.map(item => {
-          const [, itemYear] = item.month.split(' ');
-          const itemRef = ref(database, `creditCardData/${userId}/${itemYear}/${item.id}`);
-          return remove(itemRef);
-        });
-
-        Promise.all(deletePromises)
-          .then(() => {
-            console.log(`Todos os itens de "${description}" foram excluídos.`);
-          })
-          .catch(error => {
-            console.error("Erro ao excluir itens do Firebase:", error);
-            alert("Ocorreu um erro ao excluir a compra.");
-          });
-      }
-
-      document.addEventListener('DOMContentLoaded', function () {
-        var elems = document.querySelectorAll('select');
-        M.FormSelect.init(elems, {});
-        document.getElementById('addButton').addEventListener('click', addItem);
-        document.getElementById('backButton').addEventListener('click', () => window.history.back());
-        document.getElementById('nextButton').addEventListener('click', () => window.history.back());
-        document.getElementById('askAiButton').href = `iareports.html?year=${currentYear}`;
-      });
-
-      document.getElementById("importButton").addEventListener('click', function () {
-        document.getElementById("ofxFile").click();
-      });
-
-      // <-- 3. FUNÇÃO DE IMPORTAÇÃO COM CHAVE COMPOSTA
-      document.getElementById("ofxFile").addEventListener('change', async function (event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const fileReader = new FileReader();
-        fileReader.onload = async function (e) {
-          const ofxData = e.target.result;
-          const userId = auth.currentUser.uid;
-
-          try {
-            const parsedTransactions = parseOFX(ofxData);
-
-            if (parsedTransactions.length === 0) {
-              alert("Nenhuma despesa de débito encontrada no arquivo OFX ou o arquivo é inválido.");
-              return;
-            }
-
-            const existingCompositeKeys = new Set();
-            for (const year in allTimeData) {
-              for (const itemId in allTimeData[year]) {
-                const item = allTimeData[year][itemId];
-                if (item && item.fitid && item.description) {
-                  const compositeKey = item.fitid + item.description;
-                  existingCompositeKeys.add(compositeKey);
-                }
-              }
-            }
-            console.log(`Verificando duplicatas contra ${existingCompositeKeys.size} chaves compostas de todo o histórico.`);
-
-            let newItemsCount = 0;
-            const promises = [];
-
-            for (const transaction of parsedTransactions) {
-              const newCompositeKey = transaction.fitid + transaction.description;
-
-              if (!existingCompositeKeys.has(newCompositeKey)) {
-                const newItem = {
-                  month: `${transaction.month} ${transaction.year}`,
-                  description: transaction.description,
-                  value: transaction.value,
-                  fitid: transaction.fitid
-                };
-                promises.push(addItemToDatabase(userId, newItem, transaction.year));
-                newItemsCount++;
-              } else {
-                console.log(`Ignorando chave composta duplicada: ${newCompositeKey}`);
-              }
-            }
-
-            if (promises.length > 0) {
-              await Promise.all(promises);
-            }
-
-            if (newItemsCount > 0) {
-              alert(`${newItemsCount} nova(s) despesa(s) importada(s) com sucesso!`);
-            } else {
-              alert("Nenhuma despesa nova para importar. As transações já existem.");
-            }
-
-          } catch (error) {
-            console.error("Erro ao processar arquivo OFX:", error);
-            alert("Erro ao processar arquivo OFX. Verifique se o formato é válido.");
-          }
-        };
-        fileReader.readAsText(file);
-        event.target.value = '';
-      });
-
-
-      function parseOFX(ofxData) {
-        console.log("================ INICIANDO PARSE DO ARQUIVO OFX ================");
-        const transactions = [];
-        const monthsPT = [
-          "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
-        ];
-
-        const dtEndMatch = ofxData.match(/<DTEND>(\d{8})/);
-        if (!dtEndMatch) {
-          // Tenta encontrar a data no LEDGERBAL como fallback
-          const dtAsOfMatch = ofxData.match(/<DTASOF>(\d{8})/);
-          if (dtAsOfMatch) {
-            dtEndMatch = dtAsOfMatch;
-            console.warn("AVISO: Tag <DTEND> não encontrada. Usando <DTASOF> como data da fatura.");
-          } else {
-            console.error("ERRO CRÍTICO: Não foi possível encontrar <DTEND> ou <DTASOF>. A importação será abortada.");
-            alert("Erro: O arquivo OFX não contém uma data de fechamento de fatura válida (<DTEND> ou <DTASOF>).");
-            return [];
-          }
-        }
-
-        const invoiceDateStr = dtEndMatch[1];
-        const invoiceYear = parseInt(invoiceDateStr.substring(0, 4), 10);
-        const invoiceMonthIndex = parseInt(invoiceDateStr.substring(4, 6), 10) - 1;
-        const invoiceMonthName = monthsPT[invoiceMonthIndex];
-
-        console.log(`Fatura identificada com fechamento em: ${invoiceDateStr}`);
-        console.log(`==> Mês da Fatura definido como: ${invoiceMonthName} de ${invoiceYear}`);
-
-        const transactionRegex = /<STMTTRN>([\s\S]*?)<\/STMTTRN>/g;
-        let transactionBlocks = ofxData.match(transactionRegex);
-
-        if (!transactionBlocks) {
-          console.warn("AVISO: Nenhum bloco de transação <STMTTRN> encontrado no arquivo.");
+      const dtEndMatch = ofxData.match(/<DTEND>(\d{8})/);
+      if (!dtEndMatch) {
+        // Tenta encontrar a data no LEDGERBAL como fallback
+        const dtAsOfMatch = ofxData.match(/<DTASOF>(\d{8})/);
+        if (dtAsOfMatch) {
+          dtEndMatch = dtAsOfMatch;
+          console.warn("AVISO: Tag <DTEND> não encontrada. Usando <DTASOF> como data da fatura.");
+        } else {
+          console.error("ERRO CRÍTICO: Não foi possível encontrar <DTEND> ou <DTASOF>. A importação será abortada.");
+          alert("Erro: O arquivo OFX não contém uma data de fechamento de fatura válida (<DTEND> ou <DTASOF>).");
           return [];
         }
-
-        console.log(`Encontrados ${transactionBlocks.length} blocos de transação no total.`);
-
-        for (let i = 0; i < transactionBlocks.length; i++) {
-          const block = transactionBlocks[i];
-
-          const typeMatch = block.match(/<TRNTYPE>(.*?)<\/TRNTYPE>/);
-          if (typeMatch && typeMatch[1] !== 'DEBIT') {
-            continue;
-          }
-
-          const amountMatch = block.match(/<TRNAMT>([-\d.]+)/);
-          const fitidMatch = block.match(/<FITID>([\w.-]+)/);
-          const memoMatch = block.match(/<MEMO>(.*?)<\/MEMO>/s);
-          const postedDateMatch = block.match(/<DTPOSTED>(\d{8})/);
-
-          if (amountMatch && fitidMatch && memoMatch) {
-            const value = Math.abs(parseFloat(amountMatch[1]));
-            const fitid = fitidMatch[1];
-            let description = memoMatch[1].trim();
-
-            if (postedDateMatch) {
-              const dateStr = postedDateMatch[1];
-              const day = dateStr.substring(6, 8);
-              const month = dateStr.substring(4, 6);
-              description = `${description} (${day}/${month})`;
-            }
-
-            const finalTransaction = {
-              month: invoiceMonthName,
-              year: invoiceYear,
-              description,
-              value,
-              fitid
-            };
-            transactions.push(finalTransaction);
-          }
-        }
-        console.log(`\n================ PARSE FINALIZADO ================`);
-        console.log(`Total de transações de DÉBITO a serem importadas: ${transactions.length}`);
-        return transactions;
       }
 
-      var touchstartX = 0;
-      var touchendX = 0;
-      var gestureZone = 50;
+      const invoiceDateStr = dtEndMatch[1];
+      const invoiceYear = parseInt(invoiceDateStr.substring(0, 4), 10);
+      const invoiceMonthIndex = parseInt(invoiceDateStr.substring(4, 6), 10) - 1;
+      const invoiceMonthName = monthsPT[invoiceMonthIndex];
 
-      document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
-      document.addEventListener('touchend', e => {
-        touchendX = e.changedTouches[0].screenX;
-        handleGesture();
-      });
+      console.log(`Fatura identificada com fechamento em: ${invoiceDateStr}`);
+      console.log(`==> Mês da Fatura definido como: ${invoiceMonthName} de ${invoiceYear}`);
 
-      function handleGesture() {
-        if (Math.abs(touchendX - touchstartX) > gestureZone) {
-          window.history.back();
+      const transactionRegex = /<STMTTRN>([\s\S]*?)<\/STMTTRN>/g;
+      let transactionBlocks = ofxData.match(transactionRegex);
+
+      if (!transactionBlocks) {
+        console.warn("AVISO: Nenhum bloco de transação <STMTTRN> encontrado no arquivo.");
+        return [];
+      }
+
+      console.log(`Encontrados ${transactionBlocks.length} blocos de transação no total.`);
+
+      for (let i = 0; i < transactionBlocks.length; i++) {
+        const block = transactionBlocks[i];
+
+        const typeMatch = block.match(/<TRNTYPE>(.*?)<\/TRNTYPE>/);
+        if (typeMatch && typeMatch[1] !== 'DEBIT') {
+          continue;
+        }
+
+        const amountMatch = block.match(/<TRNAMT>([-\d.]+)/);
+        const fitidMatch = block.match(/<FITID>([\w.-]+)/);
+        const memoMatch = block.match(/<MEMO>(.*?)<\/MEMO>/s);
+        const postedDateMatch = block.match(/<DTPOSTED>(\d{8})/);
+
+        if (amountMatch && fitidMatch && memoMatch) {
+          const value = Math.abs(parseFloat(amountMatch[1]));
+          const fitid = fitidMatch[1];
+          let description = memoMatch[1].trim();
+
+          if (postedDateMatch) {
+            const dateStr = postedDateMatch[1];
+            const day = dateStr.substring(6, 8);
+            const month = dateStr.substring(4, 6);
+            description = `${description} (${day}/${month})`;
+          }
+
+          const finalTransaction = {
+            month: invoiceMonthName,
+            year: invoiceYear,
+            description,
+            value,
+            fitid
+          };
+          transactions.push(finalTransaction);
         }
       }
-    </script>
+      console.log(`\n================ PARSE FINALIZADO ================`);
+      console.log(`Total de transações de DÉBITO a serem importadas: ${transactions.length}`);
+      return transactions;
+    }
+
+    var touchstartX = 0;
+    var touchendX = 0;
+    var gestureZone = 50;
+
+    document.addEventListener('touchstart', e => touchstartX = e.changedTouches[0].screenX);
+    document.addEventListener('touchend', e => {
+      touchendX = e.changedTouches[0].screenX;
+      handleGesture();
+    });
+
+    function handleGesture() {
+      if (Math.abs(touchendX - touchstartX) > gestureZone) {
+        window.history.back();
+      }
+    }
+  </script>
 </body>
 
 </html>

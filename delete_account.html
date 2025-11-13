@@ -3,41 +3,34 @@
 
 <head>
   <title>Excluir Conta</title>
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-54RF6LLM');</script>
-  <!-- End Google Tag Manager -->
   <meta charset="UTF-8">
-  <meta name="google" content="translate">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-54RF6LLM" height="0" width="0"
-      style="display:none;visibility:hidden"></iframe></noscript>
-  <!-- End Google Tag Manager (noscript) -->
-  <div class="container-auth">
-    <div class="auth-form">
-      <h5 class="center">Excluir Conta</h5>
-      <p>Para excluir sua conta, digite seu endereço de email abaixo e clique no botão "Excluir Conta".
-        Esta ação é irreversível e apagará todos os seus dados do sistema.</p>
-      <div class="input-field">
-        <input type="email" id="deleteEmail" placeholder=" " required>
-        <label for="deleteEmail">Email</label>
+  <div class="auth-container">
+    <div class="card auth-card">
+      <div class="card-content">
+        <span class="card-title">Excluir Conta</span>
+        <p class="center-align" style="margin-bottom: 2rem; color: var(--color-text-muted);">
+          Esta ação é irreversível e apagará todos os seus dados. Para confirmar, por favor, digite seu e-mail e clique
+          no botão de exclusão.
+        </p>
+        <div class="input-field">
+          <i class="material-icons prefix">email</i>
+          <input type="email" id="deleteEmail" required>
+          <label for="deleteEmail">Confirme seu Email</label>
+        </div>
+        <button onclick="deleteAccount()" class="btn red">Excluir Minha Conta Permanentemente</button>
+        <button onclick="goback()" class="btn"
+          style="background-color: transparent; color: var(--color-text-muted); box-shadow: none; margin-top: 0.5rem;">Cancelar
+          e Voltar</button>
+        <p id="delete-error-message" class="red-text center-align"></p>
       </div>
-      <button onclick="deleteAccount()" class="btn red">Excluir Conta</button>
-      <button onclick="goback()" class="btn btn-default">Desistir</button>
-      <p id="delete-error-message" class="red-text center"></p>
     </div>
   </div>
 

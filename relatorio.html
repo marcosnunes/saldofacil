@@ -35,67 +35,61 @@
             <button id="nextButton" class="btn btn-default">Próximo</button>
         </div>
     </div>
-    <div class="main-content" style="margin-top: 30px; margin-bottom: 60px;">
+    <div class="main-content">
         <div class="container">
-            <div class="card" id="tutorial">
+
+            <div class="card">
                 <div class="card-content">
-                    <p>
-                        Selecione a moeda desejada para aplicar o câmbio e visualizar o seu
-                        relatório anual em Euros, Dólares ou Libras Esterlinas. Para que o
-                        saldo do cartão de crédito seja exibido corretamente, é importante
-                        percorrer todos os meses do ano para atualização dos saldos finais
-                        devido à dependencia destes valores entre si.
-                    </p>
+                    <span class="card-title">Opções do Relatório</span>
+                    <div class="input-field">
+                        <i class="material-icons prefix">monetization_on</i>
+                        <select id="currencySelect">
+                            <option value="BRL" selected>Real (R$)</option>
+                            <option value="EUR">Euro (€)</option>
+                            <option value="USD">Dólar ($)</option>
+                            <option value="GBP">Libra Esterlina (£)</option>
+                        </select>
+                        <label>Converter Moeda</label>
+                    </div>
                 </div>
             </div>
 
-            <div class="card" id="currencyConverter">
+            <div class="card">
                 <div class="card-content">
-                    <span class="card-title">Converter para:</span>
-                    <select id="currencySelect">
-                        <option value="BRL">Real (R$)</option>
-                        <option value="EUR">Euro (€)</option>
-                        <option value="USD">Dólar ($)</option>
-                        <option value="GBP">Libra Esterlina (£)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="balance-value" id="balanceValue">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">Totais anual</span>
-                        <div class="card-balance-content">
-                            <div class="card-content">
-                                <span class="card-title">Débito</span>
-                                <p id="debitTotal">0.00</p>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title">Crédito</span>
-                                <p id="creditTotal">0.00</p>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title">Cartão de Crédito</span>
-                                <p id="creditCardBalance">0.00</p>
-                            </div>
-                            <div class="card-content">
-                                <span class="card-title">Balanço</span>
-                                <p id="balance">0.00</p>
-                                <p id="balancePercentage">0.00%</p>
-                            </div>
+                    <span class="card-title">Totais do Ano</span>
+                    <div class="card-balance-content">
+                        <div class="card-content">
+                            <span class="card-title">Total Crédito</span>
+                            <p id="creditTotal" class="green-text">0.00</p>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">Total Débito</span>
+                            <p id="debitTotal" class="orange-text">0.00</p>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">Cartão de Crédito</span>
+                            <p id="creditCardBalance" class="orange-text">0.00</p>
+                        </div>
+                        <div class="card-content">
+                            <span class="card-title">Balanço</span>
+                            <p id="balance">0.00</p>
+                            <p id="balancePercentage">0.00%</p>
                         </div>
                     </div>
-                    <div class="card-action">
-                        <button id="pdfButton" onclick="window.print()" class="btn btn-default">
-                            Exportar para PDF
-                        </button>
-                        <a id="askAiButton" class="btn btn-default">Perguntar à IA</a>
+                    <div class="card-action"
+                        style="display: flex; justify-content: space-between; align-items: center; padding-top: 24px;">
+                        <button id="pdfButton" onclick="window.print()" class="btn">Exportar para PDF</button>
+                        <a id="askAiButton" class="btn" style="background-color: var(--color-success);">Perguntar à
+                            IA</a>
                     </div>
                 </div>
-                <div class="card">
-                    <div id="report" class="card-content">
-                        <span class="card-title">Lançamentos anuais</span>
-                        <div id="launchDataContainer"></div>
+            </div>
+
+            <div class="card">
+                <div id="report" class="card-content">
+                    <span class="card-title">Extrato Anual Detalhado</span>
+                    <div id="launchDataContainer">
+                        <!-- Lançamentos anuais serão inseridos aqui pelo JavaScript -->
                     </div>
                 </div>
             </div>
@@ -108,47 +102,26 @@
         displayYearInTitle();
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-        import {
-            getDatabase,
-            ref,
-            onValue,
-        } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-        import {
-            getAuth,
-            onAuthStateChanged,
-        } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
         import firebaseConfig from "./config.js";
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
-        const months = [
-            "january",
-            "february",
-            "march",
-            "april",
-            "may",
-            "june",
-            "july",
-            "august",
-            "september",
-            "october",
-            "november",
-            "december",
-        ];
+        const months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 
         const urlParams = new URLSearchParams(window.location.search);
         let currentYear = urlParams.get("year");
         const LOCAL_STORAGE_KEY = `report_data_${currentYear}`;
 
-        let launchData = {};
         let debitTotal = 0;
         let creditTotal = 0;
         let creditCardBalanceTotal = 0;
         let balance = 0;
         let percentage = 0;
+        let annualLaunches = {}; // Armazena os lançamentos agrupados
 
-        // --- Funções de localStorage ---
         function saveDataToLocalStorage(data) {
             try {
                 const jsonData = JSON.stringify(data);
@@ -159,103 +132,38 @@
             }
         }
 
-        function loadDataFromLocalStorage() {
-            try {
-                const jsonData = localStorage.getItem(LOCAL_STORAGE_KEY);
-                if (jsonData) {
-                    const data = JSON.parse(jsonData);
-                    console.log("Dados carregados do localStorage:", data);
-                    return data;
-                } else {
-                    console.log("Nenhum dado encontrado no localStorage.");
-                    return null;
-                }
-            } catch (error) {
-                console.error("Erro ao carregar do localStorage:", error);
-                return null;
-            }
-        }
-
-        // --- Funções Firebase ---
         function loadMonthData(userId, month, year) {
             return new Promise((resolve, reject) => {
                 const monthRef = ref(database, `users/${userId}/${month}-${year}`);
                 onValue(monthRef, (snapshot) => {
-                    const monthData = snapshot.val();
-                    if (monthData) {
-                        console.log(`Dados carregados do Firebase para ${month}:`, monthData);
-                        resolve(monthData);
-                    } else {
-                        console.log(`Nenhum dado encontrado para ${month} no Firebase.`);
-                        resolve({}); // Resolve com um objeto vazio para indicar que não há dados
-                    }
-                }, (error) => {
-                    console.error(`Erro ao obter dados de ${month}-${year}:`, error);
-                    reject(error);
-                });
+                    resolve(snapshot.val() || {});
+                }, (error) => reject(error), { onlyOnce: true });
             });
         }
 
-        function loadCreditCardData(userId, year) {
+        function loadAllCreditCardData(userId, year) {
             return new Promise((resolve, reject) => {
-                const creditCardRef = ref(database, `creditCardBalances/${userId}/${year}`);
+                const creditCardRef = ref(database, `creditCardData/${userId}/${year}`);
                 onValue(creditCardRef, (snapshot) => {
-                    const creditCardData = snapshot.val();
-                    if (creditCardData) {
-                        console.log("Dados do cartão de crédito carregados do Firebase:", creditCardData);
-                        resolve(creditCardData);
-                    } else {
-                        console.log("Nenhum dado de cartão de crédito encontrado no Firebase.");
-                        resolve({}); // Resolve com um objeto vazio
-                    }
-                }, (error) => {
-                    console.error("Erro ao obter dados do cartão de crédito:", error);
-                    reject(error);
-                });
+                    resolve(snapshot.val() || {});
+                }, (error) => reject(error), { onlyOnce: true });
             });
         }
 
-        // --- Funções de Cálculo e Exibição ---
-        function calculateAnnualTotals(yearData) {
+        function calculateAndPrepareData(yearData) {
+            // Reseta os valores globais
             debitTotal = 0;
             creditTotal = 0;
             creditCardBalanceTotal = 0;
-            balance = 0;
-            percentage = 0;
+            annualLaunches = {};
 
-            // Calcula totais dos lançamentos mensais
+            // Processa transações mensais
             for (const month of months) {
                 const monthData = yearData.monthlyTransactions[month];
                 if (monthData) {
                     creditTotal += Number(monthData.totalCredit || 0);
                     debitTotal += Number(monthData.totalDebit || 0);
-                }
-            }
-
-            // Calcula total dos lançamentos do cartão de crédito
-            if (yearData.creditCardTransactions) {
-                for (const transactionId in yearData.creditCardTransactions) {
-                    creditCardBalanceTotal += Number(yearData.creditCardTransactions[transactionId].value || 0);
-                }
-            }
-
-            balance = creditTotal - debitTotal;
-            percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
-
-            console.log("Totais Anuais Calculados (incluindo cartão):", { debitTotal, creditTotal, creditCardBalanceTotal, balance });
-        }
-
-        function displayAnnualLaunches(yearData) {
-            const launchDataContainer = document.getElementById("launchDataContainer");
-            launchDataContainer.innerHTML = "";
-
-            const annualLaunches = {};
-
-            // 1. Processa os lançamentos mensais
-            if (yearData.monthlyTransactions) {
-                for (const month in yearData.monthlyTransactions) {
-                    const monthData = yearData.monthlyTransactions[month];
-                    if (monthData && monthData.transactions) {
+                    if (monthData.transactions) {
                         monthData.transactions.forEach((transaction) => {
                             const description = transaction.description;
                             const amount = (parseFloat(transaction.credit) || 0) - (parseFloat(transaction.debit) || 0);
@@ -265,99 +173,99 @@
                 }
             }
 
-            // 2. Processa os lançamentos do cartão de crédito
+            // Processa transações do cartão de crédito
             if (yearData.creditCardTransactions) {
                 for (const id in yearData.creditCardTransactions) {
                     const transaction = yearData.creditCardTransactions[id];
-                    // Agrupa removendo a data no final (ex: "Uber (05/01)" vira "Uber")
-                    const description = transaction.description.split(' (')[0];
-                    const amount = - (parseFloat(transaction.value) || 0); // Cartão é sempre débito
+                    const description = transaction.description.split(' (')[0]; // Agrupa pelo nome base
+                    const amount = - (parseFloat(transaction.value) || 0);
                     annualLaunches[description] = (annualLaunches[description] || 0) + amount;
+                    creditCardBalanceTotal += parseFloat(transaction.value) || 0;
                 }
             }
 
-            // 3. Exibe os dados agrupados na página
-            // Ordena as descrições em ordem alfabética para consistência
+            debitTotal += creditCardBalanceTotal; // Adiciona o gasto do cartão ao débito total
+            balance = creditTotal - debitTotal;
+            percentage = creditTotal > 0 ? (debitTotal / creditTotal) * 100 : 0;
+        }
+
+
+        function displayAnnualLaunches() {
+            const launchDataContainer = document.getElementById("launchDataContainer");
+            launchDataContainer.innerHTML = "";
+
             const sortedDescriptions = Object.keys(annualLaunches).sort();
+
+            if (sortedDescriptions.length === 0) {
+                launchDataContainer.innerHTML = "<p>Nenhum lançamento encontrado para este ano.</p>";
+                return;
+            }
+
+            const reportList = document.createElement('div');
+            reportList.className = 'report-list';
 
             for (const description of sortedDescriptions) {
                 const total = annualLaunches[description];
-                const launchGroupDiv = document.createElement("div");
-                launchGroupDiv.classList.add("launch-group");
+                const itemDiv = document.createElement("div");
+                itemDiv.className = "report-item";
 
                 const descriptionSpan = document.createElement("span");
-                descriptionSpan.classList.add("description");
-                descriptionSpan.textContent = description; // Exibe a descrição base
-                launchGroupDiv.appendChild(descriptionSpan);
+                descriptionSpan.className = "description";
+                descriptionSpan.textContent = description;
 
                 const totalSpan = document.createElement("span");
-                totalSpan.classList.add("total");
-                // Usa a função de formatação de moeda que já existe
-                totalSpan.textContent = "Total: " + formatCurrency(total, 'BRL');
-                launchGroupDiv.appendChild(totalSpan);
+                totalSpan.className = "total";
+                totalSpan.classList.add(total >= 0 ? 'positive' : 'negative');
+                totalSpan.setAttribute('data-base-value', total); // Armazena valor base em BRL
 
-                launchDataContainer.appendChild(launchGroupDiv);
+                itemDiv.appendChild(descriptionSpan);
+                itemDiv.appendChild(totalSpan);
+                reportList.appendChild(itemDiv);
             }
+            launchDataContainer.appendChild(reportList);
         }
 
         function updateBalanceValues(currency, exchangeRate) {
-            const debitTotalConverted = debitTotal * exchangeRate;
-            const creditTotalConverted = creditTotal * exchangeRate;
-            const creditCardBalanceTotalConverted = creditCardBalanceTotal * exchangeRate;
-            const balanceConverted = balance * exchangeRate;
-
-            document.getElementById("debitTotal").textContent = formatCurrency(debitTotalConverted, currency);
-            document.getElementById("creditTotal").textContent = formatCurrency(creditTotalConverted, currency);
-            document.getElementById("creditCardBalance").textContent = formatCurrency(creditCardBalanceTotalConverted, currency);
-            document.getElementById("balance").textContent = formatCurrency(balanceConverted, currency);
+            document.getElementById("debitTotal").textContent = formatCurrency(debitTotal * exchangeRate, currency);
+            document.getElementById("creditTotal").textContent = formatCurrency(creditTotal * exchangeRate, currency);
+            document.getElementById("creditCardBalance").textContent = formatCurrency(creditCardBalanceTotal * exchangeRate, currency);
+            document.getElementById("balance").textContent = formatCurrency(balance * exchangeRate, currency);
             document.getElementById("balancePercentage").textContent = percentage.toFixed(2) + "%";
+
+            // Atualiza a lista de lançamentos
+            const launchItems = document.querySelectorAll('.report-item .total');
+            launchItems.forEach(item => {
+                const baseValue = parseFloat(item.getAttribute('data-base-value'));
+                item.textContent = formatCurrency(baseValue * exchangeRate, currency);
+            });
         }
 
         function formatCurrency(amount, currency) {
-            switch (currency) {
-                case "EUR":
-                    return "€" + amount.toFixed(2);
-                case "USD":
-                    return "$" + amount.toFixed(2);
-                case "GBP":
-                    return "£" + amount.toFixed(2);
-                default:
-                    return "R$" + amount.toFixed(2);
-            }
+            const options = { style: 'currency', currency: currency };
+            return new Intl.NumberFormat('pt-BR', options).format(amount);
         }
 
         function convertCurrency() {
-            const selectedCurrency = instances[0].el.value;
-
+            const selectedCurrency = document.getElementById("currencySelect").value;
             fetch(`https://open.er-api.com/v6/latest/BRL`)
-                .then((response) => response.json())
-                .then((data) => {
+                .then(response => response.json())
+                .then(data => {
                     const exchangeRate = data.rates[selectedCurrency];
                     updateBalanceValues(selectedCurrency, exchangeRate);
                 })
-                .catch((error) =>
-                    console.error("Erro ao obter taxas de câmbio:", error)
-                );
+                .catch(error => console.error("Erro ao obter taxas de câmbio:", error));
         }
 
-        // --- Inicialização ---
         onAuthStateChanged(auth, async (user) => {
             if (user) {
-                console.log("Usuário autenticado:", user.uid);
                 try {
-                    // Prepara todas as promessas de carregamento de dados
                     const monthDataPromises = months.map(month => loadMonthData(user.uid, month, currentYear));
                     const creditCardDataPromise = loadAllCreditCardData(user.uid, currentYear);
 
-                    // Executa todas as promessas em paralelo
-                    const allPromises = [...monthDataPromises, creditCardDataPromise];
-                    const results = await Promise.all(allPromises);
+                    const results = await Promise.all([...monthDataPromises, creditCardDataPromise]);
+                    const creditCardData = results.pop();
+                    const monthlyResults = results;
 
-                    // Separa os resultados
-                    const creditCardData = results.pop(); // O último resultado é o do cartão
-                    const monthlyResults = results; // O resto são os dados mensais
-
-                    // Monta o objeto de dados completo para o relatório
                     const fullReportData = {
                         monthlyTransactions: {},
                         creditCardTransactions: creditCardData
@@ -367,13 +275,10 @@
                         fullReportData.monthlyTransactions[month] = monthlyResults[index];
                     });
 
-                    // Salva os dados combinados no localStorage para a IA
                     saveDataToLocalStorage(fullReportData);
-
-                    // Agora que todos os dados foram carregados e salvos, calcula os totais e exibe
-                    calculateAnnualTotals(fullReportData);
-                    displayAnnualLaunches(fullReportData);
-                    convertCurrency(); // Converte a moeda após o carregamento dos dados
+                    calculateAndPrepareData(fullReportData);
+                    displayAnnualLaunches();
+                    convertCurrency();
 
                 } catch (error) {
                     console.error("Erro ao carregar dados:", error);
@@ -383,82 +288,33 @@
             }
         });
 
-        var instances;
-
-        // NOVA FUNÇÃO: Carrega todos os dados do cartão de crédito do ano
-        function loadAllCreditCardData(userId, year) {
-            return new Promise((resolve, reject) => {
-                const creditCardRef = ref(database, `creditCardData/${userId}/${year}`);
-                // A sintaxe correta é passar o 'reject' como o segundo argumento (errorCallback) do onValue
-                onValue(
-                    creditCardRef,
-                    (snapshot) => {
-                        resolve(snapshot.val() || {});
-                    },
-                    (error) => {
-                        // Se ocorrer um erro (ex: permissão negada), a promessa será rejeitada.
-                        reject(error);
-                    },
-                    { onlyOnce: true }
-                );
-            });
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
             var elems = document.querySelectorAll("select");
-            instances = M.FormSelect.init(elems);
+            M.FormSelect.init(elems);
+            document.getElementById("currencySelect").addEventListener("change", convertCurrency);
+            document.getElementById("backButton").addEventListener("click", () => window.history.back());
+            document.getElementById("nextButton").addEventListener("click", () => window.history.back());
 
-            document
-                .getElementById("currencySelect")
-                .addEventListener("change", convertCurrency);
-
-            document
-                .getElementById("backButton")
-                .addEventListener("click", function () {
-                    window.history.back();
-                });
-            document
-                .getElementById("nextButton")
-                .addEventListener("click", function () {
-                    window.history.back();
-                });
-
-            // Crie o link aqui, após currentYear ser definido
             const askAiButton = document.getElementById('askAiButton');
-            console.log("relatorio.html - Valor de currentYear antes do link:", currentYear);
             askAiButton.href = `iareports.html?year=${currentYear}`;
-
-            //  Chamando a função convertCurrency após a inicialização do materialize
-            convertCurrency();
         });
 
-        // Funções para deslizamento de tela touch:
         var touchstartX = 0;
         var touchendX = 0;
-        var gestureZone = 50; // A distância mínima para considerar um deslizamento válido
+        var gestureZone = 50;
 
-        document.addEventListener("touchstart", function (event) {
+        document.addEventListener('touchstart', function (event) {
             touchstartX = event.changedTouches[0].screenX;
         });
 
-        document.addEventListener("touchend", function (event) {
+        document.addEventListener('touchend', function (event) {
             touchendX = event.changedTouches[0].screenX;
             handleGesture();
         });
 
         function handleGesture() {
-            if (
-                touchendX < touchstartX &&
-                Math.abs(touchendX - touchstartX) > gestureZone
-            ) {
-                // Deslizamento para a esquerda
-                window.history.back(); // Redireciona para a página anterior
-            } else if (
-                touchendX > touchstartX &&
-                Math.abs(touchendX - touchstartX) > gestureZone
-            ) {
-                // Deslizamento para a direita
-                window.history.back(); // Redireciona para a página anterior
+            if (Math.abs(touchendX - touchstartX) > gestureZone) {
+                window.history.back();
             }
         }
     </script>
