@@ -875,7 +875,7 @@
           const agostoData = {
             initialBalance: document.getElementById("AugInitialBalance").innerText,
           };
-          set(ref(database, 'users/' + user.uid + '/aug' + '-' + currentYear), agostoData)
+          set(ref(database, 'users/' + user.uid + '/august' + '-' + currentYear), agostoData)
             .then(() => {
               console.log("Dados do mês de agosto limpos com sucesso!");
               // Limpa os dados no array inputData
@@ -924,5 +924,6 @@
 
 
 </html>
+
 
 
