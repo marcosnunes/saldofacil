@@ -194,7 +194,7 @@
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 const displayName = user.displayName || user.email;
-                document.getElementById('user-name').textContent = `Olá, ${displayName}!`;
+                document.getElementById('user-name').innerHTML = `Olá,<br>${displayName}!`;
                 setupYearSelector(); // Chama a configuração do seletor
             } else {
                 window.location.href = "login.html";
