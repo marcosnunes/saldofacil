@@ -875,7 +875,7 @@
           const setembroData = {
             initialBalance: document.getElementById("SepInitialBalance").innerText,
           };
-          set(ref(database, 'users/' + user.uid + '/sep' + '-' + currentYear), setembroData)
+          set(ref(database, 'users/' + user.uid + '/september' + '-' + currentYear), setembroData)
             .then(() => {
               console.log("Dados do mês de setembro limpos com sucesso!");
               // Limpa os dados no array inputData
@@ -924,4 +924,5 @@
 
 
 </html>
+
 
