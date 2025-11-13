@@ -271,7 +271,7 @@ body {
   body { background-color: #fff; }
   .navigation, .btn, button, #card-lancamento, .card-action, .transaction-actions { display: none !important; }
   .card { box-shadow: none; border: 1px solid #ccc; }
-  #Registrar_Compra, #card-lancamento {
+  #Registrar_Compra, #card-lancamento, #exportar_dados {
    display: none;
 }
 }
