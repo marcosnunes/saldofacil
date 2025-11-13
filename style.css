@@ -262,7 +262,7 @@ body {
   .nav-wrapper .brand-logo.center { width: 50%; font-size: 1.2rem !important; }
   .card .card-content { padding: 1rem; }
   .btn, button { height: 40px; padding: 0 18px; font-size: 0.8rem; }
-  #backButton, #nextButton {
+  #backButton, #nextButton{
    display: none;
 }
 }
@@ -271,6 +271,9 @@ body {
   body { background-color: #fff; }
   .navigation, .btn, button, #card-lancamento, .card-action, .transaction-actions { display: none !important; }
   .card { box-shadow: none; border: 1px solid #ccc; }
+  #Registrar_Compra, #card-lancamento {
+   display: none;
+}
 }
 
 .select-wrapper .caret {
